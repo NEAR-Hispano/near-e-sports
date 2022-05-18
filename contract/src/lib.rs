@@ -45,6 +45,7 @@ pub struct User{
 #[serde(crate = "near_sdk::serde")]
 pub struct Tournament{
     name: String,
+    index: i128,
     description: String,
     creator: User,
     date:u64,
@@ -57,24 +58,10 @@ pub struct Tournament{
 #[serde(crate = "near_sdk::serde")]
 pub struct Team{
     name: String,
+    index: i128,
     integrants: Vec<User>,
     tournaments: Vec<Tournament>
 }
-
-pub struct Contract {
-    tokens: NonFungibleToken,
-        
-    pub owner_id: AccountId,
-    
-        // Lista de torneos
-    pub Tournament: UnorderedMap<i128, Tournament>,
-
-
-        //Lista de Equipos 
-    
-        pub Team: UnorderedMap<i128, Team>,   
-    }
-
 
 
 //--------------------------Crear contrato--------------------------
@@ -149,65 +136,88 @@ impl Contract {
 //------------------------------------------------------Funciones del contrato---------------------------
 
 
-    // Crear torneo
-    pub fn create_tournament(&mut self,
-        name: String,
-        description: String,
-        creator: User,
-        date:u64,
-        teams: Vec<Team>
-        winner:String,
-        prize:u32
+// Crear torneo
+pub fn create_tournament(&mut self,
+    name: String,
+    description: String,
+    creator: User,
+    date:u64,
+    teams: Vec<Team>
+    winner:String,
+    prize:u32
 
-     ) -> Tournament {
-        // Initial storage usage
-        let initial_storage_usage = env::storage_usage();
-        let caller = env::signer_account_id();
-        let index = i128::from(self.events.len() + 1);
-        let mut children_token_map = Vec::new();
-        let mut metadata = TokenMetadata {
-            title: None,
-            description: None,
-            media: None,
-            media_hash: None,
-            copies: None,
-            issued_at: None,
-            expires_at:None,
-            starts_at: None,
-            updated_at: None,
-            extra: None,
-            reference: None,
-            reference_hash: None,
-        };
+    ) -> Tournament {
+    
+    let initial_storage_usage = env::storage_usage();
+    let caller = env::signer_account_id();
+    let index = i128::from(self.events.len() + 1);
+    let mut children_token_map = Vec::new();
+    let mut metadata = TokenMetadata {
+        title: None,
+        description: None,
+        media: None,
+        media_hash: None,
+        copies: None,
+        issued_at: None,
+        expires_at:None,
+        starts_at: None,
+        updated_at: None,
+        extra: None,
+        reference: None,
+        reference_hash: None,
+    };
+    let tournament = Tournament {
+        name: name,
+        description: description,
+        creator: creator,
+        date:date,
+        teams: teams
+        winner:winner,
+        prize:prize
     }
+    self.tournament_list.insert(&tournament.index, &tournament);
+    let required_storage_in_bytes = env::storage_usage() - initial_storage_usage;
+    refund_deposit(required_storage_in_bytes);
 
-    // Crear torneo
-    pub fn create_team(&mut self,
+    
+}
+
+// Crear torneo
+pub fn create_team(&mut self,
+    name: String,
+    integrants: Vec<User>,
+    tournaments: Vec<Tournament>
+
+    ) -> Team {
+    
+    let initial_storage_usage = env::storage_usage();
+    let caller = env::signer_account_id();
+    let index = i128::from(self.events.len() + 1);
+    let mut children_token_map = Vec::new();
+    let mut metadata = TokenMetadata {
+        title: None,
+        description: None,
+        media: None,
+        media_hash: None,
+        copies: None,
+        issued_at: None,
+        expires_at:None,
+        starts_at: None,
+        updated_at: None,
+        extra: None,
+        reference: None,
+        reference_hash: None,
+    };
+    let team = Team {
         name: String,
-        integrants: Vec<User>,
-        tournaments: Vec<Tournament>
-
-     ) -> Team {
-        // Initial storage usage
-        let initial_storage_usage = env::storage_usage();
-        let caller = env::signer_account_id();
-        let index = i128::from(self.events.len() + 1);
-        let mut children_token_map = Vec::new();
-        let mut metadata = TokenMetadata {
-            title: None,
-            description: None,
-            media: None,
-            media_hash: None,
-            copies: None,
-            issued_at: None,
-            expires_at:None,
-            starts_at: None,
-            updated_at: None,
-            extra: None,
-            reference: None,
-            reference_hash: None,
-        };
+        integrants: integrants
+        tournaments: tournaments
     }
+    self.teams_list.insert(&tournament.index, &tournament);
+    let required_storage_in_bytes = env::storage_usage() - initial_storage_usage;
+    refund_deposit(required_storage_in_bytes);
+ 
+}
 
 
 
