@@ -1,3 +1,7 @@
+Link del Repo del frontend: https://github.com/carlosmaikol/testNET
+
+==================
+
 Link del figma: https://www.figma.com/file/GIUvHiNSo56QnjQilmNi9H/Esports-Tournament?node-id=5%3A6
 
 ==================
