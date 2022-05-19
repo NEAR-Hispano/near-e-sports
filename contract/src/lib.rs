@@ -29,11 +29,6 @@ const MAX_PRICE: Balance = 1_000_000_000 * 10u128.pow(24);
 
 
 
-#[derive(Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
-pub struct Payout {
-    pub payout: HashMap<AccountId, U128>,
-}
 
 
 //Usuario 
@@ -41,13 +36,11 @@ pub struct Payout {
 #[serde(crate = "near_sdk::serde")]
 pub struct User{
     name: String,
-    profiledescription: String,
-
-    
+    profiledescription: String
+    //crear otra estructura de juegos 
 }
 
 //Torneos
-
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize )]
 #[serde(crate = "near_sdk::serde")]
 pub struct Tournament{
@@ -57,7 +50,7 @@ pub struct Tournament{
     creator: User,
     date:u64,
     teams: Vec<Team>,
-    winner:String,
+    winner: String,
     prize:u32
 }
 // Equipos
@@ -88,7 +81,6 @@ pub enum StorageKey {
 }
 
 #[near_bindgen]
-
 impl Contract {
     #[init]
     pub fn new(owner_id: ValidAccountId, vault_id: ValidAccountId) -> Self {
@@ -107,8 +99,8 @@ impl Contract {
         description: String,
         creator: User,
         date:u64,
+        winner: String,
         teams: Vec<Team>,
-        winner:String,
         prize:u32
 
         ) -> Tournament {
@@ -123,7 +115,7 @@ impl Contract {
             date:date,
             index: index,
             teams: teams,
-            winner:winner,
+            winner: winner,
             prize:prize
         };
         self.tournament_list.insert(&tournament.index, &tournament);
@@ -135,7 +127,6 @@ impl Contract {
     pub fn create_team(&mut self,
         name: String,
         integrants: Vec<User>,
-        tournaments: Vec<Tournament>
 
         ) -> Team {
         
@@ -151,6 +142,18 @@ impl Contract {
         self.teams_list.insert(&team.index, &team);
 
         team
+    }
+
+    pub fn join_tournament(
+        &mut self,
+        index_team: i128,
+        //se necesita dinero
+        index_tournament: i128
+    ) {
+        let mut tournament = self.tournament_list.get(&index_tournament).expect("Event Doesn't Exist");
+        let team = self.teams_list.get(&index_team).expect("Event Doesn't Exist");
+        tournament.teams.push(team)
+        
     }
 }
 
