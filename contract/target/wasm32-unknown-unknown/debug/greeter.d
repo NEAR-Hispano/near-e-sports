@@ -1,1 +1,1 @@
-C:\Users\kevin\Desktop\Near\ esports\Near-Esports\near-e-sports\contract\target\wasm32-unknown-unknown\debug\greeter.wasm: C:\Users\kevin\Desktop\Near\ esports\Near-Esports\near-e-sports\contract\src\lib.rs
+C:\Users\lfgon\Desktop\Near\near-e-sports\contract\target\wasm32-unknown-unknown\debug\greeter.wasm: C:\Users\lfgon\Desktop\Near\near-e-sports\contract\src\lib.rs
