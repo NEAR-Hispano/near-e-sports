@@ -1,30 +1,20 @@
-Link del Repo del frontend: https://github.com/carlosmaikol/testNET
-
-==================
 
 Link del figma: https://www.figma.com/file/GIUvHiNSo56QnjQilmNi9H/Esports-Tournament?node-id=5%3A6
 
 ==================
 
 Near-tournaments
-==================
 
-This [React] app was initialized with [create-near-app]
-
-
-Quick Start
 ===========
 
-To run this project locally:
 
-1. Prerequisites: Make sure you've installed [Node.js] ≥ 12
-2. Install dependencies: `npm install`
-3. Run the local development server: `npm run dev` (see `package.json` for a
-   full list of `scripts` you can run with `npm`)
+Near Tournament ESPORTS es una DApp que provee un ambiente seguro para el desarrollo de torneos de videojuegos, de esta forma los videojugadores/Streamers/Patrocionadores/Empresas tienen la posibilidad de crear y gestionar torneos de un determinado juego con la finalidad de que los mismos se desarrollen de forma cómoda, organizada, se fomente el ambiente competitivo entre los videojugadores y los mismos puedan recibir algun tipo de reumeneracion o recompensas por su desempeño durante el evento.
 
-Now you'll have a local development environment backed by the NEAR TestNet!
+Las funcionalidades actuales implementadas en el contrato son las siguientes:
 
-Go ahead and play with the app and the code. As you make code changes, the app will automatically reload.
+Crear Torneos
+Crear Equipo
+Agregar equipo al Torneo
 
 
 Exploring The Code
