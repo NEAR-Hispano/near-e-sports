@@ -4,6 +4,7 @@ import Home from "../components/Home";
 import About from "../components/About";
 import NavbarComponent from "../components/Navbar";
 import Soporte from "../components/soporte";
+import Explorar from "../components/Explorar";
 
 export const AppRouter  = () => {
     return (
@@ -13,6 +14,7 @@ export const AppRouter  = () => {
                 <Route path="/" element={<Home/>}/>
                 <Route path ="about" element={<About/>}/>
                 <Route path ="soporte" element={<Soporte/>}/>
+                <Route path ="explorar" element={<Explorar/>}/>
             </Routes>
         </BrowserRouter>
     )
