@@ -4,10 +4,19 @@ body{
 
 .text-blanco{
   color: white
+  
+  
 }
 
 .text-center{
   text-align: center;
+}
+
+.Titulo-Torneo{
+  font-size: 25px;
+}
+.Integrante{
+  font-size: 25px;
 }
 
 .nav__link {
