@@ -47,9 +47,9 @@ pub struct Tournament{
     name: String,
     index: i128,
     description: String,
-    date:u64,
+    date: String,
     winner: String,
-    prize:u32,
+    cost:String,
 }
 // Equipos
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize )]
@@ -94,9 +94,9 @@ impl Contract {
     pub fn create_tournament(&mut self,
         name: String,
         description: String,
-        date:u64,
+        date:String,
         winner: String,
-        prize:u32
+        cost:String
 
         ) -> Tournament {
         
@@ -109,7 +109,7 @@ impl Contract {
             date:date,
             index: index,
             winner: winner,
-            prize:prize
+            cost:cost
         };
         self.tournament_list.insert(&tournament.index, &tournament);
         

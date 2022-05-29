@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import Placeholder from 'react-bootstrap/Placeholder';
 import { Container, Row, Col, Button,Form,Card } from 'react-bootstrap';
 import LOL_Logo from '../assets/LOL_Logo.webp';
 
+
 export default function Explorar() {
+  const [name,setName] = useState("");
+  const [description,setDescription] = useState("");
+  const [plataform,setPlataform] = useState("");
+  const [dateinicio,setDateinicio] = useState("");
+  const [cost,setCost] = useState("");
+
+  const Crear_Torneo = async()=> {
+    /*
+    await window.contract.new({
+      owner_id : window.accountId,
+      vault_id: window.accountId
+
+    })
+
+    console.log(window.accountId)
+    */
+    
+    await window.contract.create_tournament({ 
+      name:name,
+      description:description,
+      date:dateinicio,
+      winner:plataform,
+      cost:cost
+    })
+
+    console.log(window.accountId)
+    
+  } 
+
     return (
       <div>
 
@@ -22,7 +52,7 @@ export default function Explorar() {
                     <Form.Label> Nombre del torneo</Form.Label>
                   </Col> 
                   <Col md={9} lg={9} xl={9} >
-                    <Form.Control type="text" placeholder="Ingresa El nombre del torneo" />
+                    <Form.Control value={name} onChange={(e)=>setName(e.target.value)} type="text" placeholder="Ingresa El nombre del torneo" />
                   </Col > 
                   </Row> 
                   </Form.Group>
@@ -33,7 +63,7 @@ export default function Explorar() {
                     <Form.Label>Descripcion</Form.Label>
                   </Col> 
                   <Col md={9} lg={9} xl={9} >
-                    <Form.Control type="text" placeholder="Descripcion" />
+                    <Form.Control value={description} onChange={(e)=>setDescription(e.target.value)} type="text" placeholder="Descripcion" />
                   </Col > 
                   </Row> 
                   </Form.Group> 
@@ -44,7 +74,7 @@ export default function Explorar() {
                     <Form.Label>Plataforma</Form.Label>
                   </Col> 
                   <Col md={9} lg={9} xl={9} >
-                    <Form.Control type="text" placeholder="Plataforma" />
+                    <Form.Control value={plataform} onChange={(e)=>setPlataform(e.target.value)} type="text" placeholder="Plataforma" />
                   </Col > 
                   </Row> 
                   </Form.Group>
@@ -55,7 +85,7 @@ export default function Explorar() {
                     <Form.Label>Fecha inicio</Form.Label>
                   </Col> 
                   <Col md={9} lg={9} xl={9} >
-                    <Form.Control type="date" placeholder="FechaInicio" />
+                    <Form.Control value={dateinicio} onChange={(e)=>setDateinicio(e.target.value)} type="date" placeholder="FechaInicio" />
                   </Col > 
                   </Row> 
                   </Form.Group>
@@ -63,10 +93,10 @@ export default function Explorar() {
                   <Form.Group className="mb-5" controlId="formBasicEmail">
                   <Row>
                   <Col md={3} lg={3} xl={3}>
-                    <Form.Label>Fecha Fin</Form.Label>
+                    <Form.Label>Costo</Form.Label>
                   </Col> 
                   <Col md={9} lg={9} xl={9} >
-                    <Form.Control type="date" placeholder="FechaFin" />
+                    <Form.Control value={cost} onChange={(e)=>setCost(e.target.value)} type="number" placeholder="Cost" />
                   </Col > 
                   </Row> 
                   </Form.Group>
@@ -108,7 +138,7 @@ export default function Explorar() {
              <Col md={4} lg={4} xl={4}></Col> 
              <Col md={4} lg={4} xl={4}> 
                 <div className="d-grid gap-2">
-                  <Button variant="danger" size="md">
+                  <Button variant="danger" size="md" onClick={Crear_Torneo}>
                     Crear Torneo
                   </Button>
                 </div>
@@ -120,5 +150,8 @@ export default function Explorar() {
           </Row> 
         </Container>
       </div>
+
     );
 }
+
+
