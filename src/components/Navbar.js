@@ -1,6 +1,7 @@
-import React from "react";
+import React,{ useState }  from "react";
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { login, logout } from '../utils'
 
 const NavbarComponent = () => {
   return (
@@ -57,7 +58,18 @@ const NavbarComponent = () => {
                 >
                     Soporte
                 </Link>
-            </Nav.Link>            
+            </Nav.Link> 
+
+            {window.walletConnection.isSignedIn()==true?
+            <button className="link" style={{ float: 'right' }} onClick={logout}>
+            Sign out
+            </button>
+            :<div>
+            <button className="link" style={{ float: 'right' }} onClick={login}>
+            login
+            </button>        
+            </div>} 
+
           </Nav>
         </Container>
       </Navbar>

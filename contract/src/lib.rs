@@ -47,11 +47,9 @@ pub struct Tournament{
     name: String,
     index: i128,
     description: String,
-    creator: User,
     date:u64,
-    teams: Vec<Team>,
     winner: String,
-    prize:u32
+    prize:u32,
 }
 // Equipos
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize )]
@@ -59,7 +57,6 @@ pub struct Tournament{
 pub struct Team{
     name: String,
     index: i128,
-    integrants: Vec<User>,
 
 }
 
@@ -97,10 +94,8 @@ impl Contract {
     pub fn create_tournament(&mut self,
         name: String,
         description: String,
-        creator: User,
         date:u64,
         winner: String,
-        teams: Vec<Team>,
         prize:u32
 
         ) -> Tournament {
@@ -111,10 +106,8 @@ impl Contract {
         let tournament = Tournament {
             name: name,
             description: description,
-            creator: creator,
             date:date,
             index: index,
-            teams: teams,
             winner: winner,
             prize:prize
         };
@@ -126,7 +119,6 @@ impl Contract {
 
     pub fn create_team(&mut self,
         name: String,
-        integrants: Vec<User>,
 
         ) -> Team {
         
@@ -136,14 +128,13 @@ impl Contract {
 
         let team = Team {
             name: name,
-            integrants: integrants,
             index: index
         };
         self.teams_list.insert(&team.index, &team);
 
         team
     }
-
+/*
     pub fn join_tournament(
         &mut self,
         index_team: i128,
@@ -155,6 +146,8 @@ impl Contract {
         tournament.teams.push(team)
         
     }
+
+    */
 }
 
 
