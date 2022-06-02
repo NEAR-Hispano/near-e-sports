@@ -72,6 +72,15 @@ body{
 .accordion__item{
   margin-bottom: 5vh;
 }
-.accordion__last__item{
-
+.container__img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden
+}
+.fill__img{
+  flex-shrink: 0;
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
 }

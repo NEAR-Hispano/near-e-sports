@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Placeholder from 'react-bootstrap/Placeholder';
 import { Container, Row, Col, Button,Form,Card } from 'react-bootstrap';
 import LOL_Logo from '../assets/LOL_Logo.webp';
 
+import { addDoc, collection } from "firebase/firestore";
+import { db } from '../firebase/firebaseConfig'
+import { storage } from '../firebase/firebaseConfig'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function Explorar() {
   const [name,setName] = useState("");
@@ -10,6 +14,9 @@ export default function Explorar() {
   const [plataform,setPlataform] = useState("");
   const [dateinicio,setDateinicio] = useState("");
   const [cost,setCost] = useState("");
+  const [file,setFile] = useState();
+  const [storageRef,setStorageRef] = useState();
+  const [image, setImage] = useState(LOL_Logo);
 
   const Crear_Torneo = async()=> {
     /*
@@ -21,7 +28,27 @@ export default function Explorar() {
 
     console.log(window.accountId)
     */
-    
+   if(storageRef === undefined){
+     return alert("photo is missing");
+   }
+    try {
+      const docRef = await addDoc(collection(db, "torneos"), {
+        nombre: name,
+        descripcion: description,
+        plataforma: plataform,
+        imgUrl: image,
+        fechaInicio: dateinicio,
+        cost: cost,
+        winner: "Carlos Gei"
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      //console.error("Error adding document: ", e);
+
+      alert(e)
+
+    }
     await window.contract.create_tournament({ 
       name:name,
       description:description,
@@ -29,11 +56,54 @@ export default function Explorar() {
       winner:plataform,
       cost:cost
     })
-
+    alert("¡Se ha creado un nuevo torneo!")
     console.log(window.accountId)
     
   } 
 
+  useEffect(()=>{
+    if(file !== undefined){
+      setStorageRef(ref(storage, 'Imagenes-Portada-Torneo/'+file.name))
+    }
+  },[file])
+
+  //GESTION DE IMAGEN PARA EL TORNEO A CREAR
+  const assignFile = (event) => {
+    setFile(event.target.files[0]);
+  }
+
+  const uploadFile = () => {
+    let uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        setImage("https://gifburg.com/images/gifs/loading/gifs/0008.gif");
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        alert("error when uploading image")
+      },
+      () => {
+        alert("image uploaded sucessfully")
+        //Obtener Link al que se subio la imagen
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImage(downloadURL);
+          console.log("Imagen subida a: " + downloadURL)
+        });
+      }
+    );
+  }
     return (
       <div>
 
@@ -112,10 +182,14 @@ export default function Explorar() {
                 <Col md={3} lg={3} xl={3}> </Col>
                 <Col md={6} lg={6} xl={6}>
                 <Card className="mb-5 mt-5" >
-                    <Card.Body>
-                    <img src={LOL_Logo} alt="LOL_Logo"/>
+                    <Card.Body className="container__img">
+                      <img className="fill__img" src={image} alt="LOL_Logo"/>
                     </Card.Body>
                   </Card>
+                  <input
+                    type="file"
+                    onChange={assignFile}
+                  />
                 </Col>
                 <Col md={2} lg={2} xl={2}> </Col>
                 </Row>
@@ -123,7 +197,7 @@ export default function Explorar() {
                   <Col md={4} lg={4} xl={4}></Col> 
                   <Col md={4} lg={4} xl={4}> 
                       <div className="d-grid gap-2">
-                        <Button variant="danger" size="md">
+                        <Button variant="danger" size="md" onClick={uploadFile}>
                           Subir imagen
                         </Button>
                       </div>
@@ -145,7 +219,6 @@ export default function Explorar() {
               </Col>
              <Col md={4} lg={4} xl={4}></Col>    
             </Row>  
-
             </Card>
           </Row> 
         </Container>
@@ -153,5 +226,3 @@ export default function Explorar() {
 
     );
 }
-
-
