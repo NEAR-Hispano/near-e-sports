@@ -41,6 +41,7 @@ export default function Explorar() {
         fechaInicio: dateinicio,
         cost: cost,
         winner: "Carlos Gei"
+
       });
 
       console.log("Document written with ID: ", docRef.id);
@@ -56,7 +57,8 @@ export default function Explorar() {
       date:dateinicio,
       winner:plataform,
       cost:cost,
-      equipo: Array,
+      teams: Array,
+      
     })
     alert("¡Se ha creado un nuevo torneo!")
     console.log(window.accountId)

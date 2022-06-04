@@ -50,6 +50,7 @@ pub struct Tournament{
     date: String,
     winner: String,
     cost:String,
+    teams: Vec<Team>,
 
 }
 // Equipos
@@ -103,6 +104,7 @@ impl Contract {
         date:String,
         winner: String,
         cost:String,
+        teams:Vec<Team>,
 
         ) -> Tournament {
         
@@ -116,6 +118,7 @@ impl Contract {
             index: index,
             winner: winner,
             cost:cost,
+            teams:teams,
 
         };
         self.tournament_list.insert(&tournament.index, &tournament);
