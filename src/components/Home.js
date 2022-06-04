@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import control_image from '../assets/control_image.png';
+import control_image from '../assets/control_image.png'
 import Footer from "./Footer";
 
 export default function Home() {

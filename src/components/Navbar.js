@@ -1,13 +1,15 @@
-import React,{ useState }  from "react";
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import React from "react";
+import { Navbar, Container, Nav, Button, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { login, logout } from '../utils'
+
 
 const NavbarComponent = () => {
   return (
     <div>
       <Navbar bg="dark" variant="dark" className="text-blanco">
         <Container>
+        <Col md={12} lg={12} xl={12}>   
           <Nav className="me-auto">
           <Nav.Link>
                 <Link className="nav__link"
@@ -20,7 +22,7 @@ const NavbarComponent = () => {
                 <Link className="nav__link"
                     to="/equipos"
                 >
-                    Mis equpos
+                    Mis Equipos
                 </Link>
             </Nav.Link>
 
@@ -58,19 +60,37 @@ const NavbarComponent = () => {
                 >
                     Soporte
                 </Link>
+            </Nav.Link>
+            <Nav.Link>
+                <Link className="nav__link"
+                    to="/upload"
+                >
+                    Upload
+                </Link>
             </Nav.Link> 
 
+            <Col md={5} lg={5} xl={5}>   
+            </Col>
             {window.walletConnection.isSignedIn()==true?
-            <button className="link" style={{ float: 'right' }} onClick={logout}>
+            
+        
+
+            <Button variant="success" className="link mr" style={{ float: 'right' }} onClick={logout}>
             Sign out
-            </button>
+            </Button>
             :<div>
-            <button className="link" style={{ float: 'right' }} onClick={login}>
+            <Button variant="success" className="link" style={{ float: 'right' }} onClick={login}>
             login
-            </button>        
+            </Button>   
+                 
+
             </div>} 
 
+        
+
+
           </Nav>
+          </Col> 
         </Container>
       </Navbar>
     </div>

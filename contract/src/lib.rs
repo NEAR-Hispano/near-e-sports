@@ -50,6 +50,7 @@ pub struct Tournament{
     date: String,
     winner: String,
     cost:String,
+
 }
 // Equipos
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize )]
@@ -57,6 +58,11 @@ pub struct Tournament{
 pub struct Team{
     name: String,
     index: i128,
+    user1: String,
+    user2: String,
+    user3: String,
+    user4: String,
+    user5: String,
 
 }
 
@@ -96,7 +102,7 @@ impl Contract {
         description: String,
         date:String,
         winner: String,
-        cost:String
+        cost:String,
 
         ) -> Tournament {
         
@@ -109,7 +115,8 @@ impl Contract {
             date:date,
             index: index,
             winner: winner,
-            cost:cost
+            cost:cost,
+
         };
         self.tournament_list.insert(&tournament.index, &tournament);
         
@@ -119,6 +126,11 @@ impl Contract {
 
     pub fn create_team(&mut self,
         name: String,
+        user1: String,
+        user2: String,
+        user3: String,
+        user4: String,
+        user5: String,
 
         ) -> Team {
         
@@ -128,7 +140,12 @@ impl Contract {
 
         let team = Team {
             name: name,
-            index: index
+            index: index,
+            user1: user1,
+            user2: user2,
+            user3: user3,
+            user4: user4,
+            user5: user5,
         };
         self.teams_list.insert(&team.index, &team);
 

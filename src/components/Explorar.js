@@ -17,6 +17,7 @@ export default function Explorar() {
   const [file,setFile] = useState();
   const [storageRef,setStorageRef] = useState();
   const [image, setImage] = useState(LOL_Logo);
+  const Array = [];
 
   const Crear_Torneo = async()=> {
     /*
@@ -54,7 +55,8 @@ export default function Explorar() {
       description:description,
       date:dateinicio,
       winner:plataform,
-      cost:cost
+      cost:cost,
+      equipo: Array,
     })
     alert("¡Se ha creado un nuevo torneo!")
     console.log(window.accountId)

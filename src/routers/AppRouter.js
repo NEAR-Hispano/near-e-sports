@@ -5,7 +5,9 @@ import About from "../components/About";
 import NavbarComponent from "../components/Navbar";
 import Soporte from "../components/soporte";
 import Explorar from "../components/Explorar";
-import CrearEquipo from "../components/CrearEquipo";
+import CrearEquipo from "../components/CrearEquipo"
+import UploadFiles from "../components/DesechablesSoloTest/UploadFiles"
+import VerTorneos from "../components/VerTorneos"
 
 export const AppRouter  = () => {
     return (
@@ -17,6 +19,7 @@ export const AppRouter  = () => {
                 <Route path ="soporte" element={<Soporte/>}/>
                 <Route path ="explorar" element={<Explorar/>}/>
                 <Route path ="equipos" element={<CrearEquipo/>}/>
+                <Route path ="upload" element={<VerTorneos/>}/>
             </Routes>
         </BrowserRouter>
     )
