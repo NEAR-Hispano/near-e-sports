@@ -46,10 +46,12 @@ pub struct User{
 pub struct Tournament{
     name: String,
     index: i128,
+    firebase_index:String,
     description: String,
     date: String,
     winner: String,
     cost:String,
+    active:bool,
     teams: Vec<Team>,
 
 }
@@ -105,6 +107,7 @@ impl Contract {
         winner: String,
         cost:String,
         teams:Vec<Team>,
+        firebase_index:String
 
         ) -> Tournament {
         
@@ -119,6 +122,8 @@ impl Contract {
             winner: winner,
             cost:cost,
             teams:teams,
+            active:true,
+            firebase_index:firebase_index
 
         };
         self.tournament_list.insert(&tournament.index, &tournament);
@@ -154,20 +159,34 @@ impl Contract {
 
         team
     }
-/*
-    pub fn join_tournament(
-        &mut self,
-        index_team: i128,
-        //se necesita dinero
-        index_tournament: i128
-    ) {
-        let mut tournament = self.tournament_list.get(&index_tournament).expect("Event Doesn't Exist");
-        let team = self.teams_list.get(&index_team).expect("Event Doesn't Exist");
-        tournament.teams.push(team)
-        
+    pub fn get_tournaments(self) -> Vec<Tournament> {
+        let tournament_list = self.tournament_list.values_as_vector().to_vec();
+        tournament_list
     }
 
-    */
+    pub fn join_tournament(
+        &mut self,
+        name:String,
+        user1:String,
+        user2:String,
+        user3:String,
+        user4:String,
+        user5:String,
+        index_tournament: i128
+    ) {
+        let team = Team {
+            name: name,
+            index: 1,
+            user1: user1,
+            user2: user2,
+            user3: user3,
+            user4: user4,
+            user5: user5,
+        };
+        //validar que no existe un equipo con ese nombre
+        let mut tournament = self.tournament_list.get(&index_tournament).expect("Tournament does not Exist");
+        tournament.teams.push(team)
+    }
 }
 
 
