@@ -69,24 +69,24 @@ export default function CrearEquipo(props) {
                     <Card bg="dark" border="dark" className="mt-5 mb-5">
 
                         <Row className="justify-content-center  mt-3 mb-3">
-                            <Col xs={12} sm={3} md={3}>
-                                <img src={torneo.imgUrl} alt="Inscribir" />
+                            <Col xs={12} sm={6} md={6}>
+                                <img src={torneo.imgUrl} alt="Inscribir" style={{width:"250px", height:"250px", display:"block", marginLeft:"auto", marginRight:"auto"}} />
                             </Col>
                         </Row>
 
-                        <Row className="justify-content-md-center  mt-3 mb-3">
+                        <Row className="justify-content-center  mt-3 mb-3">
                             <Col xs={12} sm={4} md={4}>
                                 <h4 style={{ textAlign: 'center', color: 'white' }}>Lista del equipo</h4>
                             </Col>
                         </Row>
 
-                        <Row className="justify-content-md-flex-start  mb-3">
+                        <Row className="justify-content-flex-start  mb-3">
                             <Col xs={12} sm={7} md={7}>
                                 <p style={{ color: 'gray' }}>La lista del equipo puede ser modificada antes que comience el torneo</p>
                             </Col>
                         </Row>
 
-                        <Row className="justify-content-md-center  mt- mb-3">
+                        <Row className="justify-content-center  mt- mb-3">
                             <Col xs={12} sm={3} md={3} className="justify-content-md-flex-end">
                                 <p style={{ color: 'white' }} className="Titulo-Torneo">Nombre del equipo:</p>
                             </Col>
