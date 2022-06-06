@@ -4,6 +4,9 @@ import control_image from '../assets/control_image.png'
 import Footer from "./Footer";
 
 export default function Home() {
+
+ 
+
     return (
         <div>
             <Container  className="text-blanco">

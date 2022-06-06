@@ -20,6 +20,7 @@ export const AppRouter  = () => {
                 <Route path ="explorar" element={<Explorar/>}/>
                 <Route path ="equipos" element={<CrearEquipo/>}/>
                 <Route path ="upload" element={<VerTorneos/>}/>
+                <Route exact path='/crearEquipos/:idtorneo' element={<CrearEquipo/>}/>
             </Routes>
         </BrowserRouter>
     )

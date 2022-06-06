@@ -2,13 +2,16 @@ import React from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import CrearEquipo from "./CrearEquipo";
 
 class VerTorneos extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      torneos: null
+      torneos: null,
+      route:"/crearEquipos/"
     }
     this.getTorneos = this.getTorneos.bind(this);
   }
@@ -24,10 +27,15 @@ class VerTorneos extends React.Component {
     let arrayTorneos = []
     this.state.torneos = await getDocs(collection(db, "torneos")).then(data => {
       data.forEach(element => {
-        arrayTorneos.push(element.data())
+        /*arrayTorneos.push(element.data())*/
+        const idTorneo = {
+          id: element.id
+        }
+        let torneo = Object.assign(element.data(), idTorneo)
+        arrayTorneos.push(torneo)
       })
       this.setState({
-        torneos: arrayTorneos
+        torneos: arrayTorneos  
       })
     })
   }
@@ -47,6 +55,8 @@ class VerTorneos extends React.Component {
               {this.state.torneos != null
           ?
           this.state.torneos.map(torneo => (
+
+
             <Col md={4} lg={4} xl={4} className="home__container mb-5">  
             
                
@@ -68,7 +78,9 @@ class VerTorneos extends React.Component {
                 <b>Fecha: </b><a>{torneo.fechaInicio}</a>
                 <br />
                 <Row className="justify-content-md-center  mt-3 mb-3">
+                <Link to={this.state.route+torneo.id}> 
                 <Button variant="danger">Ver / Inscribirse</Button> 
+                </Link>
                 </Row>
               </Card.Body>
 

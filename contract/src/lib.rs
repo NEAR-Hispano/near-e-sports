@@ -172,7 +172,7 @@ impl Contract {
         user3:String,
         user4:String,
         user5:String,
-        index_tournament: i128
+        firebase_index: i128,
     ) {
         let team = Team {
             name: name,
@@ -184,7 +184,7 @@ impl Contract {
             user5: user5,
         };
         //validar que no existe un equipo con ese nombre
-        let mut tournament = self.tournament_list.get(&index_tournament).expect("Tournament does not Exist");
+        let mut tournament = self.tournament_list.get(&firebase_index).expect("Tournament does not Exist");
         tournament.teams.push(team)
     }
 }

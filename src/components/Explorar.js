@@ -16,6 +16,7 @@ export default function Explorar() {
   const [cost,setCost] = useState("");
   const [file,setFile] = useState();
   const [storageRef,setStorageRef] = useState();
+  const [id,setId] = useState("");
   const [image, setImage] = useState(LOL_Logo);
   const Array = [];
 
@@ -40,11 +41,13 @@ export default function Explorar() {
         imgUrl: image,
         fechaInicio: dateinicio,
         cost: cost,
-        winner: "Carlos Gei"
+        winner: "Sin ganador aun"
 
       });
 
       console.log("Document written with ID: ", docRef.id);
+      setId(docRef.id)
+
     } catch (e) {
       //console.error("Error adding document: ", e);
 
@@ -58,6 +61,7 @@ export default function Explorar() {
       winner:plataform,
       cost:cost,
       teams: Array,
+      firebase_index:id,
       
     })
     alert("¡Se ha creado un nuevo torneo!")

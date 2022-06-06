@@ -18,42 +18,15 @@ const NavbarComponent = () => {
                     Home
                 </Link>
             </Nav.Link>
-            <Nav.Link >
-                <Link className="nav__link"
-                    to="/equipos"
-                >
-                    Mis Equipos
-                </Link>
-            </Nav.Link>
 
-            <Nav.Link>
-                <Link className="nav__link"
-                    to="/dashboard"
-                >
-                    Dashboard
-                </Link>
-            </Nav.Link>
             <Nav.Link >
                 <Link className="nav__link"
                     to="/explorar"
                 >
-                    Explorar
+                    Crear Torneo
                 </Link>
             </Nav.Link>
-            <Nav.Link>
-                <Link className="nav__link" 
-                    to="/marketplace"
-                >
-                    Marketplace
-                </Link>
-            </Nav.Link>
-            <Nav.Link>
-                <Link className="nav__link"
-                    to="/liga"
-                >
-                    Liga
-                </Link>
-            </Nav.Link>
+
             <Nav.Link>
                 <Link className="nav__link"
                     to="/soporte"
@@ -65,7 +38,7 @@ const NavbarComponent = () => {
                 <Link className="nav__link"
                     to="/upload"
                 >
-                    Upload
+                    Ver torneos
                 </Link>
             </Nav.Link> 
 
