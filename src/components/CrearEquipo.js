@@ -182,7 +182,7 @@ export default function CrearEquipo(props) {
 
                                 <Row className="justify-content-md-center  mt-3 mb-3">
                                     <Col xs={12} sm={7} md={7}>
-                                        <h4 style={{ textAlign: 'center', color: 'white' }}>Costo de Inscripcion: 5 USN</h4>
+                                        <h4 style={{ textAlign: 'center', color: 'white' }}>Costo de Inscripcion: {torneo.cost} Nears</h4>
                                     </Col>
                                 </Row>
 

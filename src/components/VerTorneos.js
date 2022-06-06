@@ -82,7 +82,7 @@ class VerTorneos extends React.Component {
                 <Card.Title className="mt-4" >{torneo.nombre}</Card.Title>
                 <b>Plataforma: </b><a>{torneo.plataforma}</a>
                 <br />
-                <b>Costo: </b><a>{torneo.participantes} Nears</a>
+                <b>Costo: </b><a>{torneo.cost} Nears</a>
                 <br />
                 <b>Descripción: </b><a>{torneo.descripcion}</a>
                 <br />
@@ -100,7 +100,7 @@ class VerTorneos extends React.Component {
         
           ))
           :
-          <div>No renderice nada</div>
+          <div>Cargando</div>
         }
       </Row>  
       </div>
