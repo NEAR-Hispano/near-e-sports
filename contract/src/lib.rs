@@ -46,7 +46,6 @@ pub struct User{
 pub struct Tournament{
     name: String,
     index: i128,
-    firebase_index:String,
     description: String,
     date: String,
     winner: String,
@@ -107,7 +106,6 @@ impl Contract {
         winner: String,
         cost:String,
         teams:Vec<Team>,
-        firebase_index:String
 
         ) -> Tournament {
         
@@ -123,7 +121,6 @@ impl Contract {
             cost:cost,
             teams:teams,
             active:true,
-            firebase_index:firebase_index
 
         };
         self.tournament_list.insert(&tournament.index, &tournament);
@@ -164,6 +161,18 @@ impl Contract {
         tournament_list
     }
 
+ /*   pub fn get_unordered_map(&self, key: String) -> String {
+        match self.unordered_map.get(&key) {
+            Some(value) => {
+                let log_message = format!("Value from UnorderedMap is {:?}", value.clone());
+                env::log(log_message.as_bytes());
+                value
+            },
+            // None => "Didn't find that key.".to_string()
+            None => "not found".to_string()
+        }
+    }
+*/
     pub fn join_tournament(
         &mut self,
         name:String,
@@ -172,7 +181,7 @@ impl Contract {
         user3:String,
         user4:String,
         user5:String,
-        firebase_index: i128,
+        index:i128
     ) {
         let team = Team {
             name: name,
@@ -184,7 +193,7 @@ impl Contract {
             user5: user5,
         };
         //validar que no existe un equipo con ese nombre
-        let mut tournament = self.tournament_list.get(&firebase_index).expect("Tournament does not Exist");
+        let mut tournament = self.tournament_list.get(&index).expect("Tournament does not Exist");
         tournament.teams.push(team)
     }
 }

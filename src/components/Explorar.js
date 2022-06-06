@@ -34,6 +34,18 @@ export default function Explorar() {
      return alert("photo is missing");
    }
     try {
+
+      const result =  await window.contract.create_tournament({ 
+        name:name,
+        description:description,
+        date:dateinicio,
+        winner:plataform,
+        cost:cost,
+        teams: Array,
+      })
+
+      console.log("resultado",result);
+
       const docRef = await addDoc(collection(db, "torneos"), {
         nombre: name,
         descripcion: description,
@@ -41,7 +53,8 @@ export default function Explorar() {
         imgUrl: image,
         fechaInicio: dateinicio,
         cost: cost,
-        winner: "Sin ganador aun"
+        winner: "Sin ganador aun",
+        index: result.index
 
       });
 
@@ -54,16 +67,9 @@ export default function Explorar() {
       alert(e)
 
     }
-    await window.contract.create_tournament({ 
-      name:name,
-      description:description,
-      date:dateinicio,
-      winner:plataform,
-      cost:cost,
-      teams: Array,
-      firebase_index:id,
-      
-    })
+
+    
+
     alert("¡Se ha creado un nuevo torneo!")
     console.log(window.accountId)
     

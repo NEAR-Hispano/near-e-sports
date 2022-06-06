@@ -20,21 +20,20 @@ export default function CrearEquipo(props) {
     console.log(idtorneo);
   
    
-
    
-/*
+
     const getTorneo = async () => {
         const docRef = doc(db, "torneos", idtorneo);
-        var documento = await getDoc(docRef).then(data => {
-            setTorneo(data)
-            console.log(data)
+        await getDoc(docRef).then(documento => {
+            setTorneo(documento.data())
+            console.log(documento.data())
             })
     }
 
      useEffect(() => {
         getTorneo();
       }, [])
-*/
+
 
     const Crear_Team = async () => {
         /*
@@ -47,16 +46,17 @@ export default function CrearEquipo(props) {
         console.log(window.accountId)
         */
 
-        await window.contract.create_team({
+        await window.contract.join_tournament({
             name: name,
             user1: user1,
             user2: user2,
             user3: user3,
             user4: user4,
             user5: user5,
+            index: torneo.index
 
         })
-        alert("¡Se ha creado un nuevo torneo!")
+        alert("¡Se ha inscripto en el torneo!")
         console.log(window.accountId)
     }
 
@@ -68,9 +68,9 @@ export default function CrearEquipo(props) {
                 <Row md={12} lg={12} xl={12} className="home__container mt-5 mb-5">
                     <Card bg="dark" border="dark" className="mt-5 mb-5">
 
-                        <Row className="justify-content-md-center  mt-3 mb-3">
+                        <Row className="justify-content-center  mt-3 mb-3">
                             <Col xs={12} sm={3} md={3}>
-                                <img src={Inscribir} alt="Inscribir" />
+                                <img src={torneo.imgUrl} alt="Inscribir" />
                             </Col>
                         </Row>
 

@@ -11,13 +11,16 @@ class VerTorneos extends React.Component {
     super(props)
     this.state = {
       torneos: null,
+      torneos2: null,
       route:"/crearEquipos/"
     }
     this.getTorneos = this.getTorneos.bind(this);
+    this.getTorneos2 = this.getTorneos2.bind(this);
   }
 
   componentDidMount() {
     this.getTorneos()
+    this.getTorneos2()
   }
 
   componentWillUnmount() {
@@ -38,6 +41,14 @@ class VerTorneos extends React.Component {
         torneos: arrayTorneos  
       })
     })
+  }
+
+  async getTorneos2() {
+
+    const torneos =  await window.contract.get_tournaments()
+    console.log("Torneos blockchain",torneos)
+    
+
   }
 
   render() {
