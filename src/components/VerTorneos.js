@@ -61,7 +61,7 @@ class VerTorneos extends React.Component {
           <h2 style={{ textAlign: 'center' }}>Torneos disponibles</h2>
         </Row>
         
-          <Row className="">
+          <Row style={{marginRight:"200px", marginLeft:"200px"}}>
             {this.state.torneos != null
               ?
               this.state.torneos.map(torneo => (
@@ -69,6 +69,7 @@ class VerTorneos extends React.Component {
 
                 <Col md="4">
                   <div className="card-deck">
+            
                   <ProfileCard3 torneo={torneo}/>
                   </div>
                 </Col>

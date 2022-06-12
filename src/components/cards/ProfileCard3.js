@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // reactstrap components
 import { Button, Card, CardBody, CardFooter, CardTitle, Badge } from "reactstrap";
@@ -18,7 +19,8 @@ function ProfileCard3(props) {
                             alt="..."
                             className="img"
                             src={torneo.imgUrl}
-                        ></img>
+                            
+                        ></img >
                     </a>
 
                 </div>
@@ -73,9 +75,15 @@ function ProfileCard3(props) {
                 </CardBody>
                 <CardFooter className="text-center">
 
-                    <Button color="warning" type="button">
-                        Inscribir
-                    </Button>
+                    <Link to={"/crearEquipos/" + torneo.id}>
+
+                        <Button color="warning" type="button">
+                            Inscribir
+                        </Button>
+
+                    </Link>
+
+
 
                 </CardFooter>
             </Card>
