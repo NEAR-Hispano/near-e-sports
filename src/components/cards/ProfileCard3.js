@@ -13,22 +13,25 @@ function ProfileCard3(props) {
     return (
         <>
             <Card className="card-profile" data-image="img-raised">
-                <div className="card-header-image">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                <div className="card-header-image" style={{}}>
                         <img
                             alt="..."
-                            className="img"
+                          
                             src={torneo.imgUrl}
+                            className="img" style={{ 
+                                objectFit: "fill",
+                                width: "100%" ,
+                                height: "100%",
+                                maxHeight:"231px" }} 
                             
                         ></img >
-                    </a>
 
                 </div>
                 <CardBody>
-                    <h6 className="card-category text-info text-center">
+                    <h6 className="card-category text-info text-center pt-4">
                         {torneo.nombre}
                     </h6>
-                    <p className="card-description">
+                    <p className="card-description pb-3">
                         {torneo.descripcion}
                     </p>
 

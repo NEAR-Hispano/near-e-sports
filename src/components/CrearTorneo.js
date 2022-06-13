@@ -1,4 +1,5 @@
 import React from "react";
+import{ useEffect, useState } from "react";
 
 
 // reactstrap components
@@ -26,9 +27,11 @@ import Upload from "./upload/Upload.js";
 
 
 function CrearTorneo() {
-    const [firstNameFocus, setFirstNameFocus] = React.useState("");
-    const [emailFocus, setEmailFocus] = React.useState("");
-    /*
+    const [NombreFocus, setNombreFocus] = React.useState("");
+    const [PlataformaFocus, setPlataformaFocus] = React.useState("");
+    const [CostoFocus, setCostoFocus] = React.useState("");
+    const [FechaFocus, setFehaFocus] = React.useState("");
+    
     const [name,setName] = useState("");
     const [description,setDescription] = useState("");
     const [plataform,setPlataform] = useState("");
@@ -37,9 +40,58 @@ function CrearTorneo() {
     const [file,setFile] = useState();
     const [storageRef,setStorageRef] = useState();
     const [id,setId] = useState("");
-    const [image, setImage] = useState(LOL_Logo);
+    const [image, setImage] = useState();
     const Array = [];
-    */
+
+    const Crear_Torneo = async()=> {
+        /*
+        await window.contract.new({
+          owner_id : window.accountId,
+          vault_id: window.accountId
+    
+        })
+    
+        console.log(window.accountId)
+        */
+       if(storageRef === undefined){
+         return alert("photo is missing");
+       }
+        try {
+    
+          const result =  await window.contract.create_tournament({ 
+            name:name,
+            description:description,
+            date:dateinicio,
+            winner:plataform,
+            cost:cost,
+            teams: Array,
+          })
+    
+          console.log("resultado",result);
+    
+          const docRef = await addDoc(collection(db, "torneos"), {
+            nombre: name,
+            descripcion: description,
+            plataforma: plataform,
+            imgUrl: image,
+            fechaInicio: dateinicio,
+            cost: cost,
+            winner: "Sin ganador aun",
+            index: result.index
+    
+          });
+    
+          console.log("Document written with ID: ", docRef.id);
+          setId(docRef.id)
+    
+        } catch (e) {
+          //console.error("Error adding document: ", e);
+    
+          alert(e)
+    
+        }
+    }
+    
 
     return (
         <>
@@ -48,7 +100,7 @@ function CrearTorneo() {
                 <Container>
                     <Row>
                         <Col md="12">
-                            <h1 className="text-white text-center mb-3" style={{ marginTop: "5vh" }}>Titulo 1</h1>
+                            <h1 className="text-white text-center mb-3" style={{ marginTop: "5vh" }}></h1>
                            
                         </Col>
                         <Col className="m-auto" md="12">
@@ -67,10 +119,10 @@ function CrearTorneo() {
                                             <CardBody>
                                                 <Row>
                                                     <Col md="6">
-                                                        <FormGroup className={firstNameFocus}>
+                                                        <FormGroup className={NombreFocus}>
                                                             <label>Nombre torneo</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend">
+                                                                <InputGroupAddon addonType="prepend" value={name} onChange={(e)=>setName(e.target.value)}>
                                                                     <InputGroupText>
                                                                         <i className="ni ni-circle-08"></i>
                                                                     </InputGroupText>
@@ -86,10 +138,10 @@ function CrearTorneo() {
                                                         </FormGroup>
                                                     </Col>
                                                     <Col md="6">
-                                                        <FormGroup className={emailFocus}>
+                                                        <FormGroup className={CostoFocus}>
                                                             <label>Costo por equipo</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend">
+                                                                <InputGroupAddon addonType="prepend" value={cost} onChange={(e)=>setCost(e.target.value)} type="number" placeholder="Cost">
                                                                     <InputGroupText>
                                                                         <i className="ni ni-collection"></i>
                                                                     </InputGroupText>
@@ -107,10 +159,10 @@ function CrearTorneo() {
                                                 </Row>
                                                 <Row>
                                                     <Col md="6">
-                                                        <FormGroup className={firstNameFocus}>
+                                                        <FormGroup className={PlataformaFocus}>
                                                             <label>Plataforma</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend">
+                                                                <InputGroupAddon addonType="prepend" value={plataform} onChange={(e)=>setPlataform(e.target.value)}>
                                                                     <InputGroupText>
                                                                         <i className="ni ni-circle-08"></i>
                                                                     </InputGroupText>
@@ -126,10 +178,10 @@ function CrearTorneo() {
                                                         </FormGroup>
                                                     </Col>
                                                     <Col md="6">
-                                                        <FormGroup className={emailFocus}>
+                                                        <FormGroup className={FechaFocus}>
                                                             <label>Fecha inicio</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend">
+                                                                <InputGroupAddon addonType="prepend" value={dateinicio} onChange={(e)=>setDateinicio(e.target.value)}>
                                                                     <InputGroupText>
                                                                         <i className="ni ni-collection"></i>
                                                                     </InputGroupText>
@@ -152,6 +204,7 @@ function CrearTorneo() {
                                                         name="message"
                                                         rows="6"
                                                         type="textarea"
+                                                        value={description} onChange={(e)=>setDescription(e.target.value)}
                                                     ></Input>
                                                 </FormGroup>
                                                 <Row>
@@ -170,6 +223,7 @@ function CrearTorneo() {
                                                             className="pull-right"
                                                             color="warning"
                                                             type="submit"
+                                                            onClick={Crear_Torneo}
                                                         >
                                                             Crear
                                                         </Button>
@@ -237,12 +291,12 @@ function CrearTorneo() {
                                                     <li className="py-1">
                                                         <div className="d-flex align-items-center">
                                                             <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold "></i>
+                                                                <Badge className="badge-circle mr-3" color="danger">
+                                                                    <i className="ni ni-fat-delete "></i>
                                                                 </Badge>
                                                             </div>
                                                             <div>
-                                                                <h6 className="mb-1 text-success ">Imagen </h6>
+                                                                <h6 className="mb-1 text-danger ">Imagen </h6>
                                                             </div>
                                                         </div>
                                                     </li>

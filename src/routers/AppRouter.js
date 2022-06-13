@@ -9,11 +9,12 @@ import CrearEquipo from "../components/CrearEquipo"
 import Soporte from "../components/soporte";
 import VerTorneos from "../components/VerTorneos"
 import CrearTorneo from "../components/CrearTorneo";
+import Navbar2 from "../components/navbars/Navbar2";
 
 export const AppRouter  = () => {
     return (
         <BrowserRouter>
-            <NavbarComponent/>
+            <Navbar2/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path ="about" element={<About/>}/>
@@ -21,7 +22,7 @@ export const AppRouter  = () => {
                 <Route path ="explorar" element={<Explorar/>}/>
                 <Route path ="torneo" element={<CrearTorneo/>}/>
                 <Route path ="equipos" element={<CrearEquipo/>}/>
-                <Route path ="upload" element={<VerTorneos/>}/>
+                <Route path ="vertorneo" element={<VerTorneos/>}/>
                 <Route exact path='/crearEquipos/:idtorneo' element={<CrearEquipo/>}/>
             </Routes>
         </BrowserRouter>
