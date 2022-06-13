@@ -50,6 +50,14 @@ const NavbarComponent = () => {
                 </Link>
             </Nav.Link>
 
+            <Nav.Link>
+                <Link className="nav__link"
+                    to="/bracket"
+                >
+                    brackets
+                </Link>
+            </Nav.Link>
+
             <Col md={5} lg={5} xl={5}>   
             </Col>
             {window.walletConnection.isSignedIn()==true?

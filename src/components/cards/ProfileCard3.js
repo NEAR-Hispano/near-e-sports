@@ -31,10 +31,6 @@ function ProfileCard3(props) {
                     <h6 className="card-category text-info text-center pt-4">
                         {torneo.nombre}
                     </h6>
-                    <p className="card-description pb-3">
-                        {torneo.descripcion}
-                    </p>
-
                     <div className="table-responsive">
                         <ul className="list-unstyled">
                             <li className="py-1">
@@ -80,8 +76,16 @@ function ProfileCard3(props) {
 
                     <Link to={"/crearEquipos/" + torneo.id}>
 
-                        <Button color="warning" type="button">
+                        <Button color="warning" type="button" style={{marginRight:"3vw"}}>
                             Inscribir
+                        </Button>
+
+                    </Link>
+
+                     <Link to={"/Example"}>
+
+                        <Button color="warning" type="button">
+                            ver
                         </Button>
 
                     </Link>

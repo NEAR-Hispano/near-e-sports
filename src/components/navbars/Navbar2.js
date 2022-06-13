@@ -103,6 +103,17 @@ function Navbar2() {
 
                             </NavLink>
                         </NavItem>
+
+
+                        <NavItem>
+                            <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("Example")} >
+
+                                Example
+
+                            </NavLink>
+                        </NavItem>
+
+    
                     </Nav>
                     <Nav className="nav navbar-right" navbar>
                         <NavItem>
@@ -115,13 +126,13 @@ function Navbar2() {
                                 <NavLink style={{ color: "#5e72e4" }} onClick={logout}>
                                     Sign out
                                 </NavLink>
-                                : 
-                                    <NavLink style={{ color: "#5e72e4" }} onClick={login}>
-                                        Login
-                                    </NavLink>
+                                :
+                                <NavLink style={{ color: "#5e72e4" }} onClick={login}>
+                                    Login
+                                </NavLink>
 
 
-                               }
+                            }
 
                         </NavItem>
                     </Nav>
