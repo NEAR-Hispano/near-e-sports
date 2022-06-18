@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { login, logout } from '../utils'
 
 
+
 const NavbarComponent = () => {
   return (
     <div>
@@ -41,6 +42,21 @@ const NavbarComponent = () => {
                     Ver torneos
                 </Link>
             </Nav.Link> 
+            <Nav.Link>
+                <Link className="nav__link"
+                    to="/torneo"
+                >
+                    torneos
+                </Link>
+            </Nav.Link>
+
+            <Nav.Link>
+                <Link className="nav__link"
+                    to="/bracket"
+                >
+                    brackets
+                </Link>
+            </Nav.Link>
 
             <Col md={5} lg={5} xl={5}>   
             </Col>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // reactstrap components
 import { Button, Card, CardBody, CardFooter, CardTitle, Badge } from "reactstrap";
@@ -12,24 +13,24 @@ function ProfileCard3(props) {
     return (
         <>
             <Card className="card-profile" data-image="img-raised">
-                <div className="card-header-image">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                <div className="card-header-image" style={{}}>
                         <img
                             alt="..."
-                            className="img"
+                          
                             src={torneo.imgUrl}
-                        ></img>
-                    </a>
+                            className="img" style={{ 
+                                objectFit: "fill",
+                                width: "100%" ,
+                                height: "100%",
+                                maxHeight:"231px" }} 
+                            
+                        ></img >
 
                 </div>
                 <CardBody>
-                    <h6 className="card-category text-info text-center">
+                    <h6 className="card-category text-info text-center pt-4">
                         {torneo.nombre}
                     </h6>
-                    <p className="card-description">
-                        {torneo.descripcion}
-                    </p>
-
                     <div className="table-responsive">
                         <ul className="list-unstyled">
                             <li className="py-1">
@@ -73,9 +74,23 @@ function ProfileCard3(props) {
                 </CardBody>
                 <CardFooter className="text-center">
 
-                    <Button color="warning" type="button">
-                        Inscribir
-                    </Button>
+                    <Link to={"/crearEquipos/" + torneo.id}>
+
+                        <Button color="warning" type="button" style={{marginRight:"3vw"}}>
+                            Inscribir
+                        </Button>
+
+                    </Link>
+
+                     <Link to={"/Example"}>
+
+                        <Button color="warning" type="button">
+                            ver
+                        </Button>
+
+                    </Link>
+
+
 
                 </CardFooter>
             </Card>

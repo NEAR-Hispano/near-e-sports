@@ -58,19 +58,20 @@ class VerTorneos extends React.Component {
       <div>
 
         <Row xs={5} md={1} lg={1} xl={1} className='mt-4' >
-          <h2 style={{ textAlign: 'center' }}>Torneos disponibles</h2>
+          <h2 className="mb-4" style={{ textAlign: 'center', color:"white" }}>Torneos disponibles</h2>
         </Row>
         
-          <Row className="">
+          <Row style={{marginRight:"200px", marginLeft:"200px"}}>
             {this.state.torneos != null
               ?
               this.state.torneos.map(torneo => (
 
 
-                <Col md="4">
-                  <div className="card-deck">
+                <Col md="4" xs="12" sm="12">
+
+            
                   <ProfileCard3 torneo={torneo}/>
-                  </div>
+
                 </Col>
 
 

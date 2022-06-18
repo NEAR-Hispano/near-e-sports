@@ -18,10 +18,6 @@ export default function CrearEquipo(props) {
     const [torneo, setTorneo] = useState("")
     const { idtorneo } = useParams();
     console.log(idtorneo);
-  
-   
-   
-
     const getTorneo = async () => {
         const docRef = doc(db, "torneos", idtorneo);
         await getDoc(docRef).then(documento => {
