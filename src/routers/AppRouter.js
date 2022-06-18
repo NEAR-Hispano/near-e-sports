@@ -6,7 +6,7 @@ import NavbarComponent from "../components/Navbar";
 import Soporte from "../components/soporte";
 import Explorar from "../components/Explorar";
 import CrearEquipo from "../components/CrearEquipo"
-import UploadFiles from "../components/DesechablesSoloTest/UploadFiles"
+
 import VerTorneos from "../components/VerTorneos"
 
 export const AppRouter  = () => {

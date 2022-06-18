@@ -30,13 +30,14 @@ body{
   display: flex;
   align-items: center;
   height: 80vh;
-  justify-content: space-between;
+  justify-content: start;
 }
 
 .home__img__container{
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 
 .btn_read_more {
