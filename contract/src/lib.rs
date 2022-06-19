@@ -11,7 +11,11 @@ use near_sdk::Gas;
 use near_sdk::json_types::ValidAccountId;
 use near_sdk::json_types::U128;
 use near_sdk::collections::UnorderedSet;
+
+
 near_sdk::setup_alloc!();
+
+
 
 /// This spec can be treated like a version of the standard.
 pub const NFT_METADATA_SPEC: &str = "1.0.0";
@@ -74,29 +78,35 @@ pub struct Team{
 pub struct Contract {
     vault_id: AccountId,
     tournament_list: UnorderedMap<i128, Tournament>,
-    teams_list: UnorderedMap<i128, Team>
+    teams_list: UnorderedMap<i128, Team>,
+
 }
 
 #[derive(BorshSerialize, BorshStorageKey)]
 pub enum StorageKey {
    
     Tournaments,
-    Teams
-   
+    Teams,
 }
+
 
 #[near_bindgen]
 impl Contract {
+
+
     #[init]
-    pub fn new(owner_id: ValidAccountId, vault_id: ValidAccountId) -> Self {
+    pub fn new(owner_id: ValidAccountId, vault_id: ValidAccountId,) -> Self {
         assert!(!env::state_exists(), "Already initialized");
         Self {
             vault_id: vault_id.to_string(),
             tournament_list: UnorderedMap::new(StorageKey::Tournaments),
-            teams_list:UnorderedMap::new(StorageKey::Teams)
+            teams_list:UnorderedMap::new(StorageKey::Teams),
+
             
         }
     }
+
+    
 
     // Crear torneo
     pub fn create_tournament(&mut self,
@@ -196,6 +206,7 @@ impl Contract {
         let mut tournament = self.tournament_list.get(&index).expect("Tournament does not Exist");
         tournament.teams.push(team)
     }
+
 }
 
 

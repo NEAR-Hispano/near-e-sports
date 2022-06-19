@@ -1,10 +1,11 @@
 import React from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
-import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CrearEquipo from "./CrearEquipo";
 import ProfileCard3 from "./cards/ProfileCard3";
+
 
 class VerTorneos extends React.Component {
 
@@ -77,7 +78,9 @@ class VerTorneos extends React.Component {
 
               ))
               :
-              <div>Cargando</div>
+              <Spinner>
+        <span className=" sr-only">Loading...</span>
+               </Spinner>
             }
             </Row>
         

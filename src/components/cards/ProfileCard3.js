@@ -74,7 +74,7 @@ function ProfileCard3(props) {
                 </CardBody>
                 <CardFooter className="text-center">
 
-                    <Link to={"/crearEquipos/" + torneo.id}>
+                    <Link to={"/crearEquipos2/" + torneo.id}>
 
                         <Button color="warning" type="button" style={{marginRight:"3vw"}}>
                             Inscribir

@@ -113,6 +113,14 @@ function Navbar2() {
                             </NavLink>
                         </NavItem>
 
+                        <NavItem>
+                            <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("equipos2")} >
+
+                                CrearEquipo
+
+                            </NavLink>
+                        </NavItem>
+
     
                     </Nav>
                     <Nav className="nav navbar-right" navbar>

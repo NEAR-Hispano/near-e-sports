@@ -12,6 +12,8 @@ import CrearTorneo from "../components/CrearTorneo";
 import Navbar2 from "../components/navbars/Navbar2";
 import RenderBracket from "../components/Brackets";
 import Example from "../components/TournamentDetails";
+import CrearEquipo2 from "../components/CrearEquipo2";
+import { useParams } from 'react-router-dom';
 
 export const AppRouter  = () => {
     return (
@@ -24,10 +26,12 @@ export const AppRouter  = () => {
                 <Route path ="explorar" element={<Explorar/>}/>
                 <Route path ="torneo" element={<CrearTorneo/>}/>
                 <Route path ="equipos" element={<CrearEquipo/>}/>
+                <Route path ="equipos2" element={<CrearEquipo2/>}/>
                 <Route path ="vertorneo" element={<VerTorneos/>}/>
                 <Route path ="brackets" element={<RenderBracket/>}/>
                 <Route path ="Example" element={<Example/>}/>
                 <Route exact path='/crearEquipos/:idtorneo' element={<CrearEquipo/>}/>
+                <Route exact path='/crearEquipos2/:idtorneo' element={<CrearEquipo2/>}/>
             </Routes>
         </BrowserRouter>
     )
