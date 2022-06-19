@@ -12,6 +12,7 @@ import CrearTorneo from "../components/CrearTorneo";
 import Navbar2 from "../components/navbars/Navbar2";
 import RenderBracket from "../components/Brackets";
 import Example from "../components/TournamentDetails";
+import AdministrarEmparejamiento from "../components/AdministrarEmparejamiento";
 
 export const AppRouter  = () => {
     return (
@@ -27,6 +28,7 @@ export const AppRouter  = () => {
                 <Route path ="vertorneo" element={<VerTorneos/>}/>
                 <Route path ="brackets" element={<RenderBracket/>}/>
                 <Route path ="Example" element={<Example/>}/>
+                <Route path ="administrarTorneo" element={<AdministrarEmparejamiento/>}/>
                 <Route exact path='/crearEquipos/:idtorneo' element={<CrearEquipo/>}/>
             </Routes>
         </BrowserRouter>

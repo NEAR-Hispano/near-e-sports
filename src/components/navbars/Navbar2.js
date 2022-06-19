@@ -98,18 +98,17 @@ function Navbar2() {
                         </NavItem>
                         <NavItem>
                             <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("soporte")} >
-
                                 Soporte
-
                             </NavLink>
                         </NavItem>
-
-
+                        <NavItem>
+                            <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("administrarTorneo")} >
+                                Adm. Torneo
+                            </NavLink>
+                        </NavItem>                        
                         <NavItem>
                             <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("Example")} >
-
                                 Example
-
                             </NavLink>
                         </NavItem>
 
