@@ -1,6 +1,10 @@
 import React from "react";
 import{ useEffect, useState } from "react";
 
+import { addDoc, collection } from "firebase/firestore";
+import { db } from '../firebase/firebaseConfig'
+import { storage } from '../firebase/firebaseConfig'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 // reactstrap components
 import {

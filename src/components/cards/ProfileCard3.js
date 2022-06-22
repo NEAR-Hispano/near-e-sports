@@ -82,7 +82,7 @@ function ProfileCard3(props) {
 
                     </Link>
 
-                     <Link to={"/Example"}>
+                     <Link to={"/detalles/"+ torneo.id}>
 
                         <Button color="warning" type="button">
                             ver

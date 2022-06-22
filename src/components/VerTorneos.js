@@ -7,6 +7,7 @@ import CrearEquipo from "./CrearEquipo";
 import ProfileCard3 from "./cards/ProfileCard3";
 
 
+
 class VerTorneos extends React.Component {
 
   constructor(props) {
@@ -17,12 +18,12 @@ class VerTorneos extends React.Component {
       route: "/crearEquipos/"
     }
     this.getTorneos = this.getTorneos.bind(this);
-    this.getTorneos2 = this.getTorneos2.bind(this);
+
   }
 
   componentDidMount() {
     this.getTorneos()
-    this.getTorneos2()
+
   }
 
   componentWillUnmount() {
@@ -45,13 +46,7 @@ class VerTorneos extends React.Component {
     })
   }
 
-  async getTorneos2() {
-
-    const torneos = await window.contract.get_tournaments()
-    console.log("Torneos blockchain", torneos)
-
-
-  }
+  
 
   render() {
 
