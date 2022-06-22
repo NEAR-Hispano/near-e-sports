@@ -1,10 +1,12 @@
 import React from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
-import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CrearEquipo from "./CrearEquipo";
 import ProfileCard3 from "./cards/ProfileCard3";
+
+
 
 class VerTorneos extends React.Component {
 
@@ -16,12 +18,12 @@ class VerTorneos extends React.Component {
       route: "/crearEquipos/"
     }
     this.getTorneos = this.getTorneos.bind(this);
-    this.getTorneos2 = this.getTorneos2.bind(this);
+
   }
 
   componentDidMount() {
     this.getTorneos()
-    this.getTorneos2()
+
   }
 
   componentWillUnmount() {
@@ -44,13 +46,7 @@ class VerTorneos extends React.Component {
     })
   }
 
-  async getTorneos2() {
-
-    const torneos = await window.contract.get_tournaments()
-    console.log("Torneos blockchain", torneos)
-
-
-  }
+  
 
   render() {
 
@@ -77,7 +73,9 @@ class VerTorneos extends React.Component {
 
               ))
               :
-              <div>Cargando</div>
+              <Spinner>
+        <span className=" sr-only">Loading...</span>
+               </Spinner>
             }
             </Row>
         
