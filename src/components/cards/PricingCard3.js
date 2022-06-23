@@ -1,13 +1,12 @@
 import React from "react";
 
 // reactstrap components
-import { Button, Card, CardBody, CardTitle } from "reactstrap";
+import {Card, CardBody, CardTitle } from "reactstrap";
 
 // Core Components
 
 function PricingCard3(props) {
     let { equipo } = props
-    console.log(equipo)
   return (
     <>
       <Card
@@ -20,7 +19,6 @@ function PricingCard3(props) {
         <CardBody className="pb-4">
           <h6 className="card-category text-danger text-uppercase"></h6>
           <CardTitle className="text-default" tag="h1">
-            <small>$</small>
             {equipo.name}
           </CardTitle>
           <ul>
@@ -28,11 +26,11 @@ function PricingCard3(props) {
               <div className="d-flex align-items-center">
                 <div>
                   <div className="icon icon-xs icon-shape icon-shape-info shadow rounded-circle">
-                    <i className="ni ni-check-bold"></i>
+                    <i className="ni ni-single-02"></i>
                   </div>
                 </div>
                 <div>
-                  <span className="pl-2 text-sm text-whit">{equipo.user1}</span>
+                  <span className="pl-2 text-sm">{equipo.user1}</span>
 
                 </div>
               </div>
@@ -41,49 +39,51 @@ function PricingCard3(props) {
               <div className="d-flex align-items-center">
                 <div>
                   <div className="icon icon-xs icon-shape icon-shape-info shadow rounded-circle">
-                    <i className="ni ni-check-bold"></i>
+                    <i className="ni ni-single-02"></i>
                   </div>
                 </div>
                 <div>
-                  <span className="pl-2 text-sm text-whit">Design Tools</span>
+                  <span className="pl-2 text-sm text-whit">{equipo.user2}</span>
                 </div>
               </div>
             </li>
             <li>
               <div className="d-flex align-items-center">
                 <div>
-                  <div className="icon icon-xs icon-shape icon-shape-danger shadow rounded-circle">
-                    <i className="ni ni-fat-remove"></i>
+                  <div className="icon icon-xs icon-shape icon-shape-info shadow rounded-circle">
+                    <i className="ni ni-single-02"></i>
                   </div>
                 </div>
                 <div>
-                  <span className="pl-2 text-sm text-whit">
-                    Private Messages
-                  </span>
+                  <span className="pl-2 text-sm text-whit">{equipo.user3}</span>
                 </div>
               </div>
             </li>
             <li>
               <div className="d-flex align-items-center">
                 <div>
-                  <div className="icon icon-xs icon-shape icon-shape-danger shadow rounded-circle">
-                    <i className="ni ni-fat-remove"></i>
+                  <div className="icon icon-xs icon-shape icon-shape-info shadow rounded-circle">
+                    <i className="ni ni-single-02"></i>
                   </div>
                 </div>
                 <div>
-                  <span className="pl-2 text-sm text-whit">Private Brand</span>
+                  <span className="pl-2 text-sm text-whit">{equipo.user4}</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className="d-flex align-items-center">
+                <div>
+                  <div className="icon icon-xs icon-shape icon-shape-info shadow rounded-circle">
+                    <i className="ni ni-single-02"></i>
+                  </div>
+                </div>
+                <div>
+                  <span className="pl-2 text-sm text-whit">{equipo.user5}</span>
                 </div>
               </div>
             </li>
           </ul>
-          <Button
-            className="mt-4"
-            color="danger"
-            href="#pablo"
-            onClick={(e) => e.preventDefault()}
-          >
-            Choose plan
-          </Button>
         </CardBody>
       </Card>
     </>

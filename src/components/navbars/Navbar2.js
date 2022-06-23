@@ -1,9 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { login, logout } from '../../utils'
-
-
-
 // reactstrap components
 import {
     UncontrolledCollapse,
@@ -29,9 +25,6 @@ function Navbar2() {
         navigate(path);
     }
     return (
-
-
-
         <Navbar className="bg-dark navbar-default" expand="lg">
             <Container>
                 <div className="navbar-translate">
@@ -100,15 +93,6 @@ function Navbar2() {
                             <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("soporte")} >
 
                                 Soporte
-
-                            </NavLink>
-                        </NavItem>
-
-
-                        <NavItem>
-                            <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("Example")} >
-
-                                Example
 
                             </NavLink>
                         </NavItem>

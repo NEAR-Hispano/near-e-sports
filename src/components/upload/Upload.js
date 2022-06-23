@@ -35,13 +35,6 @@ class ImageUpload extends React.Component {
     reader.readAsDataURL(file);
   }
   handleSubmit(e) {
-  
-    // this.state.file is the file/image uploaded
-    // in this function you can save the image (this.state.file) on form submit
-    // you have to call it yourself
-
-    // ref(storage, 'Imagenes-Portada-Torneo/'+file.name)
-
     let uploadTask = uploadBytesResumable(ref(storage, 'Imagenes-Portada-Torneo/'+this.state.file.name), this.state.file);
     uploadTask.on('state_changed',
       (snapshot) => {
@@ -66,8 +59,8 @@ class ImageUpload extends React.Component {
         alert("image uploaded sucessfully")
         //Obtener Link al que se subio la imagen
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImage(downloadURL);
           console.log("Imagen subida a: " + downloadURL)
+          this.props.uploadPhoto(downloadURL)
         });
       }
     );
@@ -81,6 +74,7 @@ class ImageUpload extends React.Component {
       imagePreviewUrl: this.props.avatar ? defaultAvatar : defaultImage,
     });
     this.refs.fileInput.value = null;
+    this.props.removePhoto
   }
   render() {
     return (

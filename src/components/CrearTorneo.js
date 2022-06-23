@@ -1,5 +1,5 @@
 import React from "react";
-import{ useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { addDoc, collection } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
@@ -26,77 +26,75 @@ import {
 } from "reactstrap";
 
 import Upload from "./upload/Upload.js";
+import { async } from "regenerator-runtime";
 
 // Core Components
 
 
 function CrearTorneo() {
-    const [NombreFocus, setNombreFocus] = React.useState("");
-    const [PlataformaFocus, setPlataformaFocus] = React.useState("");
-    const [CostoFocus, setCostoFocus] = React.useState("");
-    const [FechaFocus, setFehaFocus] = React.useState("");
-    
-    const [name,setName] = useState("");
-    const [description,setDescription] = useState("");
-    const [plataform,setPlataform] = useState("");
-    const [dateinicio,setDateinicio] = useState("");
-    const [cost,setCost] = useState("");
-    const [file,setFile] = useState();
-    const [storageRef,setStorageRef] = useState();
-    const [id,setId] = useState("");
+    const [NombreFocus, setNombreFocus] = useState("");
+    const [PlataformaFocus, setPlataformaFocus] = useState("");
+    const [CostoFocus, setCostoFocus] = useState("");
+    const [FechaFocus, setFechaFocus] = useState("");
+    const [descripcionFocus, setDescripcionFocus] = useState("");
+
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [plataform, setPlataform] = useState("");
+    const [dateinicio, setDateinicio] = useState("");
+    const [cost, setCost] = useState("");
+    const [isPhotoUploaded, setIsPhotoUploaded] = useState(false);
+    const [id, setId] = useState("");
     const [image, setImage] = useState();
     const Array = [];
 
-    const Crear_Torneo = async()=> {
-        /*
-        await window.contract.new({
-          owner_id : window.accountId,
-          vault_id: window.accountId
-    
-        })
-    
-        console.log(window.accountId)
-        */
-       if(storageRef === undefined){
-         return alert("photo is missing");
-       }
-        try {
-    
-          const result =  await window.contract.create_tournament({ 
-            name:name,
-            description:description,
-            date:dateinicio,
-            winner:plataform,
-            cost:cost,
-            teams: Array,
-          })
-    
-          console.log("resultado",result);
-    
-          const docRef = await addDoc(collection(db, "torneos"), {
-            nombre: name,
-            descripcion: description,
-            plataforma: plataform,
-            imgUrl: image,
-            fechaInicio: dateinicio,
-            cost: cost,
-            winner: "Sin ganador aun",
-            index: result.index
-    
-          });
-    
-          console.log("Document written with ID: ", docRef.id);
-          setId(docRef.id)
-    
-        } catch (e) {
-          //console.error("Error adding document: ", e);
-    
-          alert(e)
-    
-        }
+    const uploadPhoto = (uploadUrl) => {
+        setImage(uploadUrl);
+        setIsPhotoUploaded(true);
     }
-    
+    const removePhoto = () => {
+        setIsPhotoUploaded(false)
+    }
+    const Crear_Torneo = async () => {
+        if (!isPhotoUploaded) {
+            alert("falta foto", isPhotoUploaded)
+        } else {
+            alert("hay photo", isPhotoUploaded)
+            alert(image);
+            try {
 
+                const result = await window.contract.create_tournament({
+                    name: name,
+                    description: description,
+                    date: dateinicio,
+                    winner: plataform,
+                    cost: cost,
+                    teams: Array,
+                })
+
+                console.log("resultado", result);
+
+                const docRef = await addDoc(collection(db, "torneos"), {
+                    nombre: name,
+                    descripcion: description,
+                    plataforma: plataform,
+                    imgUrl: image,
+                    fechaInicio: dateinicio,
+                    cost: cost,
+                    winner: "Sin ganador aun",
+                    index: result.index
+
+                });
+
+                console.log("Document written with ID: ", docRef.id);
+                setId(docRef.id)
+
+            } catch (e) {
+                alert(e)
+            }
+        }
+
+    }
     return (
         <>
             <div className="contactus-4">
@@ -105,7 +103,7 @@ function CrearTorneo() {
                     <Row>
                         <Col md="12">
                             <h1 className="text-white text-center mb-3" style={{ marginTop: "5vh" }}></h1>
-                           
+
                         </Col>
                         <Col className="m-auto" md="12">
                             <Card className="card-contact card-raised">
@@ -126,7 +124,7 @@ function CrearTorneo() {
                                                         <FormGroup className={NombreFocus}>
                                                             <label>Nombre torneo</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend" value={name} onChange={(e)=>setName(e.target.value)}>
+                                                                <InputGroupAddon addonType="prepend" >
                                                                     <InputGroupText>
                                                                         <i className="ni ni-circle-08"></i>
                                                                     </InputGroupText>
@@ -135,8 +133,10 @@ function CrearTorneo() {
                                                                     aria-label="Nombre torneo."
                                                                     placeholder="Nombre torneo"
                                                                     type="text"
-                                                                    onFocus={() => setFirstNameFocus("focused")}
-                                                                    onBlur={() => setFirstNameFocus("")}
+                                                                    value={name}
+                                                                    onChange={(e) => setName(e.target.value)}
+                                                                    onFocus={() => setNombreFocus("focused")}
+                                                                    onBlur={() => setNombreFocus("")}
                                                                 ></Input>
                                                             </InputGroup>
                                                         </FormGroup>
@@ -145,7 +145,7 @@ function CrearTorneo() {
                                                         <FormGroup className={CostoFocus}>
                                                             <label>Costo por equipo</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend" value={cost} onChange={(e)=>setCost(e.target.value)} type="number" placeholder="Cost">
+                                                                <InputGroupAddon addonType="prepend" >
                                                                     <InputGroupText>
                                                                         <i className="ni ni-collection"></i>
                                                                     </InputGroupText>
@@ -153,9 +153,11 @@ function CrearTorneo() {
                                                                 <Input
                                                                     aria-label="Costo"
                                                                     placeholder="Costo"
-                                                                    type="text"
-                                                                    onFocus={() => setEmailFocus("focused")}
-                                                                    onBlur={() => setEmailFocus("")}
+                                                                    value={cost}
+                                                                    onChange={(e) => setCost(e.target.value)}
+                                                                    type="number"
+                                                                    onFocus={() => setCostoFocus("focused")}
+                                                                    onBlur={() => setCostoFocus("")}
                                                                 ></Input>
                                                             </InputGroup>
                                                         </FormGroup>
@@ -166,7 +168,7 @@ function CrearTorneo() {
                                                         <FormGroup className={PlataformaFocus}>
                                                             <label>Plataforma</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend" value={plataform} onChange={(e)=>setPlataform(e.target.value)}>
+                                                                <InputGroupAddon addonType="prepend" >
                                                                     <InputGroupText>
                                                                         <i className="ni ni-circle-08"></i>
                                                                     </InputGroupText>
@@ -175,8 +177,10 @@ function CrearTorneo() {
                                                                     aria-label="Plataforma"
                                                                     placeholder="Plataforma"
                                                                     type="text"
-                                                                    onFocus={() => setFirstNameFocus("focused")}
-                                                                    onBlur={() => setFirstNameFocus("")}
+                                                                    value={plataform}
+                                                                    onChange={(e) => setPlataform(e.target.value)}
+                                                                    onFocus={() => setPlataformaFocus("focused")}
+                                                                    onBlur={() => setPlataformaFocus("")}
                                                                 ></Input>
                                                             </InputGroup>
                                                         </FormGroup>
@@ -185,7 +189,7 @@ function CrearTorneo() {
                                                         <FormGroup className={FechaFocus}>
                                                             <label>Fecha inicio</label>
                                                             <InputGroup>
-                                                                <InputGroupAddon addonType="prepend" value={dateinicio} onChange={(e)=>setDateinicio(e.target.value)}>
+                                                                <InputGroupAddon addonType="prepend" >
                                                                     <InputGroupText>
                                                                         <i className="ni ni-collection"></i>
                                                                     </InputGroupText>
@@ -194,40 +198,34 @@ function CrearTorneo() {
                                                                     aria-label="FechaInicio"
                                                                     placeholder="Last Name..."
                                                                     type="date"
-                                                                    onFocus={() => setEmailFocus("focused")}
-                                                                    onBlur={() => setEmailFocus("")}
+                                                                    value={dateinicio}
+                                                                    onChange={(e) => setDateinicio(e.target.value)}
+                                                                    onFocus={() => setFechaFocus("focused")}
+                                                                    onBlur={() => setFechaFocus("")}
                                                                 ></Input>
                                                             </InputGroup>
                                                         </FormGroup>
                                                     </Col>
                                                 </Row>
-                                                <FormGroup>
+                                                <FormGroup className={descripcionFocus}>
                                                     <label>Descripcion</label>
                                                     <Input
                                                         id="contact-us-message-4"
                                                         name="message"
                                                         rows="6"
                                                         type="textarea"
-                                                        value={description} onChange={(e)=>setDescription(e.target.value)}
+                                                        value={description} onChange={(e) => setDescription(e.target.value)}
+                                                        onFocus={() => setDescripcionFocus("focused")}
+                                                        onBlur={() => setDescripcionFocus("")}
                                                     ></Input>
                                                 </FormGroup>
                                                 <Row>
-                                                    <Col md="6">
-                                                        <div className="custom-control custom-checkbox mb-3">
-                                                            <input
-                                                                className="custom-control-input"
-                                                                id="customCheck2"
-                                                                type="checkbox"
-                                                            ></input>
-
-                                                        </div>
-                                                    </Col>
                                                     <Col md="12">
                                                         <Button
                                                             className="pull-right"
                                                             color="warning"
                                                             type="submit"
-                                                            onClick={Crear_Torneo}
+                                                            onClick={() => Crear_Torneo()}
                                                         >
                                                             Crear
                                                         </Button>
@@ -241,9 +239,22 @@ function CrearTorneo() {
                                             <CardTitle className="text-white text-center" tag="h5" >
                                                 Title 2
                                             </CardTitle>
-                                            <Upload addBtnColor='default'></Upload>
+                                            <Upload addBtnColor='default' uploadPhoto={uploadPhoto} removePhoto={removePhoto}></Upload>
                                             <div className="table-responsive">
                                                 <ul className="list-unstyled">
+                                                    {name.length > 0 ?
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="success">
+                                                                    <i className="ni ni-check-bold"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-success">Nombre</h6>
+                                                            </div>
+                                                        </div>
+                                                    </li> :
                                                     <li className="py-1">
                                                         <div className="d-flex align-items-center">
                                                             <div>
@@ -255,7 +266,8 @@ function CrearTorneo() {
                                                                 <h6 className="mb-1 text-danger">Nombre </h6>
                                                             </div>
                                                         </div>
-                                                    </li>
+                                                    </li>}
+                                                    {cost.length > 0 ?
                                                     <li className="py-1">
                                                         <div className="d-flex align-items-center">
                                                             <div>
@@ -264,58 +276,122 @@ function CrearTorneo() {
                                                                 </Badge>
                                                             </div>
                                                             <div>
-                                                                <h6 className="mb-1 text-success ">Costo</h6>
+                                                                <h6 className="mb-1 text-success">Costo</h6>
                                                             </div>
                                                         </div>
-                                                    </li>
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold "></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success ">Fecha </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold "></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success ">Plataforma </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                                    </li> :
                                                     <li className="py-1">
                                                         <div className="d-flex align-items-center">
                                                             <div>
                                                                 <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete "></i>
+                                                                    <i className="ni ni-fat-delete"></i>
                                                                 </Badge>
                                                             </div>
                                                             <div>
-                                                                <h6 className="mb-1 text-danger ">Imagen </h6>
+                                                                <h6 className="mb-1 text-danger">Costo </h6>
                                                             </div>
                                                         </div>
-                                                    </li>
+                                                    </li>}
+                                                    {dateinicio.length > 0 ?
                                                     <li className="py-1">
                                                         <div className="d-flex align-items-center">
                                                             <div>
                                                                 <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold "></i>
+                                                                    <i className="ni ni-check-bold"></i>
                                                                 </Badge>
                                                             </div>
                                                             <div>
-                                                                <h6 className="mb-1 text-success ">Descripcion </h6>
+                                                                <h6 className="mb-1 text-success">Fecha</h6>
                                                             </div>
                                                         </div>
-                                                    </li>
+                                                    </li> :
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="danger">
+                                                                    <i className="ni ni-fat-delete"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-danger">Fecha </h6>
+                                                            </div>
+                                                        </div>
+                                                    </li>}
+                                                    {plataform.length > 0 ?
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="success">
+                                                                    <i className="ni ni-check-bold"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-success">Plataforma</h6>
+                                                            </div>
+                                                        </div>
+                                                    </li> :
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="danger">
+                                                                    <i className="ni ni-fat-delete"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-danger">Plataforma </h6>
+                                                            </div>
+                                                        </div>
+                                                    </li>}
+                                                    {isPhotoUploaded ?
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="success">
+                                                                    <i className="ni ni-check-bold"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-success">Imagen</h6>
+                                                            </div>
+                                                        </div>
+                                                    </li> :
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="danger">
+                                                                    <i className="ni ni-fat-delete"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-danger">Imagen </h6>
+                                                            </div>
+                                                        </div>
+                                                    </li>}
+                                                    {description.length > 0 ?
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="success">
+                                                                    <i className="ni ni-check-bold"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-success">Descripcion</h6>
+                                                            </div>
+                                                        </div>
+                                                    </li> :
+                                                    <li className="py-1">
+                                                        <div className="d-flex align-items-center">
+                                                            <div>
+                                                                <Badge className="badge-circle mr-3" color="danger">
+                                                                    <i className="ni ni-fat-delete"></i>
+                                                                </Badge>
+                                                            </div>
+                                                            <div>
+                                                                <h6 className="mb-1 text-danger">Descripcion </h6>
+                                                            </div>
+                                                        </div>
+                                                    </li>}
                                                 </ul>
                                             </div>
                                         </div>

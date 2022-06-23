@@ -14,33 +14,27 @@ import {
     TabContent,
     TabPane,
 } from "reactstrap";
-import { async } from "regenerator-runtime";
 
 
 import RenderBracket from "./Brackets";
 
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import PricingCard3 from "./cards/PricingCard3";
+import Blogs7 from "./blogs/Blogs7";
 
-
-
-
-// Core Components
 
 function TorneosDetalles() {
 
     const [hTabsIcons, setHTabsIcons] = React.useState("hTabsIcons-1");
     const { idtorneo } = useParams();
     const [equipos, setEquipos] = React.useState([])
-
-
-
+    const [torneo, setTorneo] = useState({})
+    const [error, setError] = useState()
     const getEquipos = async () => {
         let arrayequipos = []
-        let equipos = await getDocs(collection(db, "torneos", idtorneo, "equipos")).then(data => {
+        await getDocs(collection(db, "torneos", idtorneo, "equipos")).then(data => {
             data.forEach(element => {
-                /*arrayTorneos.push(element.data())*/
                 const idEquipo = {
                     id: element.id
                 }
@@ -51,13 +45,21 @@ function TorneosDetalles() {
         })
 
     }
-
-    const prueba = () => {
-        console.log('comentario', equipos)
+    const getTorneo = async () => {
+        const docRef = doc(db, "torneos", idtorneo);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            setTorneo(docSnap.data());
+          } else {
+            setError("No se pudo encontrar ningun torneo")
+          }
     }
+
 
     useEffect(() => {
         getEquipos();
+        getTorneo();
     }, [])
 
     return (
@@ -65,7 +67,7 @@ function TorneosDetalles() {
             <Container>
                 <Row>
                     <Col>
-                        <h4 className="mb-4 mt-5 text-center" >Detalle Torneos</h4>
+                        <h4 className="mb-4 mt-5 text-center" style={{color:"white"}}>Detalle Torneos</h4>
                         <div className="nav-wrapper">
                             <Nav className="nav-fill flex-column flex-md-row" pills role="tablist">
                                 <NavItem>
@@ -138,9 +140,7 @@ function TorneosDetalles() {
                             <CardBody>
                                 <TabContent id="myTabContent" activeTab={hTabsIcons} style={{ overflowX: "auto", overflowY: "hidden" }}>
                                     <TabPane tabId="hTabsIcons-1" role="tabpanel">
-                                        <p className="description">
-                                            Informacion
-                                        </p>
+                                        <Blogs7 torneo={torneo}/>
 
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-2" role="tabpanel">

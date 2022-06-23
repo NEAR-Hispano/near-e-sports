@@ -85,3 +85,30 @@ body{
   height: 50%;
   object-fit: cover;
 }
+
+.alert__message{
+  position: fixed !important;
+  top: 15px;
+  right: 15px;
+}
+.animated__fadeInRight{
+  animation: fadeInRight 2s ease-in-out,2s fadeOut 3s linear forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+  100% {
+    opacity: 1;
+  }
+}

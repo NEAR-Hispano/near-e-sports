@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Card,
   CardHeader,
@@ -35,7 +36,8 @@ export default function CrearEquipo2(props) {
 
   const [torneo, setTorneo] = useState("")
   const { idtorneo } = useParams();
-  console.log(idtorneo);
+  
+  const [showAlert, setShowAlert] = useState(false);
   const getTorneo = async () => {
     const docRef = doc(db, "torneos", idtorneo);
     await getDoc(docRef).then(documento => {
@@ -51,7 +53,6 @@ export default function CrearEquipo2(props) {
 
 
   const Crear_Team = async () => {
-
     console.log(name)
 
     let team = {
@@ -63,8 +64,8 @@ export default function CrearEquipo2(props) {
       user5: user5,
     }
 
-    const docRef = await addDoc(collection(db, "torneos",idtorneo,"equipos"), {
-      team:team
+    const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
+      team: team
     });
 
     console.log(docRef);
@@ -79,11 +80,9 @@ export default function CrearEquipo2(props) {
       index: torneo.index
 
     })
-    alert("¡Se ha inscripto en el torneo!")
-    console.log(window.accountId)
-    
+    setShowAlert(true);
   }
-  
+
 
 
 
@@ -92,10 +91,13 @@ export default function CrearEquipo2(props) {
       <div
         className="contactus-1 mt-5"
       >
+        {showAlert? 
+        <Alert color="success" className="alert__message animated__fadeInRight animated__fadeOut">
+          <strong>Equipo {name} Inscrito correctamente</strong> 
+        </Alert>:<></>}
         <Container>
-
+         
           <Row>
-
             <Col className="ml-auto mr-auto" lg="5" md="7">
               <Card className="card-contact card-raised">
                 <Form id="contact-form-1" method="post" role="form">
@@ -205,7 +207,7 @@ export default function CrearEquipo2(props) {
                                 <i className="ni ni-circle-08"></i>
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input  value={user5} onChange={(e) => setuser5(e.target.value)}
+                            <Input value={user5} onChange={(e) => setuser5(e.target.value)}
                               aria-label="Nombre de usuario..."
                               placeholder="Nombre de usuario..."
                               type="text"
