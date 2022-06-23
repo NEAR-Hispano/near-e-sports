@@ -54,13 +54,14 @@ function CrearTorneo() {
     }
     const removePhoto = () => {
         setIsPhotoUploaded(false)
-    }
+    } 
     const Crear_Torneo = async () => {
+        
         if (!isPhotoUploaded) {
-            alert("falta foto", isPhotoUploaded)
+            alert("falta foto")
         } else {
-            alert("hay photo", isPhotoUploaded)
-            alert(image);
+            alert("hay photo")
+
             try {
 
                 const result = await window.contract.create_tournament({
@@ -90,7 +91,7 @@ function CrearTorneo() {
                 setId(docRef.id)
 
             } catch (e) {
-                alert(e)
+                alert("listo")
             }
         }
 
@@ -112,7 +113,6 @@ function CrearTorneo() {
                                         <Form
                                             className="p-3"
                                             id="contact-form-3"
-                                            method="post"
                                             role="form"
                                         >
                                             <CardHeader>

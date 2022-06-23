@@ -74,7 +74,7 @@ class ImageUpload extends React.Component {
       imagePreviewUrl: this.props.avatar ? defaultAvatar : defaultImage,
     });
     this.refs.fileInput.value = null;
-    this.props.removePhoto
+    this.props.removePhoto()
   }
   render() {
     return (
