@@ -60,7 +60,7 @@ function CrearTorneo() {
         if (!isPhotoUploaded) {
             alert("falta foto")
         } else {
-            alert("hay photo")
+            alert("Creando torneo...")
 
             try {
 
@@ -90,8 +90,8 @@ function CrearTorneo() {
                 console.log("Document written with ID: ", docRef.id);
                 setId(docRef.id)
 
-            } catch (e) {
-                alert("listo")
+            }catch (e) {
+                alert("Se creo el torneo")
             }
         }
 
@@ -224,7 +224,7 @@ function CrearTorneo() {
                                                         <Button
                                                             className="pull-right"
                                                             color="warning"
-                                                            type="submit"
+     
                                                             onClick={() => Crear_Torneo()}
                                                         >
                                                             Crear
