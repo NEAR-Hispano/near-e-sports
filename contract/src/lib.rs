@@ -26,10 +26,14 @@ pub type TokenSeriesId = String;
 pub const TOKEN_DELIMETER: char = ':';
 pub const TITLE_DELIMETER: &str = " #";
 pub const VAULT_FEE: u128 = 500;
+pub type Price = f64;
 
 const GAS_FOR_RESOLVE_TRANSFER: Gas = 10_000_000_000_000;
 const NO_DEPOSIT: Balance = 0;
 const MAX_PRICE: Balance = 1_000_000_000 * 10u128.pow(24);
+const YOCTO_NEAR: u128 = 1_000_000_000_000_000_000_000_000; // 1 followed by 24 zeros
+const ONE_YOCTO: u128 = 1;
+const STORAGE_PRICE_PER_BYTE: Balance = 10_000_000_000_000_000_000;  // source of this number: https://docs.near.org/docs/concepts/storage-staking
 
 
 
@@ -182,7 +186,8 @@ impl Contract {
             None => "not found".to_string()
         }
     }
-*/
+*/  
+    #[payable]
     pub fn join_tournament(
         &mut self,
         name:String,
@@ -191,7 +196,7 @@ impl Contract {
         user3:String,
         user4:String,
         user5:String,
-        index:i128
+        index:i128,
     ) {
         let team = Team {
             name: name,
@@ -205,6 +210,11 @@ impl Contract {
         //validar que no existe un equipo con ese nombre
         let mut tournament = self.tournament_list.get(&index).expect("Tournament does not Exist");
         tournament.teams.push(team)
+    }
+
+
+    pub fn Send_prize_Winner(amount: U128, to: AccountId) -> Promise {
+        Promise::new(to).transfer(amount.0)
     }
 
 }

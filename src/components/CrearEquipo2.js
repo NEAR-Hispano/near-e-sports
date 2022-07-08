@@ -22,6 +22,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import { useParams } from 'react-router-dom';
 import { addDoc, collection } from "firebase/firestore";
+import { ONE_NEAR_IN_YOCTO, toFixed } from '../utils';
 
 
 
@@ -79,7 +80,8 @@ export default function CrearEquipo2(props) {
       user5: user5,
       index: torneo.index
 
-    })
+    },'300000000000000',
+    '465000000000000000000000')
     setShowAlert(true);
   }
 

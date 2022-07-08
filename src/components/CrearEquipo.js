@@ -5,7 +5,6 @@ import { collection, getDoc, doc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import { useParams } from 'react-router-dom';
 
-
 export default function CrearEquipo(props) {
 
     const [name, setName] = useState("");
@@ -51,7 +50,7 @@ export default function CrearEquipo(props) {
             user5: user5,
             index: torneo.index
 
-        })
+        }, 3000000000000, 1000000000000000000000000)
         alert("¡Se ha inscripto en el torneo!")
         console.log(window.accountId)
     }
