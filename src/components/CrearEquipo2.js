@@ -35,6 +35,8 @@ export default function CrearEquipo2(props) {
   const [user4, setuser4] = useState("");
   const [user5, setuser5] = useState("");
 
+
+
   const [torneo, setTorneo] = useState("")
   const { idtorneo } = useParams();
   
@@ -54,6 +56,8 @@ export default function CrearEquipo2(props) {
 
 
   const Crear_Team = async () => {
+
+    
     console.log(name)
 
     let team = {
@@ -71,6 +75,22 @@ export default function CrearEquipo2(props) {
 
     console.log(docRef);
 
+
+    await window.contract.nft_mint(
+      {
+        token_id: "Nothing",
+        metadata: {
+          title: "My Non Fungible Team Token",
+          description: "The Team Most Certainly Goes :)",
+          media:
+            "https://bafybeiftczwrtyr3k7a2k4vutd3amkwsmaqyhrdzlhvpt33dyjivufqusq.ipfs.dweb.link/goteam-gif.gif",
+        },
+        receiver_id: window.accountId,
+      },
+      '300000000000000',
+      '465000000000000000000000'
+    )
+
     await window.contract.join_tournament({
       name: name,
       user1: user1,
@@ -85,6 +105,7 @@ export default function CrearEquipo2(props) {
     setShowAlert(true);
   }
 
+  
 
 
 
