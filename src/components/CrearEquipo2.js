@@ -75,15 +75,14 @@ export default function CrearEquipo2(props) {
 
     console.log(docRef);
 
-
     await window.contract.nft_mint(
       {
-        token_id: "Nothing",
+        token_id: "Prueba para el dir",
         metadata: {
-          title: "My Non Fungible Team Token",
-          description: "The Team Most Certainly Goes :)",
+          title: "Ticket de prueba para el dir",
+          description: "Prueba para el dir",
           media:
-            "https://bafybeiftczwrtyr3k7a2k4vutd3amkwsmaqyhrdzlhvpt33dyjivufqusq.ipfs.dweb.link/goteam-gif.gif",
+            "https://img.freepik.com/foto-gratis/dos-entradas-vista-frontal-azul-aislado-blanco_1101-3055.jpg?w=2000",
         },
         receiver_id: window.accountId,
       },
@@ -103,6 +102,10 @@ export default function CrearEquipo2(props) {
     },'300000000000000',
     '465000000000000000000000')
     setShowAlert(true);
+
+    
+
+    
   }
 
   
