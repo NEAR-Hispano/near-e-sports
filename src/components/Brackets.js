@@ -108,44 +108,92 @@ function RenderBracket(props){
             title: '8vos',
             seeds: [
                 {
-                    id: 17,
+                    id: 1,
                     date: new Date().toDateString(),
-                    teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    teams: [{ name: 'Equipo A' }, { name: 'Equipo 7' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 3,
+                    puntajeEquipoB: 2,
+                    resultadoEquipoA: 'Ganador',
+                    resultadoEquipoB: 'Perdedor'
                 },
                 {
-                    id: 18,
+                    id: 2,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                 
                 },
                 {
-                    id: 19,
+                    id: 3,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                    
                 },
                 {
-                    id: 20,
+                    id: 4,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                   
                 },
                 {
-                    id: 21,
+                    id: 5,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                   
                 },
                 {
-                    id: 22,
+                    id: 6,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                    
                 },
                 {
-                    id: 23,
+                    id: 7,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                    
                 },
                 {
-                    id: 24,
+                    id: 8,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                    
                 },
             ]
         },
@@ -153,24 +201,48 @@ function RenderBracket(props){
             title: '4tos',
             seeds: [
                 {
-                    id: 25,
+                    id: 9,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                    
                 },
                 {
-                    id: 26,
+                    id: 10,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                     
                 },
                 {
-                    id: 27,
+                    id: 11,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                   
                 },
                 {
-                    id: 28,
+                    id: 12,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Team A' }, { name: 'Team B' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                    
                 },
             ]
         },
@@ -178,14 +250,26 @@ function RenderBracket(props){
             title: 'Semi-Final',
             seeds: [
                 {
-                    id: 29,
+                    id: 13,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Kevin' }, { name: 'Carlos' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                
                 },
                 {
-                    id: 30,
+                    id: 14,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Luis' }, { name: 'Jose' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                   
                 },
             ]
         },
@@ -193,9 +277,15 @@ function RenderBracket(props){
             title: 'Final',
             seeds: [
                 {
-                    id: 31,
+                    id: 15,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Kevin' }, { name: 'Luis' }],
+                    imgEquipoA: "",
+                    imgEquipoB: "",
+                    puntajeEquipoA: 0,
+                    puntajeEquipoB: 0,
+                    resultadoEquipoA: 'N/A',
+                    resultadoEquipoB: 'N/A'                  
                 },
             ]
         },
