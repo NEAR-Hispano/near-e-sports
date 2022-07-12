@@ -22,7 +22,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import { useParams } from 'react-router-dom';
 import { addDoc, collection } from "firebase/firestore";
-import { ONE_NEAR_IN_YOCTO, toFixed } from '../utils';
+import { toYotta,login } from '../utils';
 
 
 
@@ -39,7 +39,7 @@ export default function CrearEquipo2(props) {
 
   const [torneo, setTorneo] = useState("")
   const { idtorneo } = useParams();
-  
+
   const [showAlert, setShowAlert] = useState(false);
   const getTorneo = async () => {
     const docRef = doc(db, "torneos", idtorneo);
@@ -54,13 +54,17 @@ export default function CrearEquipo2(props) {
   }, [])
 
 
+ 
+
 
   const Crear_Team = async () => {
 
-    
-    console.log(name)
+    const NearCost = toYotta(torneo.cost).toLocaleString('fullwide', { useGrouping: false })
+
+
 
     let team = {
+      owner: window.accountId,
       name: name,
       user1: user1,
       user2: user2,
@@ -69,27 +73,29 @@ export default function CrearEquipo2(props) {
       user5: user5,
     }
 
+    console.log(window.accountId)
+
     const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
       team: team
     });
 
     console.log(docRef);
-
-    await window.contract.nft_mint(
-      {
-        token_id: "Prueba para el dir",
-        metadata: {
-          title: "Ticket de prueba para el dir",
-          description: "Prueba para el dir",
-          media:
-            "https://img.freepik.com/foto-gratis/dos-entradas-vista-frontal-azul-aislado-blanco_1101-3055.jpg?w=2000",
-        },
-        receiver_id: window.accountId,
-      },
-      '300000000000000',
-      '465000000000000000000000'
-    )
-
+    /*
+        await window.contract.nft_mint(
+          {
+            token_id: Math.random().toString(36).slice(2),
+            metadata: {
+              title: "Ticket de prueba para el dir",
+              description: "Prueba para el dir",
+              media:
+                "https://img.freepik.com/foto-gratis/dos-entradas-vista-frontal-azul-aislado-blanco_1101-3055.jpg?w=2000",
+            },
+            receiver_id: window.accountId,
+          },
+          '300000000000000',
+          '465000000000000000000000'
+        )
+    */
     await window.contract.join_tournament({
       name: name,
       user1: user1,
@@ -99,16 +105,16 @@ export default function CrearEquipo2(props) {
       user5: user5,
       index: torneo.index
 
-    },'300000000000000',
-    '465000000000000000000000')
+    }, '300000000000000',
+      NearCost)
     setShowAlert(true);
 
-    
 
-    
+
+
   }
 
-  
+
 
 
 
@@ -117,14 +123,14 @@ export default function CrearEquipo2(props) {
       <div
         className="contactus-1 mt-5"
       >
-        {showAlert? 
-        <Alert color="success" className="alert__message animated__fadeInRight animated__fadeOut">
-          <strong>Equipo {name} Inscrito correctamente</strong> 
-        </Alert>:<></>}
+        {showAlert ?
+          <Alert color="success" className="alert__message animated__fadeInRight animated__fadeOut">
+            <strong>Equipo {name} Inscrito correctamente</strong>
+          </Alert> : <></>}
         <Container>
-         
+
           <Row>
-            <Col className="ml-auto mr-auto" lg="5" md="7">
+            <Col className="ml-auto mr-auto" lg={5} md={7} sm={8}>
               <Card className="card-contact card-raised">
                 <Form id="contact-form-1" method="post" role="form">
                   <CardHeader className="text-center">
@@ -254,13 +260,33 @@ export default function CrearEquipo2(props) {
                         </div>
                       </Col>
                       <Col md="6">
-                        <Button
-                          className="pull-right"
-                          color="warning"
-                          onClick={Crear_Team}
-                        >
-                          Inscribir
-                        </Button>
+
+                        {window.walletConnection.isSignedIn() == true ?
+
+
+
+                          <Button
+                            className="pull-right"
+                            color="warning"
+                            onClick={Crear_Team}
+                          >
+                            Inscribir
+                          </Button>
+                          :
+
+
+                          <Button
+                            className="pull-right"
+                            color="warning"
+                            onClick={login}
+                          >
+                            Login
+                          </Button>
+                        
+            
+                        }
+
+
                       </Col>
                     </Row>
                   </CardBody>

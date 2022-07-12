@@ -1,30 +1,68 @@
-import React from "react";
+import TorneosDetalles from "../TournamentDetails";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // reactstrap components
 import { Button, Card, CardBody, CardFooter, CardTitle, Badge } from "reactstrap";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '../../firebase/firebaseConfig'
 
 
 // Core Components
 
 function ProfileCard3(props) {
     let { torneo } = props
-    console.log(torneo)
+
+    useEffect(() => {
+        checkOwner();
+    }, [])
+
+    const [isActive, setIsActive] = useState(false);
+
+    const getEquipos = async(idTorneo) => {
+        let arrayequipos = []
+        await getDocs(collection(db, "torneos", idTorneo, "equipos")).then(data => {
+            data.forEach(element => {
+                const idEquipo = {
+                    id: element.id
+                }
+                let equipo = Object.assign(element.data(), idEquipo)
+                arrayequipos.push(equipo)
+            })
+            
+        })
+        return [...arrayequipos]
+      }
+
+
+    const checkOwner = async () => {
+
+        const equipos = await getEquipos(torneo.id)
+        
+
+        if (equipos.length > 0) {
+           let alreadyinscribed = equipos.some(equipo => equipo.team.owner === window.accountId)
+            setIsActive(alreadyinscribed) 
+        }
+
+    }
+
     return (
         <>
             <Card className="card-profile" data-image="img-raised">
                 <div className="card-header-image" style={{}}>
-                        <img
-                            alt="..."
-                          
-                            src={torneo.imgUrl}
-                            className="img" style={{ 
-                                objectFit: "fill",
-                                width: "100%" ,
-                                height: "100%",
-                                maxHeight:"231px" }} 
-                            
-                        ></img >
+                    <img
+                        alt="..."
+
+                        src={torneo.imgUrl}
+                        className="img" style={{
+                            objectFit: "fill",
+                            width: "100%",
+                            height: "100%",
+                            maxHeight: "231px"
+                        }}
+
+                    ></img >
 
                 </div>
                 <CardBody>
@@ -74,15 +112,24 @@ function ProfileCard3(props) {
                 </CardBody>
                 <CardFooter className="text-center">
 
-                    <Link to={"/crearEquipos2/" + torneo.id}>
 
-                        <Button color="warning" type="button" style={{marginRight:"3vw"}}>
+                    
+                    {isActive == false ?
+
+                        <Link to={"/crearEquipos2/" + torneo.id}>
+
+                            <Button color="warning" type="button" style={{ marginRight: "3vw" }}>
+                                Inscribir
+                            </Button>
+
+                        </Link>
+                        :
+                        <Button disabled color="warning" type="button" style={{ marginRight: "3vw" }}>
                             Inscribir
                         </Button>
+                    }
 
-                    </Link>
-
-                     <Link to={"/detalles/"+ torneo.id}>
+                    <Link to={"/detalles/" + torneo.id}>
 
                         <Button color="warning" type="button">
                             ver

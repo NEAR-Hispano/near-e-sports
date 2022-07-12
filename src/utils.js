@@ -3,6 +3,13 @@ import getConfig from './config'
 
 const nearConfig = getConfig(process.env.NODE_ENV || 'development')
 
+export const ONE_NEAR_IN_YOTTA = 1000000000000000000000000;
+
+export function toYotta(value){
+  return parseFloat(value) * ONE_NEAR_IN_YOTTA;
+}
+
+
 // Initialize contract & set global variables
 export async function initContract() {
   // Initialize connection to the NEAR testnet

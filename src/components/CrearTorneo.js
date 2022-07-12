@@ -83,7 +83,8 @@ function CrearTorneo() {
                     fechaInicio: dateinicio,
                     cost: cost,
                     winner: "Sin ganador aun",
-                    index: result.index
+                    index: result.index,
+                    creador: window.accountId
 
                 });
 
