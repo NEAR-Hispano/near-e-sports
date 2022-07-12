@@ -84,11 +84,16 @@ function Navbar2() {
                                 Ver torneos
                             </NavLink>
                         </NavItem>
+
+
+                        {window.walletConnection.isSignedIn() == true &&
                         <NavItem>
                             <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("torneo")}>
                                 Crear Torneo
                             </NavLink>
                         </NavItem>
+
+                        }
                         <NavItem>
                             <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("soporte")} >
 

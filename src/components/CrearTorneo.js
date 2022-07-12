@@ -64,7 +64,7 @@ function CrearTorneo() {
 
             try {
 
-                const result = await window.contract.create_tournament({
+                const result = await contract.create_tournament({
                     name: name,
                     description: description,
                     date: dateinicio,

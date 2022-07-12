@@ -81,7 +81,7 @@ export default function CrearEquipo2(props) {
 
     console.log(docRef);
     /*
-        await window.contract.nft_mint(
+        await contract.nft_mint(
           {
             token_id: Math.random().toString(36).slice(2),
             metadata: {
@@ -93,18 +93,26 @@ export default function CrearEquipo2(props) {
             receiver_id: window.accountId,
           },
           '300000000000000',
-          '465000000000000000000000'
+          '0'
         )
     */
-    await window.contract.join_tournament({
+    await contract.join_tournament({
+      token_id: Math.random().toString(36).slice(2),
+      metadata: {
+        title: "Ticket de prueba para el dirdsdssddssfdsdfsdfsdfsdfsdfsdsdsdsdsd",
+        description: "Prueba para el dir",
+        media:
+          "https://img.freepik.com/foto-gratis/dos-entradas-vista-frontal-azul-aislado-blanco_1101-3055.jpg?w=2000",
+      },
+      receiver_id: window.accountId,
       name: name,
       user1: user1,
       user2: user2,
       user3: user3,
       user4: user4,
       user5: user5,
-      index: torneo.index
-
+      index: torneo.index,
+      
     }, '300000000000000',
       NearCost)
     setShowAlert(true);
