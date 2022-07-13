@@ -112,3 +112,23 @@ body{
     opacity: 1;
   }
 }
+
+.row-container-3{
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.row-item-2{
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.row-item-3{
+  grid-row-start: 3;
+  grid-row-end: 3;
+}
+
+.reajustar-img{
+  width: 100%;
+  max-height: 160px;
+}
