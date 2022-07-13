@@ -15,6 +15,9 @@ function RenderBracket(props){
         setEdicion(!edicion)
     }
 
+    //Descripcion de cada estatus (significado):
+    //0 -> Editable
+    //1 -> Ya se ha declarado un ganador, por ende, no se puede editar
     const roundDieciseisAvos = [
         {
             title: 'Ronda Inicial',
@@ -111,12 +114,13 @@ function RenderBracket(props){
                     id: 1,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Equipo A' }, { name: 'Equipo 7' }],
-                    imgEquipoA: "",
-                    imgEquipoB: "",
+                    imgEquipoA: "https://pm1.narvii.com/6637/8610c455a09a98f950df116322de26207e98a8b6_hq.jpg",
+                    imgEquipoB: "https://esports.eldesmarque.com/wp-content/uploads/2017/05/SKT-Untara.jpg",
                     puntajeEquipoA: 3,
                     puntajeEquipoB: 2,
                     resultadoEquipoA: 'Ganador',
-                    resultadoEquipoB: 'Perdedor'
+                    resultadoEquipoB: 'Perdedor',
+                    estatus: 0
                 },
                 {
                     id: 2,
@@ -127,7 +131,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                 
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                 
                 },
                 {
                     id: 3,
@@ -138,7 +143,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                    
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                    
                 },
                 {
                     id: 4,
@@ -149,7 +155,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                   
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                   
                 },
                 {
                     id: 5,
@@ -160,7 +167,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                   
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                   
                 },
                 {
                     id: 6,
@@ -171,7 +179,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                    
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                    
                 },
                 {
                     id: 7,
@@ -182,7 +191,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                    
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                    
                 },
                 {
                     id: 8,
@@ -193,7 +203,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                    
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                    
                 },
             ]
         },
@@ -209,7 +220,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                    
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                    
                 },
                 {
                     id: 10,
@@ -220,7 +232,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                     
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                     
                 },
                 {
                     id: 11,
@@ -231,7 +244,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                   
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                   
                 },
                 {
                     id: 12,
@@ -242,7 +256,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                    
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                    
                 },
             ]
         },
@@ -258,7 +273,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                
                 },
                 {
                     id: 14,
@@ -269,7 +285,8 @@ function RenderBracket(props){
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                   
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                   
                 },
             ]
         },
@@ -280,12 +297,13 @@ function RenderBracket(props){
                     id: 15,
                     date: new Date().toDateString(),
                     teams: [{ name: 'Kevin' }, { name: 'Luis' }],
-                    imgEquipoA: "",
-                    imgEquipoB: "",
+                    imgEquipoA: "https://e.rpp-noticias.io/normal/2022/02/20/084208_1220264.jpg",
+                    imgEquipoB: "https://quenoticias.com/wp-content/uploads/2021/04/Goku-Super-Saiyajin-P.jpg",
                     puntajeEquipoA: 0,
                     puntajeEquipoB: 0,
                     resultadoEquipoA: 'N/A',
-                    resultadoEquipoB: 'N/A'                  
+                    resultadoEquipoB: 'N/A',
+                    estatus: 0                  
                 },
             ]
         },
