@@ -7,6 +7,8 @@ import {
     Modal, ModalHeader, ModalFooter, ModalBody,
     Form, FormGroup, Input, Label
 } from "reactstrap";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { db } from '../firebase/firebaseConfig'
 
 // Core Components
 
@@ -238,8 +240,6 @@ function AdministrarEmparejamiento(props) {
 
         }
 
-        contruirJSON()
-
     }
 
     const actualizarCambiosPuntajeGanador = () => {
@@ -295,13 +295,24 @@ function AdministrarEmparejamiento(props) {
             })
 
             rondaObjeto.seeds = seedsArray
-            
+
             roundsConstruido.push(rondaObjeto)
             i = i + 1
 
         }
 
-        console.log(roundsConstruido)
+        const objetoBD = {
+            data: roundsConstruido
+        }
+
+        guardarBracketsBD(objetoBD)
+    }
+
+    const guardarBracketsBD = (objetoBD) => {
+        const docRef = doc(db, 'brackets', props.idTorneo);
+        setDoc(docRef, objetoBD).then(() => {
+            props.changeEdicion()
+        });
     }
 
     useEffect(() => {//La primera vez que se inicialice la aplicacion la ronda seleccionada sera la primera
@@ -347,6 +358,7 @@ function AdministrarEmparejamiento(props) {
 
         }
 
+        console.log(props)
     }, []);
 
     return (
@@ -426,7 +438,16 @@ function AdministrarEmparejamiento(props) {
                 </div>
             </div>
 
-            <button onClick={imprimirRondaEmparejamientoActuales}>Boton Testear Ronda - Emparejamiento</button>
+            {/* <button onClick={imprimirRondaEmparejamientoActuales}>Boton Testear Ronda - Emparejamiento</button>
+ */}
+            <div className="text-center">
+                <Button
+                    color="primary"
+                    type="button"
+                    onClick={contruirJSON}>
+                    Guardar Cambios
+                </Button>
+            </div>
 
             <Modal isOpen={show} toggle={vistaModal} className={''}>
                 <ModalHeader toggle={vistaModal}>Editar Puntajes</ModalHeader>

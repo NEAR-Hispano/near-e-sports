@@ -31,6 +31,8 @@ function TorneosDetalles() {
     const [equipos, setEquipos] = React.useState([])
     const [torneo, setTorneo] = useState({})
     const [error, setError] = useState()
+    const [roundsBracket, setRoundsBracket] = useState([])
+    const [estatusRounds, setEstatusRounds] = useState([])
     const getEquipos = async () => {
         let arrayequipos = []
         await getDocs(collection(db, "torneos", idtorneo, "equipos")).then(data => {
@@ -49,17 +51,28 @@ function TorneosDetalles() {
         const docRef = doc(db, "torneos", idtorneo);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
+            //console.log("Document data:", docSnap.data());
             setTorneo(docSnap.data());
           } else {
             setError("No se pudo encontrar ningun torneo")
           }
     }
+    const getBracket = async () => {
+        const docRef = doc(db, "brackets", idtorneo)
+        const docData = await getDoc(docRef).then(objeto => {
+            let dataCompleta = objeto.data()
+            let data = dataCompleta.data
+            let estatusRondas = dataCompleta.estatus
+            setRoundsBracket(data)
+            setEstatusRounds(estatusRondas)
+        })
+    }
 
 
     useEffect(() => {
-        getEquipos();
+        getBracket();
         getTorneo();
+        getEquipos();
     }, [])
 
     return (
@@ -158,7 +171,10 @@ function TorneosDetalles() {
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-3" role="tabpanel">
 
-                                        <RenderBracket></RenderBracket>
+                                        <RenderBracket 
+                                        idTorneo={idtorneo}
+                                        roundsBracket={roundsBracket}
+                                        estatusRounds={estatusRounds}></RenderBracket>
 
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-4" role="tabpanel">
