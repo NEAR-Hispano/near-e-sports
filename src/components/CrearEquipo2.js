@@ -22,7 +22,7 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import { useParams } from 'react-router-dom';
 import { addDoc, collection } from "firebase/firestore";
-import { toYotta,login } from '../utils';
+import { toYotta, login } from '../utils';
 
 
 
@@ -45,7 +45,6 @@ export default function CrearEquipo2(props) {
     const docRef = doc(db, "torneos", idtorneo);
     await getDoc(docRef).then(documento => {
       setTorneo(documento.data())
-      console.log(documento.data())
     })
   }
 
@@ -54,14 +53,12 @@ export default function CrearEquipo2(props) {
   }, [])
 
 
- 
+
 
 
   const Crear_Team = async () => {
 
     const NearCost = toYotta(torneo.cost).toLocaleString('fullwide', { useGrouping: false })
-
-
 
     let team = {
       owner: window.accountId,
@@ -73,30 +70,36 @@ export default function CrearEquipo2(props) {
       user5: user5,
     }
 
-    console.log(window.accountId)
+        /* Add a new document with a generated id.
+    db.collection("cities").add({
+      name: "Tokyo",
+      country: "Japan"
+    })
+    .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    }); */
+
+    
+    let idteam = ''
 
     const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
-      team: team
-    });
+      team: team,
+      tournament: torneo,
+      idtorneo,
+      status: "Pendiente",
+    }).then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+      idteam = docRef.id
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    }); 
 
-    console.log(docRef);
-    /*
-        await contract.nft_mint(
-          {
-            token_id: Math.random().toString(36).slice(2),
-            metadata: {
-              title: "Ticket de prueba para el dir",
-              description: "Prueba para el dir",
-              media:
-                "https://img.freepik.com/foto-gratis/dos-entradas-vista-frontal-azul-aislado-blanco_1101-3055.jpg?w=2000",
-            },
-            receiver_id: window.accountId,
-          },
-          '300000000000000',
-          '0'
-        )
-    */
-    await contract.join_tournament({
+    const result = await contract.join_tournament({
+
       token_id: Math.random().toString(36).slice(2),
       metadata: {
         title: "Ticket de prueba para el dirdsdssddssfdsdfsdfsdfsdfsdfsdsdsdsdsd",
@@ -112,13 +115,12 @@ export default function CrearEquipo2(props) {
       user4: user4,
       user5: user5,
       index: torneo.index,
-      
+      idteam: idteam,
+
     }, '300000000000000',
       NearCost)
-    setShowAlert(true);
 
-
-
+    
 
   }
 
@@ -290,8 +292,8 @@ export default function CrearEquipo2(props) {
                           >
                             Login
                           </Button>
-                        
-            
+
+
                         }
 
 

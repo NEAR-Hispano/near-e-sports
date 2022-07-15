@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 
 import { addDoc, collection } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
-import { storage } from '../firebase/firebaseConfig'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 
 // reactstrap components
 import {
     Button,
     Card,
+    Alert,
     CardHeader,
     CardBody,
     CardTitle,
@@ -26,7 +26,6 @@ import {
 } from "reactstrap";
 
 import Upload from "./upload/Upload.js";
-import { async } from "regenerator-runtime";
 
 // Core Components
 
@@ -37,6 +36,10 @@ function CrearTorneo() {
     const [CostoFocus, setCostoFocus] = useState("");
     const [FechaFocus, setFechaFocus] = useState("");
     const [descripcionFocus, setDescripcionFocus] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
+    const [showErorr, setShowError] = useState(false);
+    const [alertText, setAlertText] = useState("");
+    const [errorText, setErrorText] = useState("");
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -48,20 +51,24 @@ function CrearTorneo() {
     const [image, setImage] = useState();
     const Array = [];
 
+    
+
     const uploadPhoto = (uploadUrl) => {
         setImage(uploadUrl);
         setIsPhotoUploaded(true);
     }
     const removePhoto = () => {
         setIsPhotoUploaded(false)
-    } 
+    }
     const Crear_Torneo = async () => {
-        
-        if (!isPhotoUploaded) {
-            alert("falta foto")
-        } else {
-            alert("Creando torneo...")
 
+        if (!isPhotoUploaded) {
+            setErrorText("Falta foto")
+            setShowError(true)
+        } else {
+            
+            setAlertText("Creando torneo")
+            setShowAlert(true)
             try {
 
                 const result = await contract.create_tournament({
@@ -72,8 +79,6 @@ function CrearTorneo() {
                     cost: cost,
                     teams: Array,
                 })
-
-                console.log("resultado", result);
 
                 const docRef = await addDoc(collection(db, "torneos"), {
                     nombre: name,
@@ -87,12 +92,12 @@ function CrearTorneo() {
                     creador: window.accountId
 
                 });
-
-                console.log("Document written with ID: ", docRef.id);
                 setId(docRef.id)
+                setShowAlert(true);
 
-            }catch (e) {
-                alert("Se creo el torneo")
+            } catch (e) {
+                setErrorText("Hubo un error inesperado")
+                setShowError(true)
             }
         }
 
@@ -101,6 +106,16 @@ function CrearTorneo() {
         <>
             <div className="contactus-4">
 
+                {showAlert ?
+                    <Alert color="success" className="alert__message animated__fadeInRight animated__fadeOut">
+                        <strong>El torneo fue creado satisfactoriamente </strong>
+                    </Alert> : <></>}
+
+                {showErorr ?
+                    <Alert color="danger" className="alert__message animated__fadeInRight animated__fadeOut">
+                        <strong>Hubo un error: el torneo no pudo haber sido creado </strong>
+                    </Alert> : <></>}
+                
                 <Container>
                     <Row>
                         <Col md="12">
@@ -225,7 +240,7 @@ function CrearTorneo() {
                                                         <Button
                                                             className="pull-right"
                                                             color="warning"
-     
+
                                                             onClick={() => Crear_Torneo()}
                                                         >
                                                             Crear
@@ -244,155 +259,155 @@ function CrearTorneo() {
                                             <div className="table-responsive">
                                                 <ul className="list-unstyled">
                                                     {name.length > 0 ?
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold"></i>
-                                                                </Badge>
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="success">
+                                                                        <i className="ni ni-check-bold"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-success">Nombre</h6>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success">Nombre</h6>
+                                                        </li> :
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="danger">
+                                                                        <i className="ni ni-fat-delete"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-danger">Nombre </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li> :
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete"></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-danger">Nombre </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>}
+                                                        </li>}
                                                     {cost.length > 0 ?
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold"></i>
-                                                                </Badge>
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="success">
+                                                                        <i className="ni ni-check-bold"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-success">Costo</h6>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success">Costo</h6>
+                                                        </li> :
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="danger">
+                                                                        <i className="ni ni-fat-delete"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-danger">Costo </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li> :
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete"></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-danger">Costo </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>}
+                                                        </li>}
                                                     {dateinicio.length > 0 ?
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold"></i>
-                                                                </Badge>
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="success">
+                                                                        <i className="ni ni-check-bold"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-success">Fecha</h6>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success">Fecha</h6>
+                                                        </li> :
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="danger">
+                                                                        <i className="ni ni-fat-delete"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-danger">Fecha </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li> :
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete"></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-danger">Fecha </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>}
+                                                        </li>}
                                                     {plataform.length > 0 ?
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold"></i>
-                                                                </Badge>
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="success">
+                                                                        <i className="ni ni-check-bold"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-success">Plataforma</h6>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success">Plataforma</h6>
+                                                        </li> :
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="danger">
+                                                                        <i className="ni ni-fat-delete"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-danger">Plataforma </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li> :
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete"></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-danger">Plataforma </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>}
+                                                        </li>}
                                                     {isPhotoUploaded ?
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold"></i>
-                                                                </Badge>
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="success">
+                                                                        <i className="ni ni-check-bold"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-success">Imagen</h6>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success">Imagen</h6>
+                                                        </li> :
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="danger">
+                                                                        <i className="ni ni-fat-delete"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-danger">Imagen </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li> :
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete"></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-danger">Imagen </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>}
+                                                        </li>}
                                                     {description.length > 0 ?
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="success">
-                                                                    <i className="ni ni-check-bold"></i>
-                                                                </Badge>
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="success">
+                                                                        <i className="ni ni-check-bold"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-success">Descripcion</h6>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-success">Descripcion</h6>
+                                                        </li> :
+                                                        <li className="py-1">
+                                                            <div className="d-flex align-items-center">
+                                                                <div>
+                                                                    <Badge className="badge-circle mr-3" color="danger">
+                                                                        <i className="ni ni-fat-delete"></i>
+                                                                    </Badge>
+                                                                </div>
+                                                                <div>
+                                                                    <h6 className="mb-1 text-danger">Descripcion </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li> :
-                                                    <li className="py-1">
-                                                        <div className="d-flex align-items-center">
-                                                            <div>
-                                                                <Badge className="badge-circle mr-3" color="danger">
-                                                                    <i className="ni ni-fat-delete"></i>
-                                                                </Badge>
-                                                            </div>
-                                                            <div>
-                                                                <h6 className="mb-1 text-danger">Descripcion </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>}
+                                                        </li>}
                                                 </ul>
                                             </div>
                                         </div>

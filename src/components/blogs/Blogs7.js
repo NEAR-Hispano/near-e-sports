@@ -4,7 +4,6 @@ import React from "react";
 import { Button, ButtonGroup, Media, Container, Row, Col } from "reactstrap";
 
 function Blogs7(props) {
-    console.log("propiedades", props)
     const {torneo} = props;
   return (
     <>

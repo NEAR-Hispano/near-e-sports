@@ -76,12 +76,12 @@ pub struct Tournament{
 #[serde(crate = "near_sdk::serde")]
 pub struct Team{
     name: String,
-    index: i128,
     user1: String,
     user2: String,
     user3: String,
     user4: String,
     user5: String,
+    idteam: String,
 
 }
 
@@ -201,36 +201,17 @@ impl Contract {
     }
 
 
-    pub fn create_team(&mut self,
-        name: String,
-        user1: String,
-        user2: String,
-        user3: String,
-        user4: String,
-        user5: String,
-
-        ) -> Team {
-        
-        let initial_storage_usage = env::storage_usage();
-        let caller = env::signer_account_id();
-        let index = i128::from(self.teams_list.len() + 1);
-
-        let team = Team {
-            name: name,
-            index: index,
-            user1: user1,
-            user2: user2,
-            user3: user3,
-            user4: user4,
-            user5: user5,
-        };
-        self.teams_list.insert(&team.index, &team);
-
-        team
-    }
+    
     pub fn get_tournaments(self) -> Vec<Tournament> {
         let tournament_list = self.tournament_list.values_as_vector().to_vec();
         tournament_list
+    }
+
+    pub fn get_teams_bytournament(self,index:i128) -> Tournament {
+
+        let mut tournament = self.tournament_list.get(&index).expect("Tournament does not Exist");
+        tournament
+
     }
 
  /*   pub fn get_unordered_map(&self, key: String) -> String {
@@ -248,6 +229,10 @@ impl Contract {
     #[payable]
     pub fn join_tournament(
         &mut self,
+        token_id: TokenId,
+        metadata: TokenMetadata,
+        receiver_id: AccountId,
+        perpetual_royalties: Option<HashMap<AccountId, u32>>,
         name:String,
         user1:String,
         user2:String,
@@ -255,23 +240,25 @@ impl Contract {
         user4:String,
         user5:String,
         index:i128,
-        token_id: TokenId,
-        metadata: TokenMetadata,
-        receiver_id: AccountId,
-        perpetual_royalties: Option<HashMap<AccountId, u32>>,
+        idteam: String,
+        
     ) {
         let team = Team {
             name: name,
-            index: 1,
+
             user1: user1,
             user2: user2,
             user3: user3,
             user4: user4,
             user5: user5,
+            idteam: idteam,
         };
         //validar que no existe un equipo con ese nombre
         let mut tournament = self.tournament_list.get(&index).expect("Tournament does not Exist");
+
         tournament.teams.push(team);
+
+        self.tournament_list.insert(&tournament.index, &tournament);
 
         let initial_storage_usage = env::storage_usage();
 
@@ -336,12 +323,8 @@ impl Contract {
         //calculate the required storage which was the used - initial
         let required_storage_in_bytes = env::storage_usage() - initial_storage_usage;
 
-        //refund any excess storage if the user attached too much. Panic if they didn't attach enough to cover the required.
-        refund_deposit(required_storage_in_bytes);
     }
     
-
-
     pub fn Send_prize_Winner(amount: U128, to: AccountId) -> Promise {
         Promise::new(to).transfer(amount.0)
     }

@@ -23,17 +23,15 @@ import { db } from '../firebase/firebaseConfig'
 import PricingCard3 from "./cards/PricingCard3";
 import Blogs7 from "./blogs/Blogs7";
 
+
 function TorneosDetalles() {
 
     const [hTabsIcons, setHTabsIcons] = React.useState("hTabsIcons-1");
-    const { idtorneo } = useParams();
+    const {idtorneo } = useParams();
     const [equipos, setEquipos] = React.useState([])
-    const [torneo, setTorneo] = useState({})
+    const [torneo, setTorneo] = useState([])
     const [error, setError] = useState()
-    const [roundsBracket, setRoundsBracket] = useState([])
-    const [estatusRounds, setEstatusRounds] = useState([])
-
-   /* const getEquipos = async () => {
+    const getEquipos = async () => {
         let arrayequipos = []
         await getDocs(collection(db, "torneos", idtorneo, "equipos")).then(data => {
             data.forEach(element => {
@@ -47,44 +45,22 @@ function TorneosDetalles() {
         })
 
     }
-    */
     const getTorneo = async () => {
         const docRef = doc(db, "torneos", idtorneo);
-        const docSnap = await getDoc(docRef).then(async objeto => {
-            let arrayequipos = []
-            const data = objeto.data();
-            console.log(data);
-            const contrato = await contract.get_teams_bytournament({
-                index: data.index
-            }
-            );
-            console.log(contrato);
-            arrayequipos = contrato.teams;
-            setEquipos([...arrayequipos])
-        })
+        const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            //console.log("Document data:", docSnap.data());
-            setTorneo(docSnap.data());
-        } else {
+            setTorneo(docSnap.data());    
+          } else {
             setError("No se pudo encontrar ningun torneo")
-        }
-    }
-    const getBracket = async () => {
-        const docRef = doc(db, "brackets", idtorneo)
-        const docData = await getDoc(docRef).then(objeto => {
-            let dataCompleta = objeto.data()
-            let data = dataCompleta.data
-            let estatusRondas = dataCompleta.estatus
-            setRoundsBracket(data)
-            setEstatusRounds(estatusRondas)
-        })
+          }
     }
 
-
-    useEffect(() => {
-        getBracket();
-        getTorneo();
-       // getEquipos();
+    useEffect(async() => {
+         getEquipos();
+         getTorneo();
+         const contrato = await contract.get_teams_bytournament({index:torneo.index
+            }
+        );
     }, [])
 
     return (
@@ -92,7 +68,7 @@ function TorneosDetalles() {
             <Container>
                 <Row>
                     <Col>
-                        <h4 className="mb-4 mt-5 text-center" style={{ color: "white" }}>Detalle Torneos</h4>
+                        <h4 className="mb-4 mt-5 text-center" style={{color:"white"}}>Detalle Torneos {torneo.index}</h4>
                         <div className="nav-wrapper">
                             <Nav className="nav-fill flex-column flex-md-row" pills role="tablist">
                                 <NavItem>
@@ -165,7 +141,7 @@ function TorneosDetalles() {
                             <CardBody>
                                 <TabContent id="myTabContent" activeTab={hTabsIcons} style={{ overflowX: "auto", overflowY: "hidden" }}>
                                     <TabPane tabId="hTabsIcons-1" role="tabpanel">
-                                        <Blogs7 torneo={torneo} />
+                                        <Blogs7 torneo={torneo}/>
 
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-2" role="tabpanel">
@@ -174,7 +150,7 @@ function TorneosDetalles() {
                                         <Row>
                                             {equipos.map(equipo => {
                                                 return (
-                                                    <Col xs="4" > <PricingCard3 equipo={equipo}></PricingCard3> </Col>)
+                                                    <Col xs="4" > <PricingCard3 equipo={equipo.team}></PricingCard3> </Col>)
                                             })}
 
                                         </Row>
@@ -183,10 +159,7 @@ function TorneosDetalles() {
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-3" role="tabpanel">
 
-                                        <RenderBracket
-                                            idTorneo={idtorneo}
-                                            roundsBracket={roundsBracket}
-                                            estatusRounds={estatusRounds}></RenderBracket>
+                                        <RenderBracket></RenderBracket>
 
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-4" role="tabpanel">

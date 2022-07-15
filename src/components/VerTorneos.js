@@ -22,12 +22,12 @@ class VerTorneos extends React.Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getTorneos()
-
   }
 
   componentWillUnmount() {
+    
   }
 
   async getTorneos() {
