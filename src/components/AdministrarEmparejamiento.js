@@ -22,6 +22,11 @@ function AdministrarEmparejamiento(props) {
         console.log(mapEmparejamientos)
     }
 
+    const imprimirRondaEmparejamientoActuales = () => {
+        console.log(rondaSeleccionada)
+        console.log(emparejamientoSeleccionado)
+    }
+
     //------------------------- Manejo de COMBOBOX Opciones ---------------------------
     const [comboEmparejamientoActivo, setComboEmparejamientoActivo] = useState(false)
     const usarComboboxEmparejamiento = () => {
@@ -38,8 +43,8 @@ function AdministrarEmparejamiento(props) {
         let frase = String(event.currentTarget.textContent)
 
         let idEmparejamiento = ""
-        for(var i = 0; i<4; i++){
-            if(frase.charAt(i) == ':'){
+        for (var i = 0; i < 4; i++) {
+            if (frase.charAt(i) == ':') {
                 //console.log("encontre una coincidencia: " + i)
                 //console.log(clave.substring(0, i))
                 idEmparejamiento = frase.substring(0, i)
@@ -55,8 +60,8 @@ function AdministrarEmparejamiento(props) {
     const actualizarEmparejamientoVista = (idEmparejamiento) => {
 
         arrayEmparejamientosCombobox.forEach((emparejamientoData, index) => {
-            console.log(emparejamientoData, index)
-            if(String(emparejamientoData.id) == String(idEmparejamiento)){
+            //console.log(emparejamientoData, index)
+            if (String(emparejamientoData.id) == String(idEmparejamiento)) {
                 setEquipoA(emparejamientoData.equipoA)
                 setEquipoB(emparejamientoData.equipoB)
                 setImgA(emparejamientoData.imgA)
@@ -66,15 +71,17 @@ function AdministrarEmparejamiento(props) {
                 setResultadoA(emparejamientoData.resultadoA)
                 setResultadoB(emparejamientoData.resultadoB)
             }
-        })        
+        })
 
     }
 
     const cambiarRondaSeleccionada = (event) => {
 
         let clave = String(event.currentTarget.textContent)
-        llenarEmparejamientosRondaSeleccionada(clave)
-
+        if (clave != rondaSeleccionada) {
+            setRondaSeleccionada(clave)
+            llenarEmparejamientosRondaSeleccionada(clave)
+        }
     }
 
     const llenarEmparejamientosRondaSeleccionada = (clave) => {
@@ -83,7 +90,7 @@ function AdministrarEmparejamiento(props) {
         //puesto que los equipos estan ubicados en diferentes niveles, por ende, dificulta su lectura
         let arrayInformacionEmparejamientosRonda = []
 
-        setRondaSeleccionada(clave)
+        let indice = 0
         let arrayEmparejamientoRonda = mapEmparejamientos.get(clave)
         arrayEmparejamientoRonda.map(informacionEmparejamiento => {
 
@@ -111,7 +118,7 @@ function AdministrarEmparejamiento(props) {
                 'resultadoB': informacionEmparejamiento.resultadoEquipoB
             })
 
-            if(informacionEmparejamiento.id == 1){
+            if (indice == 0) {
                 setEquipoA(equipoA)
                 setEquipoB(equipoB)
                 setImgA(informacionEmparejamiento.imgEquipoA)
@@ -120,7 +127,11 @@ function AdministrarEmparejamiento(props) {
                 setPuntajeB(informacionEmparejamiento.puntajeEquipoB)
                 setResultadoA(informacionEmparejamiento.resultadoEquipoA)
                 setResultadoB(informacionEmparejamiento.resultadoEquipoB)
+
+                setEmparejamientoSeleccionado(informacionEmparejamiento.id)
             }
+
+            indice = indice + 1
 
             //console.log(informacionEmparejamiento)
 
@@ -153,17 +164,17 @@ function AdministrarEmparejamiento(props) {
     //---------------- Cambiar Puntajes en el menu edicion ------------------
     const cambiarPuntajeA = (event) => {
         const valor = parseInt(event.target.value)
-        if(!isNaN(valor)){
+        if (!isNaN(valor)) {
             setPuntajeAEdicion(valor)
-        }else{
+        } else {
             setPuntajeAEdicion("")
         }
     }
     const cambiarPuntajeB = (event) => {
         const valor = parseInt(event.target.value)
-        if(!isNaN(valor)){
+        if (!isNaN(valor)) {
             setPuntajeBEdicion(valor)
-        }else{
+        } else {
             setPuntajeBEdicion("")
         }
     }
@@ -186,7 +197,7 @@ function AdministrarEmparejamiento(props) {
         let indiceModificado = 0
         arrayRondas.forEach((dataEmparejamiento, index) => {
 
-            if(dataEmparejamiento.id == emparejamientoSeleccionado){
+            if (dataEmparejamiento.id == emparejamientoSeleccionado) {
 
                 let respuesta = calcularResultadoEquipos(puntajeAEdicion, puntajeBEdicion)
                 indiceModificado = index
@@ -200,8 +211,8 @@ function AdministrarEmparejamiento(props) {
                 emparejamientoModificado.puntajeEquipoB = puntajeBEdicion
                 emparejamientoModificado.resultadoEquipoA = respuesta[0]
                 emparejamientoModificado.resultadoEquipoB = respuesta[1]
-                emparejamientoModificado.teams = [{ name:  equipoA}, { name: equipoB}]
-            
+                emparejamientoModificado.teams = [{ name: equipoA }, { name: equipoB }]
+
             }
 
         })
@@ -211,14 +222,30 @@ function AdministrarEmparejamiento(props) {
         //console.log(emparejamientoModificado)
         arrayRondas[indiceModificado] = emparejamientoModificado
         mapEmparejamientos.set(rondaSeleccionada, arrayRondas)
-        //console.log(mapEmparejamientos)
+
+        //Ahora debe actualizarce el array usado por el comboBox que tiene toda la informacion legible de la web
+        for (let i = 0; i < arrayEmparejamientosCombobox.length; i++) {
+
+            if (arrayEmparejamientosCombobox[i].id == emparejamientoModificado.id) {
+
+                arrayEmparejamientosCombobox[i].puntajeA = emparejamientoModificado.puntajeEquipoA
+                arrayEmparejamientosCombobox[i].puntajeB = emparejamientoModificado.puntajeEquipoB
+                arrayEmparejamientosCombobox[i].resultadoA = emparejamientoModificado.resultadoEquipoA
+                arrayEmparejamientosCombobox[i].resultadoB = emparejamientoModificado.resultadoEquipoB
+                break;
+
+            }
+
+        }
+
+        contruirJSON()
 
     }
 
     const actualizarCambiosPuntajeGanador = () => {
 
-        if( puntajeAEdicion != "" && puntajeBEdicion != "" 
-        && (!isNaN(puntajeAEdicion) && !isNaN(puntajeBEdicion)) ){
+        if (puntajeAEdicion != "" && puntajeBEdicion != ""
+            && (!isNaN(puntajeAEdicion) && !isNaN(puntajeBEdicion))) {
 
             setPuntajeA(puntajeAEdicion)
             setPuntajeB(puntajeBEdicion)
@@ -229,27 +256,52 @@ function AdministrarEmparejamiento(props) {
 
             setShow(!show)
 
-        }else{
+        } else {
             alert("No es valido, verifique que no haya campos vacios o datos mal rellenados.")
         }
         actualizarMap()
     }
 
     const calcularResultadoEquipos = (puntajeA, puntajeB) => {
-        
-        if(puntajeAEdicion > puntajeBEdicion){
+
+        if (puntajeAEdicion > puntajeBEdicion) {
 
             return ["Ganador", "Perdedor"]
 
-        }else if(puntajeBEdicion > puntajeAEdicion){
+        } else if (puntajeBEdicion > puntajeAEdicion) {
 
             return ["Perdedor", "Ganador"]
 
-        }else{
+        } else {
 
-            return ["Empate", "Empate"] 
+            return ["Empate", "Empate"]
 
         }
+    }
+
+    const contruirJSON = () => {
+
+        let roundsConstruido = []
+
+        let i = 0
+        for (let rondaData of mapEmparejamientos.values()) {
+
+            let rondaObjeto = {}
+            rondaObjeto.title = arrayRondasCombobox[i]
+
+            let seedsArray = []
+            rondaData.map(emparejamientoData => {
+                seedsArray.push(emparejamientoData)
+            })
+
+            rondaObjeto.seeds = seedsArray
+            
+            roundsConstruido.push(rondaObjeto)
+            i = i + 1
+
+        }
+
+        console.log(roundsConstruido)
     }
 
     useEffect(() => {//La primera vez que se inicialice la aplicacion la ronda seleccionada sera la primera
@@ -328,11 +380,11 @@ function AdministrarEmparejamiento(props) {
                     <DropdownMenu left>
                         {arrayEmparejamientosCombobox.map((data) => (
 
-                            <DropdownItem 
+                            <DropdownItem
                                 key={data.id}
                                 onClick={seleccionarEmparejamiento}>{data.id + ": " + data.equipoA + " - " + data.equipoB}
                             </DropdownItem>
-                        
+
                         ))}
                     </DropdownMenu>
                 </Dropdown>
@@ -373,6 +425,8 @@ function AdministrarEmparejamiento(props) {
                 <div className="col-2">
                 </div>
             </div>
+
+            <button onClick={imprimirRondaEmparejamientoActuales}>Boton Testear Ronda - Emparejamiento</button>
 
             <Modal isOpen={show} toggle={vistaModal} className={''}>
                 <ModalHeader toggle={vistaModal}>Editar Puntajes</ModalHeader>
