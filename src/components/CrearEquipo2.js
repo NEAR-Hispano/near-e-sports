@@ -85,7 +85,7 @@ export default function CrearEquipo2(props) {
     
     let idteam = ''
 
-    const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
+   /* const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
       team: team,
       tournament: torneo,
       idtorneo,
@@ -96,7 +96,7 @@ export default function CrearEquipo2(props) {
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
-    }); 
+    }); */
 
     const result = await contract.join_tournament({
 
@@ -109,6 +109,7 @@ export default function CrearEquipo2(props) {
       },
       receiver_id: window.accountId,
       name: name,
+      owner: window.accountId,
       user1: user1,
       user2: user2,
       user3: user3,

@@ -12,36 +12,34 @@ import { db } from '../../firebase/firebaseConfig'
 
 function ProfileCard3(props) {
     let { torneo } = props
+    
 
     useEffect(() => {
         checkOwner();
     }, [])
 
     const [isActive, setIsActive] = useState(false);
+ 
 
-    const getEquipos = async(idTorneo) => {
+    const getEquipos = async() => {
         let arrayequipos = []
-        await getDocs(collection(db, "torneos", idTorneo, "equipos")).then(data => {
-            data.forEach(element => {
-                const idEquipo = {
-                    id: element.id
-                }
-                let equipo = Object.assign(element.data(), idEquipo)
-                arrayequipos.push(equipo)
-            })
-            
-        })
+        const contrato = await contract.get_teams_bytournament({
+            index: torneo.index
+        }
+        );
+        console.log(contrato.teams);
+        arrayequipos = contrato.teams;
         return [...arrayequipos]
       }
 
 
     const checkOwner = async () => {
 
-        const equipos = await getEquipos(torneo.id)
+        const equipos = await getEquipos()
         
 
         if (equipos.length > 0) {
-           let alreadyinscribed = equipos.some(equipo => equipo.team.owner === window.accountId)
+           let alreadyinscribed = equipos.some(equipo => equipo.owner === window.accountId)
             setIsActive(alreadyinscribed) 
         }
 

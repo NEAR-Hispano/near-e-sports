@@ -44,8 +44,7 @@ class VerTorneos extends React.Component {
         
         arrayTorneos.push(torneo)
       })
-      
-      
+           
       this.setState({
         torneos: arrayTorneos
       })

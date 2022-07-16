@@ -76,6 +76,7 @@ pub struct Tournament{
 #[serde(crate = "near_sdk::serde")]
 pub struct Team{
     name: String,
+    owner: String,
     user1: String,
     user2: String,
     user3: String,
@@ -234,6 +235,7 @@ impl Contract {
         receiver_id: AccountId,
         perpetual_royalties: Option<HashMap<AccountId, u32>>,
         name:String,
+        owner:String,
         user1:String,
         user2:String,
         user3:String,
@@ -245,7 +247,7 @@ impl Contract {
     ) {
         let team = Team {
             name: name,
-
+            owner: owner,
             user1: user1,
             user2: user2,
             user3: user3,

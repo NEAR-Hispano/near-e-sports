@@ -23,6 +23,7 @@ import { db } from '../firebase/firebaseConfig'
 import PricingCard3 from "./cards/PricingCard3";
 import Blogs7 from "./blogs/Blogs7";
 
+
 function TorneosDetalles() {
 
     const [hTabsIcons, setHTabsIcons] = React.useState("hTabsIcons-1");
