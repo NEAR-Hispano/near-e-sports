@@ -70,18 +70,7 @@ export default function CrearEquipo2(props) {
       user5: user5,
     }
 
-        /* Add a new document with a generated id.
-    db.collection("cities").add({
-      name: "Tokyo",
-      country: "Japan"
-    })
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-      console.error("Error adding document: ", error);
-    }); */
-
+   
     
     let idteam = ''
 
@@ -102,10 +91,9 @@ export default function CrearEquipo2(props) {
 
       token_id: Math.random().toString(36).slice(2),
       metadata: {
-        title: "Ticket de prueba para el dirdsdssddssfdsdfsdfsdfsdfsdfsdsdsdsdsd",
-        description: "Prueba para el dir",
-        media:
-          "https://img.freepik.com/foto-gratis/dos-entradas-vista-frontal-azul-aislado-blanco_1101-3055.jpg?w=2000",
+        title: torneo.name,
+        description: "Entrada para el torneo",
+        media: torneo.imgURL,
       },
       receiver_id: window.accountId,
       name: name,

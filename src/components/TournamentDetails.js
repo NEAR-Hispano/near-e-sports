@@ -62,13 +62,9 @@ function TorneosDetalles() {
             console.log(contrato);
             arrayequipos = contrato.teams;
             setEquipos([...arrayequipos])
+            setTorneo(data);
         })
-        if (docSnap.exists()) {
-            //console.log("Document data:", docSnap.data());
-            setTorneo(docSnap.data());
-        } else {
-            setError("No se pudo encontrar ningun torneo")
-        }
+        
     }
     const getBracket = async () => {
         const docRef = doc(db, "brackets", idtorneo)
