@@ -68,11 +68,8 @@ export default function CrearEquipo2(props) {
       user3: user3,
       user4: user4,
       user5: user5,
+      idteam:idtorneo,
     }
-
-   
-    
-    let idteam = ''
 
    /* const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
       team: team,
@@ -104,7 +101,7 @@ export default function CrearEquipo2(props) {
       user4: user4,
       user5: user5,
       index: torneo.index,
-      idteam: idteam,
+      idteam: torneo.index,
 
     }, '300000000000000',
       NearCost)

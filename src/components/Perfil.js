@@ -2,15 +2,16 @@
 
 import control_image from '../assets/control_image.png'
 
-import { collection, getDocs,getDoc } from "firebase/firestore";
+import { collection, getDocs,getDoc, QuerySnapshot } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig';
 import React, { useEffect, useState } from "react";
 
-import { Button, ButtonGroup, Media, Container, Row, Col } from "reactstrap";
+import { Button, ButtonGroup, Media, Container, Row, Col,butto } from "reactstrap";
 import { array } from 'prop-types';
 import { Link } from "react-router-dom";
 
 import { collectionGroup, query, where } from "firebase/firestore";
+import { async } from 'regenerator-runtime';
 
 
 
@@ -19,33 +20,53 @@ export default function Perfil() {
     const [torneosCreados, setTorneosCreados] = useState([]);
     const [torneosInscriptos, setTorneosInscriptos] = useState([]);
 
+
+
     useEffect(() => {
+        
         getTorneos();
         getEquipos();
+    
+          
     }, [])
 
-
+    
     const getEquipos = async () => {
 
-        let arrayquipos = []
-        const teams = query(collectionGroup(db, 'equipos'), where("team.owner", '==', window.accountId));
-        const querySnapshot = await getDocs(teams);
+        let arrayequipos = []
+        let arrayTorneos = []
+        await getDocs(collection(db, "torneos")).then(async QuerySnapshot => {
+            for (let element of QuerySnapshot.docs){
+                const idTorneo = {
+                    id: element.id
+                }
+                //
+                let torneo = Object.assign(element.data(), idTorneo)
+                //
 
-        querySnapshot.forEach((doc) => {
+                const contrato = await contract.get_teams_bytournament({
+                    index: torneo.index
+                })
 
-            const idParent = {
-                id: doc.id
-            }
-            //
-            let parent = Object.assign(doc.data(), idParent)
-            // 
-            arrayquipos.push(parent)
-            console.log(arrayquipos)
+                arrayequipos = contrato.teams;
             
-        });
+                arrayequipos.map(equipo =>{
+                    if (torneo.index == equipo.idteam) {
+                        console.log("Encontrado");
+                        arrayTorneos.push(torneo);
+                        
+                    }
+                })
+                
+
+                console.log(arrayTorneos);
+                
+            }
+            
+            setTorneosInscriptos(arrayTorneos)
+        })
         
-        setTorneosInscriptos(arrayquipos)
-        
+                
     }
 
     const getTorneos = async () => {
@@ -76,6 +97,7 @@ export default function Perfil() {
     return (
         <div>
             <section className="blogs-7" >
+                <Button onClick={()=>console.log(torneosInscriptos)}>hola</Button>
                 <Container className="mt-5">
                     <Row>
                         <Col className="mx-auto border rounded" xs="10" style={{ backgroundColor: "White" }}>
@@ -93,13 +115,13 @@ export default function Perfil() {
                             {torneosInscriptos.map(item =>
                                     <Row className="mt-5 mb-5 mx-auto ">
                                         <Col className="d-flex align-items-center justify-content-center" >
-                                            <img src={item.tournament.imgUrl} style={{ maxWidth: '200px', height: 'auto' }}>
+                                            <img src={item.imgUrl} style={{ maxWidth: '200px', height: 'auto' }}>
                                             </img>
                                         </Col>
                                         <Col className="text-center">
-                                            <h5 style={{ color: "#ffc107" }}>{item.tournament.nombre}</h5>
-                                            <h6>{item.tournament.fechaInicio}</h6>
-                                            <h6>{item.tournament.winner}</h6>
+                                            <h5 style={{ color: "#ffc107" }}>{item.nombre}</h5>
+                                            <h6>{item.fechaInicio}</h6>
+                                            <h6>{item.winner}</h6>
                                         </Col>
 
     

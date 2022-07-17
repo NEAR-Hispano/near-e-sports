@@ -82,7 +82,7 @@ pub struct Team{
     user3: String,
     user4: String,
     user5: String,
-    idteam: String,
+    idteam: i128,
 
 }
 
@@ -204,7 +204,7 @@ impl Contract {
 
     
     pub fn get_tournaments(self) -> Vec<Tournament> {
-        let tournament_list = self.tournament_list.values_as_vector().to_vec();
+        let mut tournament_list = self.tournament_list.values_as_vector().to_vec();
         tournament_list
     }
 
@@ -242,7 +242,7 @@ impl Contract {
         user4:String,
         user5:String,
         index:i128,
-        idteam: String,
+        idteam: i128,
         
     ) {
         let team = Team {

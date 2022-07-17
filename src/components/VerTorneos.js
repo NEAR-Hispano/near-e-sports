@@ -32,6 +32,7 @@ class VerTorneos extends React.Component {
 
   async getTorneos() {
     let arrayTorneos = []
+
     await getDocs(collection(db, "torneos")).then(data => {
       data.forEach(async element => {
         /*arrayTorneos.push(element.data())*/
