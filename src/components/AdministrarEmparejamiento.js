@@ -9,6 +9,9 @@ import {
 } from "reactstrap";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
+import { array } from "prop-types";
+import { BrowserLocalStorageKeyStore } from "near-api-js/lib/key_stores";
+import { isCompositeComponent } from "react-dom/test-utils";
 
 // Core Components
 
@@ -193,59 +196,147 @@ function AdministrarEmparejamiento(props) {
 
     const actualizarMap = () => {
 
-        let arrayRondas = [...mapEmparejamientos.get(rondaSeleccionada)]
-        //console.log(arrayRondas)
-        let emparejamientoModificado = {}
-        let indiceModificado = 0
-        arrayRondas.forEach((dataEmparejamiento, index) => {
+        let arrayEmparejamientosRonda = [...mapEmparejamientos.get(rondaSeleccionada)]
+        let indiceModificado = -1
+        let siguienteRonda = ""
 
-            if (dataEmparejamiento.id == emparejamientoSeleccionado) {
+        for (let i = 0; i < arrayEmparejamientosRonda.length; i++) {
+
+            if (arrayEmparejamientosRonda[i].id == emparejamientoSeleccionado) {
 
                 let respuesta = calcularResultadoEquipos(puntajeAEdicion, puntajeBEdicion)
-                indiceModificado = index
+                indiceModificado = i
 
-                emparejamientoModificado.id = dataEmparejamiento.id
-                emparejamientoModificado.date = dataEmparejamiento.date
-                emparejamientoModificado.estatus = 1
-                emparejamientoModificado.imgEquipoA = dataEmparejamiento.imgEquipoA
-                emparejamientoModificado.imgEquipoB = dataEmparejamiento.imgEquipoB
-                emparejamientoModificado.puntajeEquipoA = puntajeAEdicion
-                emparejamientoModificado.puntajeEquipoB = puntajeBEdicion
-                emparejamientoModificado.resultadoEquipoA = respuesta[0]
-                emparejamientoModificado.resultadoEquipoB = respuesta[1]
-                emparejamientoModificado.teams = [{ name: equipoA }, { name: equipoB }]
+                arrayEmparejamientosRonda[i].estatus = 1
+                arrayEmparejamientosRonda[i].puntajeEquipoA = puntajeAEdicion
+                arrayEmparejamientosRonda[i].puntajeEquipoB = puntajeBEdicion
+                arrayEmparejamientosRonda[i].resultadoEquipoA = respuesta[0]
+                arrayEmparejamientosRonda[i].resultadoEquipoB = respuesta[1]
+                arrayEmparejamientosRonda[i].teams = [{ name: equipoA }, { name: equipoB }]
 
-            }
+                if (rondaSeleccionada != "Final") {//Se actualiza la siguiente ronda
 
-        })
+                    //Los emparejamientos impares siempre deben ser el primer equipo en el nuevo bracket
+                    //mientras que los emparejamientos pares siempre seran el segundo equipo en el bracket
 
-        //Se actualiza el Map con la informacion modificada, de forma que siempre tenga info reciente
+                    const idEmparejamiento = arrayEmparejamientosRonda[i].id
+                    const resultado = arrayEmparejamientosRonda[i].id % 2
 
-        //console.log(emparejamientoModificado)
-        arrayRondas[indiceModificado] = emparejamientoModificado
-        mapEmparejamientos.set(rondaSeleccionada, arrayRondas)
+                    if (!(resultado == 0)) {//impar
 
-        //Ahora debe actualizarce el array usado por el comboBox que tiene toda la informacion legible de la web
-        for (let i = 0; i < arrayEmparejamientosCombobox.length; i++) {
+                        console.log("Es impar")
+                        let rondaConIdEmparejamiento = obtenerRondaConEmparejamientoSiguiente(idEmparejamiento, false)
+                        let siguienteRondaTexto = rondaConIdEmparejamiento[0]
+                        let idSiguiente = rondaConIdEmparejamiento[1]
+                        let posicionEnVectorSig = rondaConIdEmparejamiento[2]
 
-            if (arrayEmparejamientosCombobox[i].id == emparejamientoModificado.id) {
+                        let arrayEmparejamientosSigRonda = [...mapEmparejamientos.get(siguienteRondaTexto)]
 
-                arrayEmparejamientosCombobox[i].puntajeA = emparejamientoModificado.puntajeEquipoA
-                arrayEmparejamientosCombobox[i].puntajeB = emparejamientoModificado.puntajeEquipoB
-                arrayEmparejamientosCombobox[i].resultadoA = emparejamientoModificado.resultadoEquipoA
-                arrayEmparejamientosCombobox[i].resultadoB = emparejamientoModificado.resultadoEquipoB
+                        let arrayCombo = []
+                        let emparejamiento = ""
+
+                        switch (respuesta[0]) {
+
+                            case "Ganador":
+                                //Se guardan datos del Equipo A porque fue el vencedor
+                                //Datos en el MAP
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = imgA
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[0] = { name: equipoA }
+                                mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
+                                break;
+                            case "Perdedor":
+                                //Se guardan datos del Equipo B porque fue el vencedor
+                                //Datos en el MAP
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = imgB
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[0] = { name: equipoB }
+                                mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
+                                break;
+                            case "Empate":
+                                //Datos en el MAP
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[0] = { name: "Empate" }
+                                mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
+                                break;
+                        }
+
+                        //console.log(mapEmparejamientos)
+
+                    } else {//par
+
+                        console.log("Es par")
+                        let rondaConIdEmparejamiento = obtenerRondaConEmparejamientoSiguiente(idEmparejamiento, true)
+                        let siguienteRondaTexto = rondaConIdEmparejamiento[0]
+                        let idSiguiente = rondaConIdEmparejamiento[1]
+                        let posicionEnVectorSig = rondaConIdEmparejamiento[2]
+
+                        let arrayEmparejamientosSigRonda = [...mapEmparejamientos.get(siguienteRondaTexto)]
+
+                        let arrayCombo = []
+                        let emparejamiento = ""
+
+                        switch (respuesta[0]) {
+
+                            case "Ganador":
+                                //Se guardan datos del Equipo A porque fue el vencedor
+                                //Datos en el MAP
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = imgA
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[1] = { name: equipoA }
+                                mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
+                                break;
+                            case "Perdedor":
+                                //Se guardan datos del Equipo B porque fue el vencedor
+                                //Datos en el MAP
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = imgB
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[1] = { name: equipoB }
+                                mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
+                                break;
+                            case "Empate":
+                                //Datos en el MAP
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[1] = { name: "Empate" }
+                                mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
+                                break;
+                        }
+
+                    }
+
+                }
+
                 break;
-
             }
 
         }
+
+        //Se actualiza el Map con la informacion modificada, de forma que siempre tenga info reciente
+        mapEmparejamientos.set(rondaSeleccionada, arrayEmparejamientosRonda)
+
+        //Ahora debe actualizarce el array usado por el comboBox que tiene toda la informacion legible de la web
+        arrayEmparejamientosCombobox[indiceModificado].puntajeA = arrayEmparejamientosRonda[indiceModificado].puntajeEquipoA
+        arrayEmparejamientosCombobox[indiceModificado].puntajeB = arrayEmparejamientosRonda[indiceModificado].puntajeEquipoB
+        arrayEmparejamientosCombobox[indiceModificado].resultadoA = arrayEmparejamientosRonda[indiceModificado].resultadoEquipoA
+        arrayEmparejamientosCombobox[indiceModificado].resultadoB = arrayEmparejamientosRonda[indiceModificado].resultadoEquipoB
+
 
     }
 
     const actualizarCambiosPuntajeGanador = () => {
 
-        if (puntajeAEdicion != "" && puntajeBEdicion != ""
-            && (!isNaN(puntajeAEdicion) && !isNaN(puntajeBEdicion))) {
+        if (puntajeAEdicion >= 0 && puntajeBEdicion >= 0
+            && (!isNaN(parseInt(puntajeAEdicion))
+                && !isNaN(parseInt(puntajeBEdicion)))
+        ) {
 
             setPuntajeA(puntajeAEdicion)
             setPuntajeB(puntajeBEdicion)
@@ -276,6 +367,167 @@ function AdministrarEmparejamiento(props) {
 
             return ["Empate", "Empate"]
 
+        }
+    }
+
+    const obtenerRondaConEmparejamientoSiguiente = (idEmparejamiento, esPar) => {
+
+        let nuevoId = 1
+        let posicionEnVectorSig = 0
+        let arrayN = identificarValorN()
+
+        if (!esPar) {//Si es impar
+
+            switch (rondaSeleccionada) {
+
+                case "16vos":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarImpar("16vos", "8vos", idEmparejamiento, 16)
+                    //posicionEnVectorSig = nuevoId - arrayN[0]
+                    posicionEnVectorSig = determinarPosicionEnVector("8vos", nuevoId)
+                    return ["8vos", nuevoId, posicionEnVectorSig]
+                    break;
+
+                case "8vos":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarImpar("8vos", "4tos", idEmparejamiento, 8)
+                    //posicionEnVectorSig = nuevoId - arrayN[1]
+                    posicionEnVectorSig = determinarPosicionEnVector("4tos", nuevoId)
+                    return ["4tos", nuevoId, posicionEnVectorSig]
+                    break;
+
+                case "4tos":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarImpar("4tos", "Semi-Final", idEmparejamiento, 4)
+                    //posicionEnVectorSig = nuevoId - arrayN[2]
+                    posicionEnVectorSig = determinarPosicionEnVector("Semi-Final", nuevoId)
+                    return ["Semi-Final", nuevoId, posicionEnVectorSig]
+                    break;
+
+                case "Semi-Final":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarImpar("Semi-Final", "Final", idEmparejamiento, 2)
+                    //posicionEnVectorSig = nuevoId - arrayN[3]
+                    posicionEnVectorSig = determinarPosicionEnVector("Final", nuevoId)
+                    return ["Final", nuevoId, posicionEnVectorSig]
+                    break;
+
+            }
+
+        } else {//Si es par
+
+            switch (rondaSeleccionada) {
+
+                case "16vos":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarPar("16vos", "8vos", idEmparejamiento, 15)
+                    posicionEnVectorSig = determinarPosicionEnVector("8vos", nuevoId)
+                    return ["8vos", nuevoId, posicionEnVectorSig]
+                    break;
+
+                case "8vos":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarPar("8vos", "4tos", idEmparejamiento, 7)
+                    posicionEnVectorSig = determinarPosicionEnVector("4tos", nuevoId)
+                    return ["4tos", nuevoId, posicionEnVectorSig]
+                    break;
+
+                case "4tos":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarPar("4tos", "Semi-Final", idEmparejamiento, 3)
+                    posicionEnVectorSig = determinarPosicionEnVector("Semi-Final", nuevoId)
+                    return ["Semi-Final", nuevoId, posicionEnVectorSig]
+                    break;
+
+                case "Semi-Final":
+                    nuevoId = idEmparejamiento + determinarCantidadASumarPar("Semi-Final", "Final", idEmparejamiento, 1)
+                    posicionEnVectorSig = determinarPosicionEnVector("Final", nuevoId)
+                    return ["Final", nuevoId, posicionEnVectorSig]
+                    break;
+
+            }
+
+        }
+
+    }
+
+    const identificarValorN = () => {
+
+        //16, 8, 4, 2, 1
+        let sumatoria = [0, 0, 0, 0, 0]
+        switch (arrayRondasCombobox.length) {
+            case (5):
+                sumatoria = [17, 25, 29, 31, 32]
+                return sumatoria
+                break;
+            case (4):
+                sumatoria = [0, 9, 13, 15, 16]
+                return sumatoria
+                break;
+            case (3):
+                sumatoria = [0, 0, 5, 7, 8]
+                return sumatoria
+                break;
+            case (2):
+                sumatoria = [0, 0, 0, 3, 4]
+                return sumatoria
+                break;
+            case (1):
+                sumatoria = [0, 0, 0, 1, 2]
+                return sumatoria
+                break;
+        }
+
+    }
+
+    const determinarCantidadASumarImpar = (claveOriginal, claveSig, idNumero, sumaInicio) => {
+        
+        let arrayEmparejamientosActual = mapEmparejamientos.get(claveOriginal)
+        let numInicial = arrayEmparejamientosActual[0].id;
+
+        let arrayEmparejamientosSig = mapEmparejamientos.get(claveSig)
+        let numFinal = arrayEmparejamientosSig[arrayEmparejamientosSig.length - 1].id
+
+        //console.log("seria: " + arrayEmparejamientos[0].id)
+        for (let i = numInicial; i <3*(arrayEmparejamientosSig.length + idNumero); i = i + 2) {
+            console.log("Suma: " + sumaInicio + " i: " + i)
+            if (idNumero == i) {
+                console.log("Def. Suma: " + sumaInicio + " i: " + i)
+                return sumaInicio
+            }
+            sumaInicio = sumaInicio - 1
+            if (sumaInicio == -1){
+                console.log("no encontre nada...")
+                break;
+            }
+        }
+    }
+
+    const determinarCantidadASumarPar = (claveOriginal, claveSig, idNumero, sumaInicio) => {
+        let arrayEmparejamientosActual = mapEmparejamientos.get(claveOriginal)
+        let numInicial = arrayEmparejamientosActual[1].id;
+
+        let arrayEmparejamientosSig = mapEmparejamientos.get(claveSig)
+        let numFinal = arrayEmparejamientosSig[arrayEmparejamientosSig.length - 1].id
+
+        for (let i = numInicial; i <3*(arrayEmparejamientosSig.length + idNumero); i = i + 2) {
+            console.log("Suma: " + sumaInicio + " i: " + i)
+            if (idNumero == i) {
+                console.log("Def. Suma: " + sumaInicio + " i: " + i)
+                return sumaInicio
+            }
+            sumaInicio = sumaInicio - 1
+            if (sumaInicio == -1){
+                console.log("no encontre nada...")
+                break;
+            }
+        }
+    }
+
+    const determinarPosicionEnVector = (clave, idEmparejamiento) => {
+        console.log("Estoy buscando la posicion en la que estara el vector")
+        let arrayEmparejamientos = mapEmparejamientos.get(clave)
+        console.log("Ronda sig: " + clave)
+        console.log(arrayEmparejamientos)
+        for (let i = 0; i < arrayEmparejamientos.length; i++) {
+            //console.log(arrayEmparejamientos[i])
+            if (arrayEmparejamientos[i].id == idEmparejamiento) {
+                console.log(i)
+                return i
+            }
         }
     }
 
