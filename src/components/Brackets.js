@@ -679,7 +679,7 @@ function RenderBracket(props) {
         }
 
         //+2 Equipos (max 4) y 2 emparejamientos
-        if (cantEmparejamientos >= parseFloat(1)
+        if (cantEmparejamientos > parseFloat(1)
             && cantEmparejamientos <= parseFloat(2)) {
             let objSeed = completarEmparejamientoInconcluso([...seeds], "Semi-Final", (seeds.length + 1), 4)
             roundsBracketConstruido.push(objSeed)
@@ -782,6 +782,7 @@ function RenderBracket(props) {
 
         if(props.roundsBracket.length > 0){
             changeBooleanBracket()
+
         }
 
     },[]);
