@@ -100,6 +100,7 @@ function CrearTorneo() {
                 setShowError(true)
             }
         }
+       
 
     }
     return (
@@ -252,9 +253,7 @@ function CrearTorneo() {
                                     </Col>
                                     <Col className="pl-md-0" lg="4" md="5">
                                         <div className="info text-left bg-default">
-                                            <CardTitle className="text-white text-center" tag="h5" >
-                                                Title 2
-                                            </CardTitle>
+                                            
                                             <Upload addBtnColor='default' uploadPhoto={uploadPhoto} removePhoto={removePhoto}></Upload>
                                             <div className="table-responsive">
                                                 <ul className="list-unstyled">

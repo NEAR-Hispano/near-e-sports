@@ -19,17 +19,19 @@ import { async } from 'regenerator-runtime';
 export default function Perfil() {
     const [torneosCreados, setTorneosCreados] = useState([]);
     const [torneosInscriptos, setTorneosInscriptos] = useState([]);
-    /* let owner_id = "carlosmorales.testnet"
+    
+    let owner_id = "kevinhernandez.testnet"
     let NFTContractMetadata = {
         spec: "nft-1.0.0",
-        name: "NFT Nears Esports Tournaments",
+        name: "NFT Nears Essports Tournaments",
         symbol: "NET",
         icon: null,
         base_uri: null,
         reference: null,
         reference_hash:null,
     } 
-    let metadata = NFTContractMetadata */
+    let metadata = NFTContractMetadata 
+
 
     useEffect(() => {
         
@@ -42,6 +44,8 @@ export default function Perfil() {
     
     const getEquipos = async () => {
 
+        
+
         let arrayequipos = []
         let arrayTorneos = []
         await getDocs(collection(db, "torneos")).then(async QuerySnapshot => {
@@ -52,22 +56,25 @@ export default function Perfil() {
                 //
                 let torneo = Object.assign(element.data(), idTorneo)
                 //
+                
 
                 const contrato = await contract.get_teams_bytournament({
                     index: torneo.index
                 })
 
-                /* const contrato = await contract.new({
-                    owner_id:owner_id,
-                    metadata: metadata
-                }) */
+                
+                
 
                 arrayequipos = contrato.teams;
             
                 arrayequipos.map(equipo =>{
                     if (torneo.index == equipo.idteam) {
                         console.log("Encontrado");
-                        arrayTorneos.push(torneo);
+                        console.log(equipo.owner)
+                        if(equipo.owner == window.accountId) {
+                            arrayTorneos.push(torneo);
+                        }
+                        
                         
                     }
                 })
@@ -85,6 +92,8 @@ export default function Perfil() {
 
     const getTorneos = async () => {
         let arrayTorneos = []
+       
+        console.log("listo");
         await getDocs(collection(db, "torneos")).then(data => {
             data.forEach(async element => {
                 /*arrayTorneos.push(element.data())*/
@@ -111,7 +120,6 @@ export default function Perfil() {
     return (
         <div>
             <section className="blogs-7" >
-                <Button onClick={()=>console.log(torneosInscriptos)}>hola</Button>
                 <Container className="mt-5">
                     <Row>
                         <Col className="mx-auto border rounded" xs="10" style={{ backgroundColor: "White" }}>
@@ -140,7 +148,7 @@ export default function Perfil() {
 
     
                                         <Col className="d-flex align-items-center justify-content-center">
-                                            <Link to={"/detalles/" + item.idtorneo}>
+                                            <Link to={"/detalles/" + item.id}>
 
                                                 <Button color="warning" type="button">
                                                     Ver

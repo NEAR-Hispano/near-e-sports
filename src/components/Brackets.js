@@ -7,6 +7,7 @@ import {
 import AdministrarEmparejamiento from './AdministrarEmparejamiento';
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
+import TorneosDetalles from './TournamentDetails';
 
 function RenderBracket(props) {
 
@@ -19,7 +20,7 @@ function RenderBracket(props) {
     }
 
     const [booleanBrackets, setBooleanBrackets] = useState(false)
-    const changeBooleanBracket = () =>{
+    const changeBooleanBracket = () => {
         setBooleanBrackets(true)
     }
 
@@ -681,7 +682,7 @@ function RenderBracket(props) {
         //+2 Equipos (max 4) y 2 emparejamientos
         if (cantEmparejamientos > parseFloat(1)
             && cantEmparejamientos <= parseFloat(2)) {
-            let objSeed = completarEmparejamientoInconcluso([...seeds], "Semi-Final", (seeds.length + 1), 4)
+            let objSeed = completarEmparejamientoInconcluso([...seeds], "Semi-Final", (seeds.length + 1), 3)
             roundsBracketConstruido.push(objSeed)
 
             const final = generarBracketVacio("Final", 3, 3)
@@ -708,11 +709,16 @@ function RenderBracket(props) {
         guardarBracketsBD(objetoBD)
     }
 
-    const guardarBracketsBD = (objetoBD) => {
+    const guardarBracketsBD = async (objetoBD) => {
         const docRef = doc(db, 'brackets', props.idTorneo);
-        setDoc(docRef, objetoBD).then(() => {
+        await setDoc(docRef, objetoBD).then(() => {
             changeBooleanBracket()
+
         });
+
+        window.location.reload();
+
+
     }
 
     const generarBracketVacio = (nombre, indexInicio, indexFin) => {
@@ -780,36 +786,54 @@ function RenderBracket(props) {
 
     useEffect(() => {
 
-        if(props.roundsBracket.length > 0){
+        if (props.roundsBracket.length > 0) {
             changeBooleanBracket()
 
         }
 
-    },[]);
+    }, []);
 
     return (
         <div>
             <div className="">
                 {!booleanBrackets ?
-                    <Button
-                        color="primary"
-                        type="button"
-                        onClick={construirEmparejamientos}>
-                        Comenzar
-                    </Button>
+                    <div>
+                        {props.torneo.creador == window.accountId ?
+                            <Button
+                                color="primary"
+                                type="button"
+                                onClick={construirEmparejamientos}>
+                                Comenzar
+                            </Button>
+                            :
+                            <div>
+                            </div>
+                        }
+
+                    </div>
+
                     :
                     <div>
 
                         {!edicion ?
                             <div>
-                                <Button
-                                    color="primary"
-                                    type="button"
-                                    onClick={changeEdicion}>
-                                    Administrar Resultados
-                                </Button>
-                                <br />
-                                <br />
+                                <div>
+                                    {props.torneo.creador == window.accountId ?
+                                        <Button
+                                            color="primary"
+                                            type="button"
+                                            onClick={changeEdicion}>
+                                            Administrar Resultados
+                                        </Button>
+
+                                        :
+                                        <div>
+                                        </div>
+                                    }
+
+                                </div>
+
+
                             </div>
                             :
                             <div>

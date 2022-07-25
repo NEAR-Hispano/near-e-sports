@@ -16,17 +16,10 @@ function Blogs7(props) {
                 <div className="media-header">
                   <Row>
                     <Col className="d-flex justify-content-start" md="6">
-                      <div className="avatar">
-                        <Media
-                          alt="..."
-                          className="shadow"
-                          object
-                          src={require("/assets/img/faces/team-2.jpg")}
-                        ></Media>
-                      </div>
+                      
                       <div className="text">
-                        <span className="name">Nombre creador del torneo</span>
-                        <div className="meta">fecha de creacion del torneo</div>
+                        <span className="name">Creador: {torneo.creador}</span>
+                        <div className="meta">{torneo.fechaInicio}</div>
                       </div>
                     </Col>
                   </Row>
@@ -39,20 +32,7 @@ function Blogs7(props) {
                   <p className="description">
                     {torneo.descripcion}{" "}
                   </p>
-                  <p className="hashtag">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      politicas
-                    </a>{" "}
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      must read
-                    </a>{" "}
-                  </p>
-                  <div className="actions mb-5">
-                    <Button color="info" outline size="sm">
-                      <i className="ni ni-like-2 pr-1"></i>
-                      Like
-                    </Button>
-                  </div>
+                  
                 </div>
               </div>
             </Col>

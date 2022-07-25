@@ -196,22 +196,7 @@ function TorneosDetalles() {
                                         Brackets
                                     </NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink
-                                        className={
-                                            "mb-sm-3 mb-md-0 " +
-                                            (hTabsIcons === "hTabsIcons-4" ? "active" : "")
-                                        }
-                                        href="#pablo"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setHTabsIcons("hTabsIcons-4");
-                                        }}
-                                    >
-                                        <i className=""></i>
-                                        Estadisticas
-                                    </NavLink>
-                                </NavItem>
+                                
                             </Nav>
                         </div>
                         <Card className="shadow">
@@ -239,16 +224,13 @@ function TorneosDetalles() {
                                         <RenderBracket
                                             key={booleanBrackets}
                                             idTorneo={idtorneo}
+                                            torneo = {torneo}
                                             roundsBracket={roundsBracket}
                                             estatusRounds={estatusRounds}
                                             equipos={equipos}></RenderBracket>
 
                                     </TabPane>
-                                    <TabPane tabId="hTabsIcons-4" role="tabpanel">
-                                        <p className="description">
-                                            Proximamente
-                                        </p>
-                                    </TabPane>
+                                    
                                 </TabContent>
                             </CardBody>
                         </Card>

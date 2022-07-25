@@ -95,11 +95,11 @@ class ImageUpload extends React.Component {
           ) : (
             <span>
               <Button
-                color={this.props.changeBtnColor}
+                color={this.props.removeBtnColor}
                 className={this.props.changeBtnClasses}
                 onClick={() => this.handleClick()}
               >
-                Change
+                <i className="fa fa-times" /> Change
               </Button>
               {this.props.avatar ? <br /> : null}
               <Button
