@@ -73,8 +73,6 @@ function AdministrarEmparejamiento(props) {
                 setImgB(emparejamientoData.imgB)
                 setPuntajeA(emparejamientoData.puntajeA)
                 setPuntajeB(emparejamientoData.puntajeB)
-                setOwnerA(emparejamientoData.ownerA)
-                setOwnerB(emparejamientoData.ownerB)
                 setResultadoA(emparejamientoData.resultadoA)
                 setResultadoB(emparejamientoData.resultadoB)
             }
@@ -99,11 +97,6 @@ function AdministrarEmparejamiento(props) {
 
         let indice = 0
         let arrayEmparejamientoRonda = mapEmparejamientos.get(clave)
-
-        console.log("Admin: Llenar emparejamiento")
-        console.log("clave")
-        console.log(clave)
-        console.log(arrayEmparejamientoRonda)
         arrayEmparejamientoRonda.map(informacionEmparejamiento => {
 
             let i = 0
@@ -124,8 +117,6 @@ function AdministrarEmparejamiento(props) {
                 'equipoB': equipoB,
                 'imgA': informacionEmparejamiento.imgEquipoA,
                 'imgB': informacionEmparejamiento.imgEquipoB,
-                'ownerA': informacionEmparejamiento.ownerA,
-                'ownerB': informacionEmparejamiento.ownerB,
                 'puntajeA': informacionEmparejamiento.puntajeEquipoA,
                 'puntajeB': informacionEmparejamiento.puntajeEquipoB,
                 'resultadoA': informacionEmparejamiento.resultadoEquipoA,
@@ -135,8 +126,6 @@ function AdministrarEmparejamiento(props) {
             if (indice == 0) {
                 setEquipoA(equipoA)
                 setEquipoB(equipoB)
-                setOwnerA(informacionEmparejamiento.ownerA)
-                setOwnerB(informacionEmparejamiento.ownerB)
                 setImgA(informacionEmparejamiento.imgEquipoA)
                 setImgB(informacionEmparejamiento.imgEquipoB)
                 setPuntajeA(informacionEmparejamiento.puntajeEquipoA)
@@ -175,8 +164,6 @@ function AdministrarEmparejamiento(props) {
     const [puntajeB, setPuntajeB] = useState(0)
     const [puntajeBEdicion, setPuntajeBEdicion] = useState("")
     const [resultadoB, setResultadoB] = useState("")
-    const [ownerA, setOwnerA] = useState("")
-    const [ownerB, setOwnerB] = useState("")
 
     //---------------------------- MENU EDICION -----------------------------
     //---------------- Cambiar Puntajes en el menu edicion ------------------
@@ -257,7 +244,6 @@ function AdministrarEmparejamiento(props) {
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[0] = { name: equipoA }
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].ownerA = ownerA
                                 mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
                                 break;
                             case "Perdedor":
@@ -267,7 +253,6 @@ function AdministrarEmparejamiento(props) {
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[0] = { name: equipoB }
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].ownerA = ownerB
                                 mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
                                 break;
                             case "Empate":
@@ -300,28 +285,26 @@ function AdministrarEmparejamiento(props) {
                             case "Ganador":
                                 //Se guardan datos del Equipo A porque fue el vencedor
                                 //Datos en el MAP
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoB = imgA
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeB = 0
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoB = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = imgA
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[1] = { name: equipoA }
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].ownerB = ownerA
                                 mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
                                 break;
                             case "Perdedor":
                                 //Se guardan datos del Equipo B porque fue el vencedor
                                 //Datos en el MAP
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoB = imgB
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeB = 0
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoB = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = imgB
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[1] = { name: equipoB }
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].ownerB = ownerB
                                 mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
                                 break;
                             case "Empate":
                                 //Datos en el MAP
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoB = ""
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeB = 0
-                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoB = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].imgEquipoA = ""
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].puntajeA = 0
+                                arrayEmparejamientosSigRonda[posicionEnVectorSig].resultadoEquipoA = ""
                                 arrayEmparejamientosSigRonda[posicionEnVectorSig].teams[1] = { name: "Empate" }
                                 mapEmparejamientos.set(siguienteRondaTexto, arrayEmparejamientosSigRonda)
                                 break;
@@ -571,8 +554,7 @@ function AdministrarEmparejamiento(props) {
         }
 
         const objetoBD = {
-            data: roundsConstruido,
-            ganador: determinarGanador()
+            data: roundsConstruido
         }
 
         guardarBracketsBD(objetoBD)
@@ -585,19 +567,9 @@ function AdministrarEmparejamiento(props) {
         });
     }
 
-    const determinarGanador = () => {
-        let arrayFinalRound = mapEmparejamientos.get("Final")
-        if(arrayFinalRound[0].resultadoEquipoA == "Ganador"){
-            return arrayFinalRound[0].ownerA
-        }else{
-            return arrayFinalRound[0].ownerB
-        }
-    }
-
     useEffect(() => {//La primera vez que se inicialice la aplicacion la ronda seleccionada sera la primera
         //de todos los brackets. Si son 16 participantes sera 8vos, si son 8 sera 4tos y asi sucesivamente...
 
-        console.log("Admin: Hola desde useeffect")
         const cantidadRondas = props.rounds.length
         let arrayInformacionRondas = [...props.rounds]
         //setArrayEmparejamientosCombobox(array)
@@ -605,16 +577,12 @@ function AdministrarEmparejamiento(props) {
             mapEmparejamientos.set(informacionRonda.title, informacionRonda.seeds)
         })
 
-        console.log(cantidadRondas)
-        console.log(mapEmparejamientos)
-
         switch (cantidadRondas) {
             case 1:
 
                 arrayRondasCombobox.push("Final")
                 setRondaSeleccionada("Final")
                 llenarEmparejamientosRondaSeleccionada("Final")
-                break;
 
             case 2:
 
@@ -622,7 +590,6 @@ function AdministrarEmparejamiento(props) {
                 arrayRondasCombobox.push("Final")
                 setRondaSeleccionada("Semi-Final")
                 llenarEmparejamientosRondaSeleccionada("Semi-Final")
-                break;
 
             case 3:
 
@@ -631,7 +598,6 @@ function AdministrarEmparejamiento(props) {
                 arrayRondasCombobox.push("Final")
                 setRondaSeleccionada("4tos")
                 llenarEmparejamientosRondaSeleccionada("4tos")
-                break;
 
             case 4:
 
@@ -641,7 +607,6 @@ function AdministrarEmparejamiento(props) {
                 arrayRondasCombobox.push("Final")
                 setRondaSeleccionada("8vos")
                 llenarEmparejamientosRondaSeleccionada("8vos")
-                break;
 
         }
 

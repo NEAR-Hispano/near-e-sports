@@ -5,8 +5,7 @@ import {
     Button
 } from "reactstrap";
 import AdministrarEmparejamiento from './AdministrarEmparejamiento';
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { db } from '../firebase/firebaseConfig'
+import { setMaxListeners } from 'gulp';
 
 function RenderBracket(props) {
 
@@ -16,11 +15,6 @@ function RenderBracket(props) {
     const [edicion, setEdicion] = useState(false)
     const changeEdicion = () => {
         setEdicion(!edicion)
-    }
-
-    const [booleanBrackets, setBooleanBrackets] = useState(false)
-    const changeBooleanBracket = () =>{
-        setBooleanBrackets(true)
     }
 
     //Descripcion de cada estatus (significado):
@@ -522,318 +516,48 @@ function RenderBracket(props) {
 
     ];
 
-    const construirEmparejamientos = () => {
-
-        let teams = props.equipos
-        let lenghtFloat = teams.length
-        console.log("Lenght: " + lenghtFloat)
-        const cantEmparejamientos = parseFloat(parseFloat(lenghtFloat) / parseFloat(2))
-        console.log("Cant decimal: " + cantEmparejamientos)
-        const cantEmparejamientosEntero = Math.ceil(cantEmparejamientos)
-        console.log("Cant entera: " + cantEmparejamientosEntero)
-
-        let cantFaltantes = 0
-        let roundsBracketConstruido = []
-
-        let seeds = []
-        let objetoRound = {}
-
-        let equipoSig = 0
-
-        //--------------------------- Logica general ----------------------------
-        //Llenado de emparejamientos registrados
-        for (let i = 1; i <= cantEmparejamientosEntero; i++) {
-
-            //Objeto Round
-            objetoRound = {
-                id: i,
-                date: new Date().toDateString(),
-                teams: [],
-                imgEquipoA: 0,
-                imgEquipoB: 0,
-                puntajeEquipoA: 0,
-                puntajeEquipoB: 0,
-                resultadoEquipoA: 'N/A',
-                resultadoEquipoB: 'N/A',
-                ownerA: "",
-                ownerB: "",
-                estatus: 0
-            }
-
-            //Validar si se ha inscrito el equipo A o B del emparejamiento
-            let validador = 0
-            let limiteAgregarEquipos = equipoSig + 2
-            //Verificar que equipo se ha inscrito hasta ahora
-            for (let j = equipoSig; j < limiteAgregarEquipos; j++) {
-
-                if (teams[j] != null) {
-
-                    if (validador == 0) {// 1er team
-
-                        objetoRound.ownerA = teams[j].owner
-                        objetoRound.teams.push({ name: teams[j].name })
-                        if (teams[j].img != null) {//Tiene el campo
-                            objetoRound.imgEquipoA = teams[j].img
-                        } else {//No tiene el campo
-                            objetoRound.imgEquipoA = linkImg
-                        }
-
-                    } else {// 2do team
-
-                        objetoRound.ownerB = teams[j].owner
-                        objetoRound.teams.push({ name: teams[j].name })
-                        if (teams[j].img != null) {//Tiene el campo
-                            objetoRound.imgEquipoB = teams[j].img
-                        } else {//No tiene el campo
-                            objetoRound.imgEquipoB = linkImg
-                        }
-
-                    }
-
-                    equipoSig = equipoSig + 1
-                }
-
-                validador = validador + 1
-
-            }
-
-            seeds.push(objetoRound)
-
-        }
-        //--------------------------- FIN Logica general ----------------------------
-
-        //--------------------------- Rellenar el impar que falto ---------------------
-        if (parseFloat(lenghtFloat % 2) > 0) {
-
-            const indexAntesRelleno = seeds.length
-            seeds[indexAntesRelleno - 1].teams.push({ name: "N/A" })
-
-        }
-        //---------------------------- FIN Rellenar Impar -----------------------------
-
-        //32 equipos y 16 emparejamientos
-        if (cantEmparejamientos == parseFloat(16)) {
-
-            const obj = {
-                title: "16vos",
-                seeds: seeds
-            }
-            roundsBracketConstruido.push(obj)
-
-            const octavos = generarBracketVacio("8vos", 17, 24)
-            roundsBracketConstruido.push(octavos)
-            const cuartos = generarBracketVacio("4tos", 25, 28)
-            roundsBracketConstruido.push(cuartos)
-            const semis = generarBracketVacio("Semi-Final", 29, 30)
-            roundsBracketConstruido.push(semis)
-            const final = generarBracketVacio("Final", 31, 31)
-            roundsBracketConstruido.push(final)
-        }
-
-        //+16 equipos (max 32) y 16 emparejamientos
-        if (cantEmparejamientos > parseFloat(8)
-            && cantEmparejamientos < parseFloat(16)) {
-
-            let objSeed = completarEmparejamientoInconcluso([...seeds], "16vos", (seeds.length + 1), 16)
-            roundsBracketConstruido.push(objSeed)
-
-            const octavos = generarBracketVacio("8vos", 17, 24)
-            roundsBracketConstruido.push(octavos)
-            const cuartos = generarBracketVacio("4tos", 25, 28)
-            roundsBracketConstruido.push(cuartos)
-            const semis = generarBracketVacio("Semi-Final", 29, 30)
-            roundsBracketConstruido.push(semis)
-            const final = generarBracketVacio("Final", 31, 31)
-            roundsBracketConstruido.push(final)
-
-        }
-
-        //+8 equipos (max 16) y 8 emparejamientos
-        if (cantEmparejamientos > parseFloat(4)
-            && cantEmparejamientos <= parseFloat(8)) {
-
-            let objSeed = completarEmparejamientoInconcluso([...seeds], "8vos", (seeds.length + 1), 8)
-            roundsBracketConstruido.push(objSeed)
-
-            const cuartos = generarBracketVacio("4tos", 9, 12)
-            roundsBracketConstruido.push(cuartos)
-            const semis = generarBracketVacio("Semi-Final", 13, 14)
-            roundsBracketConstruido.push(semis)
-            const final = generarBracketVacio("Final", 15, 15)
-            roundsBracketConstruido.push(final)
-
-        }
-
-        //+4 Equipos (max 8) y 4 emparejamientos
-        if (cantEmparejamientos > parseFloat(2)
-            && cantEmparejamientos <= parseFloat(4)) {
-
-            let objSeed = completarEmparejamientoInconcluso([...seeds], "4tos", (seeds.length + 1), 4)
-            roundsBracketConstruido.push(objSeed)
-
-            const semis = generarBracketVacio("Semi-Final", 5, 6)
-            roundsBracketConstruido.push(semis)
-            const final = generarBracketVacio("Final", 7, 7)
-            roundsBracketConstruido.push(final)
-
-        }
-
-        //+2 Equipos (max 4) y 2 emparejamientos
-        if (cantEmparejamientos >= parseFloat(1)
-            && cantEmparejamientos <= parseFloat(2)) {
-            let objSeed = completarEmparejamientoInconcluso([...seeds], "Semi-Final", (seeds.length + 1), 4)
-            roundsBracketConstruido.push(objSeed)
-
-            const final = generarBracketVacio("Final", 3, 3)
-            roundsBracketConstruido.push(final)
-        }
-
-        //+1 Equipos (max 2) y 1 emparejamientos
-        if (cantEmparejamientos >= parseFloat(0)
-            && cantEmparejamientos <= parseFloat(1)) {
-            let objSeed = {
-                title: "Final",
-                seeds: seeds
-            }
-            roundsBracketConstruido.push(objSeed)
-        }
-
-        console.log("Brackets: ")
-        console.log(roundsBracketConstruido)
-
-        const objetoBD = {
-            data: roundsBracketConstruido
-        }
-
-        guardarBracketsBD(objetoBD)
-    }
-
-    const guardarBracketsBD = (objetoBD) => {
-        const docRef = doc(db, 'brackets', props.idTorneo);
-        setDoc(docRef, objetoBD).then(() => {
-            changeBooleanBracket()
-        });
-    }
-
-    const generarBracketVacio = (nombre, indexInicio, indexFin) => {
-
-        let bracketVacio = {
-            title: nombre,
-            seeds: []
-        }
-
-
-        for (let i = indexInicio; i <= indexFin; i++) {
-
-            let obj = {
-                id: i,
-                date: new Date().toDateString(),
-                teams: [{ name: "N/A" }, { name: "N/A" }],
-                imgEquipoA: linkImg,
-                imgEquipoB: linkImg,
-                puntajeEquipoA: 0,
-                puntajeEquipoB: 0,
-                resultadoEquipoA: 'N/A',
-                resultadoEquipoB: 'N/A',
-                ownerA: "",
-                ownerB: "",
-                estatus: 0
-            }
-            bracketVacio.seeds.push(obj)
-
-        }
-
-        return bracketVacio
-
-    }
-
-    const completarEmparejamientoInconcluso = (objSeed, nombre, indexInicio, indexFin) => {
-
-        let bracketVacio = {
-            title: nombre,
-            seeds: objSeed
-        }
-
-
-        for (let i = indexInicio; i <= indexFin; i++) {
-
-            let obj = {
-                id: i,
-                date: new Date().toDateString(),
-                teams: [{ name: "N/A" }, { name: "N/A" }],
-                imgEquipoA: linkImg,
-                imgEquipoB: linkImg,
-                puntajeEquipoA: 0,
-                puntajeEquipoB: 0,
-                resultadoEquipoA: 'N/A',
-                resultadoEquipoB: 'N/A',
-                ownerA: "",
-                ownerB: "",
-                estatus: 0
-            }
-            bracketVacio.seeds.push(obj)
-
-        }
-
-        return bracketVacio
-    }
-
-    useEffect(() => {
-
-        if(props.roundsBracket.length > 0){
-            changeBooleanBracket()
-        }
-
-    },[]);
-
     return (
         <div>
             <div className="">
-                {!booleanBrackets ?
-                    <Button
-                        color="primary"
-                        type="button"
-                        onClick={construirEmparejamientos}>
-                        Comenzar
-                    </Button>
+
+                <Button
+                    color="primary"
+                    type="button"
+                    onClick={() => alert("i love u")}>
+                    Comenzar
+                </Button>
+
+                {!edicion ?
+                    <div>
+                        <Button
+                            color="primary"
+                            type="button"
+                            onClick={changeEdicion}>
+                            Administrar Resultados
+                        </Button>
+                        <br />
+                        <br />
+                    </div>
                     :
                     <div>
-
-                        {!edicion ?
-                            <div>
-                                <Button
-                                    color="primary"
-                                    type="button"
-                                    onClick={changeEdicion}>
-                                    Administrar Resultados
-                                </Button>
-                                <br />
-                                <br />
-                            </div>
-                            :
-                            <div>
-                                <Button
-                                    color="primary"
-                                    type="button"
-                                    onClick={changeEdicion}>
-                                    Volver
-                                </Button>
-                            </div>
-                        }
-
-                        {!edicion ?
-                            <Bracket rounds={props.roundsBracket} />
-                            :
-                            <AdministrarEmparejamiento
-                                rounds={props.roundsBracket}
-                                estatusRounds={props.estatusRounds}
-                                idTorneo={props.idTorneo}
-                                changeEdicion={changeEdicion} />
-                        }
-
+                        <Button
+                            color="primary"
+                            type="button"
+                            onClick={changeEdicion}>
+                            Volver
+                        </Button>
                     </div>
                 }
             </div>
+            {!edicion ?
+                <Bracket rounds={props.roundsBracket} />
+                :
+                <AdministrarEmparejamiento
+                    rounds={props.roundsBracket}
+                    estatusRounds={props.estatusRounds}
+                    idTorneo={props.idTorneo}
+                    changeEdicion={changeEdicion} />
+            }
         </div>
     )
 };

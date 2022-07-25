@@ -61,16 +61,6 @@ function TorneosDetalles() {
             idteam: 7,
             name: "El Seven",
             owner: "Seven,test"
-        },
-        {
-            idteam: 8,
-            name: "El Seven",
-            owner: "Seven,test"
-        },
-        {
-            idteam: 9,
-            name: "El Seven",
-            owner: "Seven,test"
         }
 
     ]
@@ -82,11 +72,6 @@ function TorneosDetalles() {
     const [error, setError] = useState()
     const [roundsBracket, setRoundsBracket] = useState([])
     const [estatusRounds, setEstatusRounds] = useState([])
-
-    const [booleanBrackets, setBooleanBrackets] = useState(false)
-    const changeBooleanBracket = () =>{
-        setBooleanBrackets(true)
-    }
 
     /* const getEquipos = async () => {
          let arrayequipos = []
@@ -122,19 +107,23 @@ function TorneosDetalles() {
 
     }
     const getBracket = async () => {
+        console.log("Comenzando busqueda del bracket que talfli")
         const docRef = doc(db, "brackets", idtorneo)
         const docData = await getDoc(docRef).then(objeto => {
             let dataCompleta = objeto.data()
             let data = dataCompleta.data
             let estatusRondas = dataCompleta.estatus
+            console.log("data")
+            console.log(data)
             setRoundsBracket(data)
             setEstatusRounds(estatusRondas)
-            changeBooleanBracket()
         })
+        console.log("final busqueda")
     }
 
 
     useEffect(() => {
+        console.log("Entrando al effect")
         getBracket();
         getTorneo();
         // getEquipos();
@@ -237,11 +226,10 @@ function TorneosDetalles() {
                                     <TabPane tabId="hTabsIcons-3" role="tabpanel">
 
                                         <RenderBracket
-                                            key={booleanBrackets}
                                             idTorneo={idtorneo}
                                             roundsBracket={roundsBracket}
                                             estatusRounds={estatusRounds}
-                                            equipos={equipos}></RenderBracket>
+                                            equipos={EquiposTest}></RenderBracket>
 
                                     </TabPane>
                                     <TabPane tabId="hTabsIcons-4" role="tabpanel">
