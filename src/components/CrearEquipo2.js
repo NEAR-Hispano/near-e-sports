@@ -43,6 +43,7 @@ export default function CrearEquipo2(props) {
   const [torneo, setTorneo] = useState("")
   const { idtorneo } = useParams();
   const [inscripto, setInscripto] = useState(true);
+  
 
   const [showAlert, setShowAlert] = useState(false);
   const getTorneo = async () => {
@@ -103,14 +104,6 @@ export default function CrearEquipo2(props) {
 
     const NearCost = toYotta(torneo.cost).toLocaleString('fullwide', { useGrouping: false })
 
-    let datas = []
-
-    const docRef = doc(db, "torneos", idtorneo);
-    const docSnap = await getDoc(docRef).then(objeto => {
-      const datass = objeto.data();
-      datas.push(datass);
-    })
-
     let team = {
       owner: window.accountId,
       name: name,
@@ -122,7 +115,7 @@ export default function CrearEquipo2(props) {
       idteam: idtorneo,
     }
 
-    /* const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
+     const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
        team: team,
        tournament: torneo,
        idtorneo,
@@ -133,15 +126,17 @@ export default function CrearEquipo2(props) {
      })
      .catch(function(error) {
        console.error("Error adding document: ", error);
-     }); */
+     }); 
+
+    console.log("Torneo:",torneo) 
 
     const result = await contract.join_tournament({
 
       token_id: Math.random().toString(36).slice(2),
       metadata: {
-        title: datas.name,
-        description: "Entrada para el torneo",
-        media: datas.imgURL,
+        title: "Torneo:"+torneo.nombre,
+        description: "Entrada para el torneo:"+torneo.nombre,
+        media: torneo.imgUrl,
       },
       receiver_id: window.accountId,
       name: name,
@@ -158,6 +153,8 @@ export default function CrearEquipo2(props) {
       NearCost)
 
     window.location.reload();
+
+    
 
   }
 

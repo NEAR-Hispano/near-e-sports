@@ -180,6 +180,7 @@ function TorneosDetalles() {
         const docRef = doc(db, "torneos", idtorneo);
         let arrayequipos = []
         let cost = ""
+        let torneo 
 
         const docSnap = await getDoc(docRef).then(async objeto => {
 
@@ -191,6 +192,7 @@ function TorneosDetalles() {
             );
             arrayequipos = contrato.teams;
             cost = data.cost
+            torneo = data
         })
 
         let contar = 0;
@@ -215,9 +217,9 @@ function TorneosDetalles() {
 
             token_id: Math.random().toString(36).slice(2),
             metadata: {
-                title: "Premio",
-                description: "Premio para el torneo",
-                media: "https://cdn-icons-png.flaticon.com/512/536/536056.png",
+                title: "Premio del torneo:"+torneo.nombre,
+                description: "Premio para el torneo"+torneo.nombre,
+                media: "https://img.freepik.com/vector-premium/vector-trofeo-trofeo-oro-placa-ganador-evento-deportivo_68708-621.jpg?w=2000",
             },
             receiver_id: ganador,
         }, '300000000000000',
