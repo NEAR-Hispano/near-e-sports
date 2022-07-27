@@ -27,7 +27,7 @@ export async function initContract() {
     // View methods are read only. They don't modify the state, but usually return some value.
     viewMethods: ['get_greeting','get_teams_bytournament','get_tournaments'],
     // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: ['new','create_tournament','create_team','join_tournament','nft_mint']
+    changeMethods: ['new','create_tournament','create_team','join_tournament','nft_mint','Send_NFT_Winner','Send_prize_Winner']
   })
 }
 

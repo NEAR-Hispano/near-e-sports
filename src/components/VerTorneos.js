@@ -26,9 +26,9 @@ import ProfileCard3 from "./cards/ProfileCard3";
 
 
 
-
 class VerTorneos extends React.Component {
 
+  
 
   constructor(props) {
     super(props)
@@ -36,7 +36,7 @@ class VerTorneos extends React.Component {
       torneos: null,
       torneos2: null,
       route: "/crearEquipos/",
-      query:""
+      query: ""
     }
     this.getTorneos = this.getTorneos.bind(this);
     this.buscador = this.buscador.bind(this);
@@ -63,8 +63,11 @@ class VerTorneos extends React.Component {
         //
         let torneo = Object.assign(element.data(), idTorneo)
         // 
+        if (torneo.estado == "Inscribir") {
+          arrayTorneos.push(torneo)
+        }
+        
 
-        arrayTorneos.push(torneo)
       })
 
       this.setState({
@@ -78,7 +81,7 @@ class VerTorneos extends React.Component {
     console.log(value);
   }
 
-  
+
 
 
 
@@ -115,8 +118,8 @@ class VerTorneos extends React.Component {
                   onChange={event => this.setState({
                     query: event.target.value
                   })}
-                  ></Input>
-               </InputGroup>   
+                ></Input>
+              </InputGroup>
             </FormGroup>
 
           </Col>
@@ -133,16 +136,18 @@ class VerTorneos extends React.Component {
                 return torneo;
               }
             }).map((torneo, index) => (
-              
+
               <Col md="4" xs="12" sm="12">
 
-
-                <ProfileCard3 torneo={torneo}  key={index}/>
+               
+                  <ProfileCard3 torneo={torneo} key={index} />
+             
+                
 
               </Col>
             ))
 
-            
+
             :
             <Spinner>
               <span className=" sr-only">Loading...</span>

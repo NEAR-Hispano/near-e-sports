@@ -89,7 +89,8 @@ function CrearTorneo() {
                     cost: cost,
                     winner: "Sin ganador aun",
                     index: result.index,
-                    creador: window.accountId
+                    creador: window.accountId,
+                    estado:"Inscribir",
 
                 });
                 setId(docRef.id)

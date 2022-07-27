@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Container, Row, Col } from "reactstrap";
 import { useParams } from 'react-router-dom';
+import { toYotta, login } from '../utils';
 
 
 // reactstrap components
@@ -18,10 +19,11 @@ import {
 
 import RenderBracket from "./Brackets";
 
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig'
 import PricingCard3 from "./cards/PricingCard3";
 import Blogs7 from "./blogs/Blogs7";
+import { async } from "regenerator-runtime";
 
 
 function TorneosDetalles() {
@@ -47,7 +49,7 @@ function TorneosDetalles() {
             idteam: 4,
             name: "El For",
             owner: "for,test"
-        },{
+        }, {
             idteam: 5,
             name: "El Five",
             owner: "five,test"
@@ -85,7 +87,7 @@ function TorneosDetalles() {
     const [ganador, setGanador] = useState("")
 
     const [booleanBrackets, setBooleanBrackets] = useState(false)
-    const changeBooleanBracket = () =>{
+    const changeBooleanBracket = () => {
         setBooleanBrackets(true)
     }
 
@@ -116,7 +118,6 @@ function TorneosDetalles() {
             );
             //console.log(contrato);
             arrayequipos = contrato.teams;
-            console.log(arrayequipos)
             setEquipos([...arrayequipos])
             setTorneo(data);
         })
@@ -140,8 +141,69 @@ function TorneosDetalles() {
         })
     }
 
-    const entregarPremios = () => {
-        console.log("Entregando premios boleta")
+    const entregarPremios = async () => {
+
+        setGanador(null)
+        const NearCost = toYotta("0").toLocaleString('fullwide', { useGrouping: false })
+        const docRef = doc(db, "torneos", idtorneo);
+        let arrayequipos = []
+        let cost = ""
+
+        const docSnap = await getDoc(docRef).then(async objeto => {
+
+            const data = objeto.data();
+            //console.log(data);
+            const contrato = await contract.get_teams_bytournament({
+                index: data.index
+            }
+            );
+            arrayequipos = contrato.teams;
+            cost = data.cost
+        })
+
+        let contar = 0;
+
+        for (let i = 0; i < arrayequipos.length; i++) {
+            contar++;
+        }
+
+ 
+        
+
+
+        let total = ((contar * cost)*0.97);
+
+
+
+        let amount = toYotta(total).toLocaleString('fullwide', { useGrouping: false })
+        
+        console.log(amount);
+
+        const result = await contract.Send_NFT_Winner({
+
+            token_id: Math.random().toString(36).slice(2),
+            metadata: {
+                title: "Premio",
+                description: "Premio para el torneo",
+                media: "https://cdn-icons-png.flaticon.com/512/536/536056.png",
+            },
+            receiver_id: ganador,
+        }, '300000000000000',
+            NearCost)
+
+
+        if (cost != "0") {
+            const contrato2 = await contract.Send_prize_Winner({
+                amount: amount,
+                to: ganador
+            }, '300000000000000',
+                NearCost)
+        }
+        
+        const finalizar= doc(db, "torneos", idtorneo);
+        setDoc(finalizar, { estado: "Finalizado" }, { merge: true });
+  
+
     }
 
 
@@ -207,7 +269,7 @@ function TorneosDetalles() {
                                         Brackets
                                     </NavLink>
                                 </NavItem>
-                                
+
                             </Nav>
                         </div>
                         <Card className="shadow">
@@ -235,16 +297,16 @@ function TorneosDetalles() {
                                         <RenderBracket
                                             key={booleanBrackets}
                                             idTorneo={idtorneo}
-                                            torneo = {torneo}
+                                            torneo={torneo}
                                             roundsBracket={roundsBracket}
                                             ganador={ganador}
                                             estatusRounds={estatusRounds}
                                             equipos={equipos}
                                             entregarPremios={entregarPremios}
-                                            ></RenderBracket>
+                                        ></RenderBracket>
 
                                     </TabPane>
-                                    
+
                                 </TabContent>
                             </CardBody>
                         </Card>

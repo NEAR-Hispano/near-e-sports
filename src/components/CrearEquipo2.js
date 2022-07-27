@@ -66,6 +66,15 @@ export default function CrearEquipo2(props) {
       let arrayequipos = []
       const data = objeto.data();
       //console.log(data);
+      let inscribir = "Inscribir"
+
+      if (data.estado == inscribir) {
+        console.log("Cierto")
+        
+      } else {
+          setInscripto(false);
+      }
+
       const contrato = await contract.get_teams_bytournament({
         index: data.index
       }
@@ -84,271 +93,271 @@ export default function CrearEquipo2(props) {
       })
 
     }
-            
-        )
 
-}
+    )
 
-
-const Crear_Team = async () => {
-
-  const NearCost = toYotta(torneo.cost).toLocaleString('fullwide', { useGrouping: false })
-
-  let datas = []
-
-  const docRef = doc(db, "torneos", idtorneo);
-  const docSnap = await getDoc(docRef).then(objeto => {
-    const datass = objeto.data();
-    datas.push(datass);
-  })
-
-  let team = {
-    owner: window.accountId,
-    name: name,
-    user1: user1,
-    user2: user2,
-    user3: user3,
-    user4: user4,
-    user5: user5,
-    idteam: idtorneo,
   }
 
-  /* const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
-     team: team,
-     tournament: torneo,
-     idtorneo,
-     status: "Pendiente",
-   }).then(function(docRef) {
-     console.log("Document written with ID: ", docRef.id);
-     idteam = docRef.id
-   })
-   .catch(function(error) {
-     console.error("Error adding document: ", error);
-   }); */
 
-  const result = await contract.join_tournament({
+  const Crear_Team = async () => {
 
-    token_id: Math.random().toString(36).slice(2),
-    metadata: {
-      title: datas.name,
-      description: "Entrada para el torneo",
-      media: datas.imgURL,
-    },
-    receiver_id: window.accountId,
-    name: name,
-    owner: window.accountId,
-    user1: user1,
-    user2: user2,
-    user3: user3,
-    user4: user4,
-    user5: user5,
-    index: torneo.index,
-    idteam: torneo.index,
+    const NearCost = toYotta(torneo.cost).toLocaleString('fullwide', { useGrouping: false })
 
-  }, '300000000000000',
-    NearCost)
+    let datas = []
 
-  window.location.reload();
+    const docRef = doc(db, "torneos", idtorneo);
+    const docSnap = await getDoc(docRef).then(objeto => {
+      const datass = objeto.data();
+      datas.push(datass);
+    })
 
-}
+    let team = {
+      owner: window.accountId,
+      name: name,
+      user1: user1,
+      user2: user2,
+      user3: user3,
+      user4: user4,
+      user5: user5,
+      idteam: idtorneo,
+    }
+
+    /* const docRef = await addDoc(collection(db, "torneos", idtorneo, "equipos"), {
+       team: team,
+       tournament: torneo,
+       idtorneo,
+       status: "Pendiente",
+     }).then(function(docRef) {
+       console.log("Document written with ID: ", docRef.id);
+       idteam = docRef.id
+     })
+     .catch(function(error) {
+       console.error("Error adding document: ", error);
+     }); */
+
+    const result = await contract.join_tournament({
+
+      token_id: Math.random().toString(36).slice(2),
+      metadata: {
+        title: datas.name,
+        description: "Entrada para el torneo",
+        media: datas.imgURL,
+      },
+      receiver_id: window.accountId,
+      name: name,
+      owner: window.accountId,
+      user1: user1,
+      user2: user2,
+      user3: user3,
+      user4: user4,
+      user5: user5,
+      index: torneo.index,
+      idteam: torneo.index,
+
+    }, '300000000000000',
+      NearCost)
+
+    window.location.reload();
+
+  }
 
 
 
 
 
-return (
-  <>
-    <div
-      className="contactus-1 mt-5"
-    >
-      {showAlert ?
-        <Alert color="success" className="alert__message animated__fadeInRight animated__fadeOut">
-          <strong>Equipo {name} Inscrito correctamente</strong>
-        </Alert> : <></>}
-      <Container>
+  return (
+    <>
+      <div
+        className="contactus-1 mt-5"
+      >
+        {showAlert ?
+          <Alert color="success" className="alert__message animated__fadeInRight animated__fadeOut">
+            <strong>Equipo {name} Inscrito correctamente</strong>
+          </Alert> : <></>}
+        <Container>
 
-        <Row>
-          <Col className="ml-auto mr-auto" lg={5} md={7} sm={8}>
-            <Card className="card-contact card-raised">
-              <Form id="contact-form-1" method="post" role="form">
-                <CardHeader className="text-center">
-                  <CardTitle tag="h4">Inscribir Equipo </CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <FormGroup >
-                    <label>Nombre Del equipo</label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText >
-                          <i className="ni ni-trophy"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input value={name} onChange={(e) => setName(e.target.value)}
-                        placeholder="Nombre del equipo..."
-                        type="text"
-                      ></Input>
-                    </InputGroup>
-                  </FormGroup>
-                  <Row>
-                    <Col md="6">
-                      <FormGroup >
-                        <label>Integrante 1</label>
-                        <InputGroup className="mb-4">
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText >
-                              <i className="ni ni-circle-08"></i>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input value={user1} onChange={(e) => setuser1(e.target.value)}
-                            aria-label="Nombre de usuario..."
-                            placeholder="Nombre de usuario..."
-                            type="text"
+          <Row>
+            <Col className="ml-auto mr-auto" lg={5} md={7} sm={8}>
+              <Card className="card-contact card-raised">
+                <Form id="contact-form-1" method="post" role="form">
+                  <CardHeader className="text-center">
+                    <CardTitle tag="h4">Inscribir Equipo </CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <FormGroup >
+                      <label>Nombre Del equipo</label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText >
+                            <i className="ni ni-trophy"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input value={name} onChange={(e) => setName(e.target.value)}
+                          placeholder="Nombre del equipo..."
+                          type="text"
+                        ></Input>
+                      </InputGroup>
+                    </FormGroup>
+                    <Row>
+                      <Col md="6">
+                        <FormGroup >
+                          <label>Integrante 1</label>
+                          <InputGroup className="mb-4">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText >
+                                <i className="ni ni-circle-08"></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input value={user1} onChange={(e) => setuser1(e.target.value)}
+                              aria-label="Nombre de usuario..."
+                              placeholder="Nombre de usuario..."
+                              type="text"
 
-                          ></Input>
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-2" md="6">
-                      <FormGroup >
-                        <label>integrante 2</label>
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText >
-                              <i className="ni ni-collection"></i>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input value={user2} onChange={(e) => setuser2(e.target.value)}
-                            aria-label="Nombre de usuario..."
-                            placeholder="Nombre de usuario..."
-                            type="text"
+                            ></Input>
+                          </InputGroup>
+                        </FormGroup>
+                      </Col>
+                      <Col className="pl-2" md="6">
+                        <FormGroup >
+                          <label>integrante 2</label>
+                          <InputGroup>
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText >
+                                <i className="ni ni-collection"></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input value={user2} onChange={(e) => setuser2(e.target.value)}
+                              aria-label="Nombre de usuario..."
+                              placeholder="Nombre de usuario..."
+                              type="text"
 
-                          ></Input>
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                            ></Input>
+                          </InputGroup>
+                        </FormGroup>
+                      </Col>
+                    </Row>
 
-                  <Row>
-                    <Col md="6">
-                      <FormGroup >
-                        <label>Integrante 3</label>
-                        <InputGroup className="mb-4">
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText >
-                              <i className="ni ni-circle-08"></i>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input value={user3} onChange={(e) => setuser3(e.target.value)}
-                            aria-label="Nombre de usuario..."
-                            placeholder="Nombre de usuario..."
-                            type="text"
+                    <Row>
+                      <Col md="6">
+                        <FormGroup >
+                          <label>Integrante 3</label>
+                          <InputGroup className="mb-4">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText >
+                                <i className="ni ni-circle-08"></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input value={user3} onChange={(e) => setuser3(e.target.value)}
+                              aria-label="Nombre de usuario..."
+                              placeholder="Nombre de usuario..."
+                              type="text"
 
-                          ></Input>
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-2" md="6">
-                      <FormGroup >
-                        <label>integrante 4</label>
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText >
-                              <i className="ni ni-collection"></i>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input value={user4} onChange={(e) => setuser4(e.target.value)}
-                            aria-label="Nombre de usuario..."
-                            placeholder="Nombre de usuario..."
-                            type="text"
+                            ></Input>
+                          </InputGroup>
+                        </FormGroup>
+                      </Col>
+                      <Col className="pl-2" md="6">
+                        <FormGroup >
+                          <label>integrante 4</label>
+                          <InputGroup>
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText >
+                                <i className="ni ni-collection"></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input value={user4} onChange={(e) => setuser4(e.target.value)}
+                              aria-label="Nombre de usuario..."
+                              placeholder="Nombre de usuario..."
+                              type="text"
 
-                          ></Input>
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                            ></Input>
+                          </InputGroup>
+                        </FormGroup>
+                      </Col>
+                    </Row>
 
-                  <Row>
-                    <Col md="6">
-                      <FormGroup >
-                        <label>Integrante 5</label>
-                        <InputGroup className="mb-4">
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="ni ni-circle-08"></i>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input value={user5} onChange={(e) => setuser5(e.target.value)}
-                            aria-label="Nombre de usuario..."
-                            placeholder="Nombre de usuario..."
-                            type="text"
+                    <Row>
+                      <Col md="6">
+                        <FormGroup >
+                          <label>Integrante 5</label>
+                          <InputGroup className="mb-4">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i className="ni ni-circle-08"></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input value={user5} onChange={(e) => setuser5(e.target.value)}
+                              aria-label="Nombre de usuario..."
+                              placeholder="Nombre de usuario..."
+                              type="text"
 
-                          ></Input>
-                        </InputGroup>
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-2" md="6">
+                            ></Input>
+                          </InputGroup>
+                        </FormGroup>
+                      </Col>
+                      <Col className="pl-2" md="6">
 
-                    </Col>
-                  </Row>
+                      </Col>
+                    </Row>
 
-                  <Row>
-                    <Col md="6">
-                      <div className="custom-control custom-checkbox mt-2">
-                        <p>Costo de inscripcion: {torneo.cost} Nears</p>
-                      </div>
-                    </Col>
-                    <Col md="6">
+                    <Row>
+                      <Col md="6">
+                        <div className="custom-control custom-checkbox mt-2">
+                          <p>Costo de inscripcion: {torneo.cost} Nears</p>
+                        </div>
+                      </Col>
+                      <Col md="6">
 
-                      {window.walletConnection.isSignedIn() == true ?
+                        {window.walletConnection.isSignedIn() == true ?
 
-                        <div>
-                          {inscripto == true ?
+                          <div>
+                            {inscripto == true ?
+                              <Button
+                                className="pull-right"
+                                color="warning"
+                                onClick={Crear_Team}
+                              >
+                                Inscribir
+                              </Button>
+                              :
+
+                              <Button
+                                disabled
+                                className="pull-right"
+                                color="warning"
+                                onClick={Crear_Team}
+                              >
+                                Inscribir
+                              </Button>
+
+
+                            }
+
+                          </div>
+
+                          : <div>
+
                             <Button
                               className="pull-right"
                               color="warning"
-                              onClick={Crear_Team}
+                              onClick={login}
                             >
-                              Inscribir
-                            </Button>
-                            :
-
-                            <Button
-                              disabled
-                              className="pull-right"
-                              color="warning"
-                              onClick={Crear_Team}
-                            >
-                              Inscribir
+                              Login
                             </Button>
 
-
-                          }
-
-                        </div>
-
-                        : <div>
-
-                          <Button
-                            className="pull-right"
-                            color="warning"
-                            onClick={login}
-                          >
-                            Login
-                          </Button>
-
-                        </div>
-                      }
+                          </div>
+                        }
 
 
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  </>
-);
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Form>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    </>
+  );
 }

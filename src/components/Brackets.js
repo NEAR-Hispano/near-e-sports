@@ -525,6 +525,9 @@ function RenderBracket(props) {
 
     const construirEmparejamientos = () => {
 
+        const finalizar= doc(db, "torneos", props.idTorneo);
+        setDoc(finalizar, { estado: "Proceso" }, { merge: true });
+
         let teams = props.equipos
         let lenghtFloat = teams.length
         console.log("Lenght: " + lenghtFloat)

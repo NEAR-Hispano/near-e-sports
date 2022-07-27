@@ -27,7 +27,6 @@ function ProfileCard3(props) {
             index: torneo.index
         }
         );
-        console.log(contrato.teams);
         arrayequipos = contrato.teams;
         return [...arrayequipos]
       }

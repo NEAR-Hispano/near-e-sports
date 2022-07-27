@@ -13,8 +13,9 @@ import Navbar2 from "../components/navbars/Navbar2";
 import RenderBracket from "../components/Brackets";
 import TorneosDetalles from "../components/TournamentDetails";
 import CrearEquipo2 from "../components/CrearEquipo2";
-import { useParams } from 'react-router-dom';
 import Perfil from "../components/Perfil";
+import Run from "../components/Run";
+
 
 export const AppRouter  = () => {
     return (
@@ -31,6 +32,7 @@ export const AppRouter  = () => {
                 <Route path ="vertorneo" element={<VerTorneos/>}/>
                 <Route path ="brackets" element={<RenderBracket/>}/>
                 <Route path ="perfil" element={<Perfil/>}/>
+                <Route path ="run" element={<Run/>}/>
                 <Route exact path ="/detalles/:idtorneo" element={<TorneosDetalles/>}/>
                 <Route exact path='/crearEquipos/:idtorneo' element={<CrearEquipo/>}/>
                 <Route exact path='/crearEquipos2/:idtorneo' element={<CrearEquipo2/>}/>
