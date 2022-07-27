@@ -117,6 +117,7 @@ function TorneosDetalles() {
     const [roundsBracket, setRoundsBracket] = useState([])
     const [estatusRounds, setEstatusRounds] = useState([])
     const [ganador, setGanador] = useState("")
+    const [entregado, setEntregado] = useState(false)
 
     const [booleanBrackets, setBooleanBrackets] = useState(false)
     const changeBooleanBracket = () => {
@@ -162,6 +163,12 @@ function TorneosDetalles() {
             let data = dataCompleta.data
             let estatusRondas = dataCompleta.estatus
             let ganador = dataCompleta.ganador
+            let premioEntregado = dataCompleta.premioEntregado
+            if(premioEntregado != null || premioEntregado != ''){
+                setEntregado(true)
+            }else{
+                setEntregado(false)
+            }
             console.log("Desde bracket:")
             console.log(data)
             console.log(estatusRondas)
@@ -235,8 +242,10 @@ function TorneosDetalles() {
         }
         
         const finalizar= doc(db, "torneos", idtorneo);
-        setDoc(finalizar, { estado: "Finalizado" }, { merge: true });
-  
+        await setDoc(finalizar, { estado: "Finalizado" }, { merge: true }).then( () => {
+            window.location.reload();
+        });
+        
 
     }
 
@@ -336,6 +345,7 @@ function TorneosDetalles() {
                                             ganador={ganador}
                                             estatusRounds={estatusRounds}
                                             equipos={equipos}
+                                            entregado={entregado}
                                             entregarPremios={entregarPremios}
                                         ></RenderBracket>
 

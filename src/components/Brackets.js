@@ -523,12 +523,20 @@ function RenderBracket(props) {
 
     ];
 
+    const randomizar = (vectorEquipos) => {
+        vectorEquipos.sort(function () { return Math.random() - 0.5 })
+        return vectorEquipos
+    }
+
     const construirEmparejamientos = () => {
 
-        const finalizar= doc(db, "torneos", props.idTorneo);
+        const finalizar = doc(db, "torneos", props.idTorneo);
         setDoc(finalizar, { estado: "Proceso" }, { merge: true });
 
         let teams = props.equipos
+        teams = randomizar(teams)
+        teams = randomizar(teams)
+        teams = randomizar(teams)
         let lenghtFloat = teams.length
         console.log("Lenght: " + lenghtFloat)
         const cantEmparejamientos = parseFloat(parseFloat(lenghtFloat) / parseFloat(2))
@@ -824,12 +832,16 @@ function RenderBracket(props) {
                                 <div>
                                     {props.torneo.creador == window.accountId ?
                                         <div>
-                                            <Button
-                                                color="primary"
-                                                type="button"
-                                                onClick={changeEdicion}>
-                                                Administrar Resultados
-                                            </Button>
+                                            {!props.entregado ?
+                                                <Button
+                                                    color="primary"
+                                                    type="button"
+                                                    onClick={changeEdicion}>
+                                                    Administrar Resultados
+                                                </Button>
+                                                :
+                                                <div></div>
+                                            }
                                             {props.ganador != null && props.ganador != "" ?
                                                 <Button
                                                     color="primary"
