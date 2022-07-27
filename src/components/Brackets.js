@@ -685,7 +685,7 @@ function RenderBracket(props) {
         //+2 Equipos (max 4) y 2 emparejamientos
         if (cantEmparejamientos > parseFloat(1)
             && cantEmparejamientos <= parseFloat(2)) {
-            let objSeed = completarEmparejamientoInconcluso([...seeds], "Semi-Final", (seeds.length + 1), 3)
+            let objSeed = completarEmparejamientoInconcluso([...seeds], "Semi-Final", (seeds.length + 1), 2)
             roundsBracketConstruido.push(objSeed)
 
             const final = generarBracketVacio("Final", 3, 3)
