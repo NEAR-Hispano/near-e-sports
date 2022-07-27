@@ -582,6 +582,7 @@ function AdministrarEmparejamiento(props) {
         const docRef = doc(db, 'brackets', props.idTorneo);
         setDoc(docRef, objetoBD).then(() => {
             props.changeEdicion()
+            window.location.reload();
         });
     }
 

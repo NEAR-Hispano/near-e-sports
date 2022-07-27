@@ -82,6 +82,7 @@ function TorneosDetalles() {
     const [error, setError] = useState()
     const [roundsBracket, setRoundsBracket] = useState([])
     const [estatusRounds, setEstatusRounds] = useState([])
+    const [ganador, setGanador] = useState("")
 
     const [booleanBrackets, setBooleanBrackets] = useState(false)
     const changeBooleanBracket = () =>{
@@ -127,10 +128,20 @@ function TorneosDetalles() {
             let dataCompleta = objeto.data()
             let data = dataCompleta.data
             let estatusRondas = dataCompleta.estatus
+            let ganador = dataCompleta.ganador
+            console.log("Desde bracket:")
+            console.log(data)
+            console.log(estatusRondas)
+            console.log(ganador)
             setRoundsBracket(data)
             setEstatusRounds(estatusRondas)
+            setGanador(ganador)
             changeBooleanBracket()
         })
+    }
+
+    const entregarPremios = () => {
+        console.log("Entregando premios boleta")
     }
 
 
@@ -226,8 +237,11 @@ function TorneosDetalles() {
                                             idTorneo={idtorneo}
                                             torneo = {torneo}
                                             roundsBracket={roundsBracket}
+                                            ganador={ganador}
                                             estatusRounds={estatusRounds}
-                                            equipos={equipos}></RenderBracket>
+                                            equipos={equipos}
+                                            entregarPremios={entregarPremios}
+                                            ></RenderBracket>
 
                                     </TabPane>
                                     

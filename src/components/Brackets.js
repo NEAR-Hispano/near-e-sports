@@ -788,7 +788,6 @@ function RenderBracket(props) {
 
         if (props.roundsBracket.length > 0) {
             changeBooleanBracket()
-
         }
 
     }, []);
@@ -799,12 +798,14 @@ function RenderBracket(props) {
                 {!booleanBrackets ?
                     <div>
                         {props.torneo.creador == window.accountId ?
-                            <Button
-                                color="primary"
-                                type="button"
-                                onClick={construirEmparejamientos}>
-                                Comenzar
-                            </Button>
+                            <div>
+                                <Button
+                                    color="primary"
+                                    type="button"
+                                    onClick={construirEmparejamientos}>
+                                    Comenzar
+                                </Button>
+                            </div>
                             :
                             <div>
                             </div>
@@ -819,13 +820,24 @@ function RenderBracket(props) {
                             <div>
                                 <div>
                                     {props.torneo.creador == window.accountId ?
-                                        <Button
-                                            color="primary"
-                                            type="button"
-                                            onClick={changeEdicion}>
-                                            Administrar Resultados
-                                        </Button>
-
+                                        <div>
+                                            <Button
+                                                color="primary"
+                                                type="button"
+                                                onClick={changeEdicion}>
+                                                Administrar Resultados
+                                            </Button>
+                                            {props.ganador != null && props.ganador != "" ?
+                                                <Button
+                                                    color="primary"
+                                                    type="button"
+                                                    onClick={props.entregarPremios}>
+                                                    Entregar Premios
+                                                </Button>
+                                                :
+                                                <div></div>
+                                            }
+                                        </div>
                                         :
                                         <div>
                                         </div>
