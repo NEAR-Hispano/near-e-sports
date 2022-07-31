@@ -840,7 +840,15 @@ function RenderBracket(props) {
                                                     Administrar Resultados
                                                 </Button>
                                                 :
-                                                <div></div>
+                                                
+                                                <Button
+                                                    color="primary"
+                                                    type="button"
+                                                    onClick={changeEdicion}>
+                                                    Administrar Resultados
+                                                </Button>
+                                                  
+                                                
                                             }
                                             {props.ganador != null && props.ganador != "" ?
                                                 <Button
@@ -854,7 +862,7 @@ function RenderBracket(props) {
                                             }
                                         </div>
                                         :
-                                        <div>
+                                        <div>   
                                         </div>
                                     }
 

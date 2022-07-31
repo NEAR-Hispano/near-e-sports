@@ -3,16 +3,16 @@ import Accordion from 'react-bootstrap/Accordion'
 
 const question__answer = [
     {
-        question: "First Question",
-        answer: "First Answer"
+        question: "¿Donde puedo crearme una wallet de testnet?",
+        answer: "Puedes crearte una wallet de near en la testnet en el siguiente url: https://wallet.testnet.near.org"
     },
     {
-        question: "Second Question",
-        answer: "Second Answer"
+        question: "¿Que es Near Tournaments Esports?",
+        answer: "Near Tournaments Esports es una Dapp que te permite participar y crear torneos de videojuegos esports a traves de los contratos inteligentes y la blockchain de Near Protocol"
     },
     {
-        question: "Third Question",
-        answer: "Third Answer"
+        question: "¿Sigue en desarollo Near tournaments Esports?",
+        answer: "Si actualmente lo que estas viendo es el MVP, proximamente sacaremos versiones mas mejoradas "
     },
 ]
 function Soporte() {

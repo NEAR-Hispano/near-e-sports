@@ -319,8 +319,7 @@ impl Contract {
             }]),
         };
 
-        // Log the serialized json.
-        env::log_str(&nft_mint_log.to_string());
+        
 
         //calculate the required storage which was the used - initial
         let required_storage_in_bytes = env::storage_usage() - initial_storage_usage;

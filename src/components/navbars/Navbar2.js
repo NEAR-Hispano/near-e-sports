@@ -53,7 +53,7 @@ function Navbar2() {
                         <Row>
                             <Col className="collapse-brand" xs="6">
                                 <a>
-                                    Argon <span>PRO</span>
+                                    Argon <span>Near Esports</span>
                                 </a>
                             </Col>
                             <Col className="collapse-close text-right" xs="6">
@@ -112,7 +112,19 @@ function Navbar2() {
                             </NavLink>
                         </NavItem>
 
-                        }                            
+                        } 
+
+                        {window.accountId == "kevinhernandez.testnet" &&
+
+                        <NavItem>
+                            <NavLink style={{ color: "#5e72e4" }} onClick={() => routeChange("run")} >
+
+                                run
+
+                            </NavLink>
+                        </NavItem>
+
+                        }                                
 
                     </Nav>
                     <Nav className="nav navbar-right" navbar>

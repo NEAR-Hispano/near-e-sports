@@ -20,18 +20,6 @@ export default function Perfil() {
     const [torneosCreados, setTorneosCreados] = useState([]);
     const [torneosInscriptos, setTorneosInscriptos] = useState([]);
     
-    let owner_id = "kevinhernandez.testnet"
-    let NFTContractMetadata = {
-        spec: "nft-1.0.0",
-        name: "NFT Nears Essports Tournaments",
-        symbol: "NET",
-        icon: null,
-        base_uri: null,
-        reference: null,
-        reference_hash:null,
-    } 
-    let metadata = NFTContractMetadata 
-
 
     useEffect(() => {
         
@@ -62,15 +50,12 @@ export default function Perfil() {
                     index: torneo.index
                 })
 
-                
-                
-
+            
                 arrayequipos = contrato.teams;
             
                 arrayequipos.map(equipo =>{
                     if (torneo.index == equipo.idteam) {
-                        console.log("Encontrado");
-                        console.log(equipo.owner)
+
                         if(equipo.owner == window.accountId) {
                             arrayTorneos.push(torneo);
                         }
