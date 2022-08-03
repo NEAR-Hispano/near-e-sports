@@ -1,7 +1,4 @@
 
-Link del figma: https://www.figma.com/file/GIUvHiNSo56QnjQilmNi9H/Esports-Tournament?node-id=5%3A6
-
-==================
 
 Near-tournaments
 
