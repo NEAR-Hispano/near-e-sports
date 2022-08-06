@@ -10,7 +10,7 @@ function PricingCard3(props) {
   return (
     <>
       <Card
-        className="card-pricing card-background"
+        className="card-pricing card-background"  md={12} lg={12} xl={12}
         style={{
           backgroundImage:
             "url(" + require("/assets/img/ill/pattern_pricing6.svg") + ")",

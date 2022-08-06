@@ -1,12 +1,98 @@
 import React from "react";
-import { Navbar, Container, Nav, Button, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+// JavaScript plugin that hides or shows a component based on your scroll
+import Headroom from "headroom.js";
+// reactstrap components
+import {
+    Collapse,
+    DropdownMenu,
+    DropdownItem,
+    UncontrolledDropdown,
+    DropdownToggle,
+    Media,
+    NavbarBrand,
+    Navbar,
+    NavLink,
+    Nav,
+    Container,
+    Row,
+    Col,
+} from "reactstrap";
 import { login, logout } from '../utils'
 
 
-
-const NavbarComponent = () => {
-  return (
+function NavbarComponent() {
+    const [collapseOpen, toggleCollapseOpen] = React.useState(false);
+    return (
+        <>
+            <Navbar className="navbar-dark bg-info" expand="lg">
+                <Container>
+                    <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
+                        Info Color
+                    </NavbarBrand>
+                    <button
+                        className="navbar-toggler"
+                        onClick={() => toggleCollapseOpen(!collapseOpen)}
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <Collapse isOpen={collapseOpen} navbar>
+                        <div className="navbar-collapse-header">
+                            <Row>
+                                <Col className="collapse-brand" xs="6">
+                                    <Link to="/index">
+                                    </Link>
+                                </Col>
+                                <Col className="collapse-close" xs="6">
+                                    <button
+                                        className="navbar-toggler"
+                                        onClick={() => toggleCollapseOpen(!collapseOpen)}
+                                    >
+                                        <span></span>
+                                        <span></span>
+                                    </button>
+                                </Col>
+                            </Row>
+                        </div>
+                        <Nav className="ml-auto" navbar>
+                            <NavItem>
+                                <NavLink
+                                    className="nav-link-icon"
+                                    href="#pablo"
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    <i className="fab fa-facebook-square"></i>
+                                    <span className="nav-link-inner--text">Facebook</span>
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className="nav-link-icon"
+                                    href="#pablo"
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    <i className="fab fa-twitter"></i>
+                                    <span className="nav-link-inner--text">Twitter</span>
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className="nav-link-icon"
+                                    href="#pablo"
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    <i className="fab fa-instagram"></i>
+                                    <span className="nav-link-inner--text">Instagram</span>
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                    </Collapse>
+                </Container>
+            </Navbar>
+        </>
+  
+    /*
     <div>
       <Navbar bg="dark" variant="dark" className="text-blanco">
         <Container>
@@ -83,7 +169,7 @@ const NavbarComponent = () => {
         </Container>
       </Navbar>
     </div>
-  );
-};
-
+    */
+    );
+}
 export default NavbarComponent;

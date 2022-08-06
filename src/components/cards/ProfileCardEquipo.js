@@ -19,7 +19,7 @@ import {
 function ProfileCardEquipo(props) {
   return (
 
-    <div className="">
+    <div className="" md={6} lg={6} xl={6}>
       <br />
         <Card className="card-profile">
           <CardHeader>
